@@ -23,14 +23,14 @@ namespace Infrastructure
             _facilities = mongoDatabase.GetCollection<Facility>(facilitiesDatabaseSettings.Value.FacilitiesCollectionName); 
         }
 
-        public async Task<IList<Facility>> GetFacilities() => await _facilities.Find(_ => true).ToListAsync();
+        public async Task<IList<Facility>> GetFacilitiesAsync() => await _facilities.Find(_ => true).ToListAsync();
 
-        public async Task<Facility> GetFacility(string id) => await _facilities.Find(facility => facility.Id == id).FirstOrDefaultAsync();
+        public async Task<Facility> GetFacilityAsync(string id) => await _facilities.Find(facility => facility.Id == id).FirstOrDefaultAsync();
 
-        public async Task CreateFacility(Facility newFacility) => await _facilities.InsertOneAsync(newFacility);
+        public async Task CreateFacilityAsync(Facility newFacility) => await _facilities.InsertOneAsync(newFacility);
 
-        public async Task UpdateFacility(string id, Facility updatedFacility) => await _facilities.ReplaceOneAsync(facility => facility.Id == id, updatedFacility);
+        public async Task UpdateFacilityAsync(string id, Facility updatedFacility) => await _facilities.ReplaceOneAsync(facility => facility.Id == id, updatedFacility);
 
-        public async Task RemoveFacility(string id) => await _facilities.DeleteOneAsync(facility => facility.Id == id);
+        public async Task RemoveFacilityAsync(string id) => await _facilities.DeleteOneAsync(facility => facility.Id == id);
     }
 }

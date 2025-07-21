@@ -9,10 +9,10 @@ namespace Application.Contracts
 {
     public interface IFacilityRepository
     {
-        Task<IList<Facility>> GetFacilities();
-        Task<Facility> GetFacility(string id);
-        Task CreateFacility(Facility newFacility);
-        Task UpdateFacility(string id, Facility updatedFacility);
-        Task RemoveFacility(string id);
+        Task<IList<Facility>> GetFacilitiesAsync();
+        Task<Facility> GetFacilityAsync(string id);
+        Task CreateFacilityAsync(Facility newFacility);
+        Task UpdateFacilityAsync(string id, Facility updatedFacility);
+        Task RemoveFacilityAsync(string id);
     }
 }

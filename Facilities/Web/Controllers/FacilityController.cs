@@ -10,33 +10,29 @@ namespace Facilities.Controllers
     [Route("api/facility")]
     public class FacilityController : ControllerBase
     {
-        private readonly IFacilityRepository _facilityRepository;
-        private readonly IMapper _mapper;
+        private readonly IFacilityService _service;
 
-        public FacilityController(IFacilityRepository facilityRepository, IMapper mapper)
+        public FacilityController(IFacilityService service)
         {
-            _facilityRepository = facilityRepository;
-            _mapper = mapper;
+            _service = service;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetFacilities()
         {
-            return Ok(await _facilityRepository.GetFacilities());
+            return Ok(await _service.GetFacilitiesAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetFacility(string id)
         {
-            return Ok(await _facilityRepository.GetFacility(id));
+            return Ok(await _service.GetFacilityAsync(id));
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateFacility([FromBody] FacilityDto facilityDto)
         {
-            var facility = _mapper.Map<Facility>(facilityDto);
-
-            await _facilityRepository.CreateFacility(facility);
+            await _service.CreateFacilityAsync(facilityDto);
 
             return Created();
         }
@@ -44,7 +40,7 @@ namespace Facilities.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFacility(string id)
         {
-            await _facilityRepository.RemoveFacility(id);
+            await _service.RemoveFacilityAsync(id);
 
             return NoContent();
         }

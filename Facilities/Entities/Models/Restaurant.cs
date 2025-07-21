@@ -7,9 +7,23 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    class Restaurant : Facility
+    public enum CuisineType
     {
-        public string? CuisineType { get; set; } 
+        Italian,
+        Chinese,
+        Indian,
+        Mexican,
+        American,
+        French,
+        Japanese,
+        Mediterranean,
+        Thai,
+        Other
+    }
+
+    public class Restaurant : Facility
+    {
+        public List<CuisineType>? CuisineType { get; set; } 
         public int SeatingCapacity { get; set; } 
         public bool HasDeliveryService { get; set; } 
         public bool HasTakeoutService { get; set; } 

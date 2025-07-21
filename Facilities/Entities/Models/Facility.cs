@@ -18,5 +18,6 @@ namespace Entities.Models
         public string? Email { get; set; }
         public string? Description { get; set; }
         public string? OpeningHours { get; set; }
+        public string? WebsiteURL { get; set; }
     }
 }
