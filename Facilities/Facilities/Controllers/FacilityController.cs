@@ -40,5 +40,13 @@ namespace Facilities.Controllers
 
             return Created();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFacility(string id)
+        {
+            await _facilityRepository.RemoveFacility(id);
+
+            return NoContent();
+        }
     }
 }
