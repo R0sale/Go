@@ -29,8 +29,8 @@ namespace Infrastructure
 
         public async Task CreateFacility(Facility newFacility) => await _facilities.InsertOneAsync(newFacility);
 
-        public async Task UpdateFacility(string id, Facility updatedFacility) => await _facilities.ReplaceOneAsync(facility => facility.Id.Equals(id, StringComparison.Ordinal), updatedFacility);
+        public async Task UpdateFacility(string id, Facility updatedFacility) => await _facilities.ReplaceOneAsync(facility => facility.Id == id, updatedFacility);
 
-        public async Task RemoveFacility(string id) => await _facilities.DeleteOneAsync(facility => facility.Id.Equals(id, StringComparison.Ordinal));
+        public async Task RemoveFacility(string id) => await _facilities.DeleteOneAsync(facility => facility.Id == id);
     }
 }
