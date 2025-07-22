@@ -13,7 +13,7 @@ namespace Application
     {
         public MappingProfile()
         {
-            CreateMap<FacilityDto, Facility>();
+            CreateMap<FacilityDto, Facility>().ReverseMap();
         }
     }
 }

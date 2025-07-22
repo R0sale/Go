@@ -26,6 +26,18 @@ namespace Application.Validators
                 .MaximumLength(25).WithMessage("Email must not exceed 25 characters.");
 
             RuleFor(f => f.Description).Length(0, 500).WithMessage("Description must not exceed 500 characters.");
+
+            RuleFor(f => f.Schedule).NotEmpty().WithMessage("Schedule can't be empty.");
+
+            RuleForEach(f => f.Schedule)
+                .ChildRules(schedule =>
+                {
+                    schedule.RuleFor(e => e.Key)
+                        .IsInEnum().WithMessage("Schedule day must be a valid day of the week.");
+                    schedule.RuleFor(e => e.Value)
+                        .Matches(@"^([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-3]):[0-5][0-9]$")
+                        .WithMessage("Schedule time must be in hh:mm-hh:mm format.");
+                });
         }
     }
 }
