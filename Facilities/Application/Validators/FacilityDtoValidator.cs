@@ -38,6 +38,11 @@ namespace Application.Validators
                         .Matches(@"^([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-3]):[0-5][0-9]$")
                         .WithMessage("Schedule time must be in hh:mm-hh:mm format.");
                 });
+
+            RuleFor(f => f.WebsiteURL).NotEmpty().WithMessage("WebsiteUrl can't be empty.");
+
+            RuleFor(f => f.Longitude).InclusiveBetween(-180, 180).WithMessage("Latitude must be between -180 and 180 degrees."); ;
+            RuleFor(f => f.Latitude).InclusiveBetween(-90, 90).WithMessage("Latitude must be between -90 and 90 degrees.");
         }
     }
 }
