@@ -49,12 +49,32 @@ namespace Application
         {
             var facility = _mapper.Map<Facility>(updatedFacility);
 
+            facility.Id = id;
+
             await _facilityRepository.UpdateFacilityAsync(id, facility);
         }
 
         public async Task RemoveFacilityAsync(string id)
         {
             await _facilityRepository.RemoveFacilityAsync(id);
+        }
+
+        public async Task<(UpdatedFacilityDto updatedFacility, Facility facility)> GetFacilityToUpdateAsync(string id)
+        {
+            var facility = await _facilityRepository.GetFacilityAsync(id);
+
+            var updatedFacility = _mapper.Map<UpdatedFacilityDto>(facility);
+
+            return (updatedFacility, facility);
+        }
+
+        public async Task PartiallyUpdateFacilityAsync(string id, UpdatedFacilityDto updatedFacility)
+        {
+            var facility = _mapper.Map<Facility>(updatedFacility);
+
+            facility.Id = id;
+
+            await _facilityRepository.UpdateFacilityAsync(id, facility);
         }
     }
 }

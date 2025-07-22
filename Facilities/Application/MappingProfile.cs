@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Converters;
 using Application.Dtos;
 using AutoMapper;
 using Entities.Models;
@@ -13,7 +14,10 @@ namespace Application
     {
         public MappingProfile()
         {
-            CreateMap<FacilityDto, Facility>().ReverseMap();
+            CreateMap<FacilityDto, Facility>().ConvertUsing<FacilityConverter>();
+            CreateMap<Facility, FacilityDto>();
+            CreateMap<Facility, UpdatedFacilityDto>();
+            CreateMap<UpdatedFacilityDto, Facility>().ConvertUsing<UpdatedFacilityConverter>();
         }
     }
 }

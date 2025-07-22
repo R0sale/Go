@@ -5,14 +5,17 @@ using Application;
 using FluentValidation.AspNetCore;
 using Application.Validators;
 using FluentValidation;
-
+using MongoDB.Bson.Serialization;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 
-
+BsonSerializer.RegisterSerializer(new DictionarySerializer());
 
 builder.Services.ConfigureDB(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(Application.AssemblyReference).Assembly);
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson();
 
 builder.Services.AddScoped<IFacilityRepository, FacilitiesRepository>();
 builder.Services.AddScoped<IFacilityService, FacilitiesService>();

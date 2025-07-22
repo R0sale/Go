@@ -7,20 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Contracts;
+using Application.Dtos;
+using AutoMapper;
 
 namespace Infrastructure
 {
     public class FacilitiesRepository : IFacilityRepository
     {
         private readonly IMongoCollection<Facility> _facilities;
+        private readonly IMapper _mapper;
 
-        public FacilitiesRepository(IOptions<FacilitiesDatabaseSettings> facilitiesDatabaseSettings)
+        public FacilitiesRepository(IOptions<FacilitiesDatabaseSettings> facilitiesDatabaseSettings, IMapper mapper)
         {
             var mongoClient = new MongoClient(facilitiesDatabaseSettings.Value.ConnectionString);
 
             var mongoDatabase = mongoClient.GetDatabase(facilitiesDatabaseSettings.Value.DatabaseName);
 
             _facilities = mongoDatabase.GetCollection<Facility>(facilitiesDatabaseSettings.Value.FacilitiesCollectionName); 
+
+            _mapper = mapper;
         }
 
         public async Task<IList<Facility>> GetFacilitiesAsync() => await _facilities.Find(_ => true).ToListAsync();

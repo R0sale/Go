@@ -8,32 +8,41 @@ using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace Entities.Models
 {
+    public class OpeningTime
+    {
+        public TimeOnly Opening { get; set; }
+        public TimeOnly Closing { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Opening.Hour.ToString("D2")}:{Opening.Minute.ToString("D2")}-{Closing.Hour.ToString("D2")}:{Closing.Minute.ToString("D2")}";
+        }
+    }
+
     public class Facility
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
         public string? Name { get; set; }
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
         public string? Description { get; set; }
-        public Dictionary<string, string> Schedule { get; set; }
         public string? WebsiteURL { get; set; }
+        public Dictionary<DayOfWeek, OpeningTime> Schedule { get; set; }
 
         public bool IsOpened { 
             get
             {
-                var currentDay = DateTime.Now.DayOfWeek.ToString();
+                var currentDay = DateTime.Now.DayOfWeek;
                 var currentTime = TimeOnly.FromDateTime(DateTime.Now);
 
-                if (Schedule.TryGetValue(currentDay, out var hours))
+                if (Schedule.TryGetValue(currentDay, out var openingTime))
                 {
-                    var timeParts = hours.Split('-');
-                    var openingTime = new TimeOnly(int.Parse(timeParts[0].Substring(0, 2)), int.Parse(timeParts[0].Substring(3, 2)));
-                    var closingTime = new TimeOnly(int.Parse(timeParts[1].Substring(0, 2)), int.Parse(timeParts[1].Substring(3, 2)));
-
-                    return currentTime >= openingTime && currentTime <= closingTime;
+                    return currentTime >= openingTime.Opening && currentTime <= openingTime.Closing;
                 }
 
                 return false;

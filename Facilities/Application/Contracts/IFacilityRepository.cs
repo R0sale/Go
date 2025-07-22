@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Application.Dtos;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace Application.Contracts
         Task CreateFacilityAsync(Facility newFacility);
         Task UpdateFacilityAsync(string id, Facility updatedFacility);
         Task RemoveFacilityAsync(string id);
+        
     }
 }

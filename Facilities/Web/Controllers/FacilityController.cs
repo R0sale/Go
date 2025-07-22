@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Application.Contracts;
 using Application.Dtos;
+using Microsoft.AspNetCore.JsonPatch;   
 using Entities.Models;
 using AutoMapper;
 
@@ -42,6 +43,24 @@ namespace Facilities.Controllers
         {
             await _service.RemoveFacilityAsync(id);
 
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateFacility([FromBody] FacilityDto facilityDto, string id)
+        {
+            await _service.UpdateFacilityAsync(id, facilityDto);
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchFacility([FromBody] JsonPatchDocument<UpdatedFacilityDto> patchDoc, string id)
+        {
+            var result = await _service.GetFacilityToUpdateAsync(id);
+
+            patchDoc.ApplyTo(result.updatedFacility);
+
+            await _service.PartiallyUpdateFacilityAsync(id, result.updatedFacility);
             return NoContent();
         }
     }
