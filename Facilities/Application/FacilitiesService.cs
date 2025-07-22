@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application
 {
-    public class FacilitiesService
+    public class FacilitiesService : IFacilityService
     {
         private readonly IFacilityRepository _facilityRepository;
         private readonly IMapper _mapper;

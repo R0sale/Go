@@ -13,6 +13,7 @@ namespace Application.Dtos
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
         public string? Description { get; set; }
-        public string? OpeningHours { get; set; }
+        public Dictionary<DayOfWeek, string> Schedule { get; set; }
+        public string? WebsiteURL { get; set; }
     }
 }
