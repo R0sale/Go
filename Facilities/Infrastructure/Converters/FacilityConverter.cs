@@ -22,8 +22,7 @@ namespace Infrastructure.Converters
             destination.PhoneNumber = source.PhoneNumber;
             destination.Email = source.Email;
             destination.Description = source.Description;
-            destination.Latitude = source.Latitude;
-            destination.Longitude = source.Longitude;
+            destination.Coordinates = source.Coordinates;
             destination.WebsiteURL = source.WebsiteURL;
 
             destination.Schedule = source.Schedule;

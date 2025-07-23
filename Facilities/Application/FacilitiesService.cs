@@ -61,25 +61,11 @@ namespace Application
             await _facilityRepository.RemoveFacilityAsync(id);
         }
 
-        public async Task<IList<FacilityDto>> GetFacilitiesNearby(float latitude, float longitude, float radiusKm)
+        public async Task<IList<FacilityDto>> GetFacilitiesNearByAsync(double latitude, double longitude, double radiusKm)
         {
-            var allFacilities = await _facilityRepository.GetFacilitiesAsync();
-            var nearbyFacilities = allFacilities.Where(facility =>
-            {
-                var distance = GetDistance(latitude, longitude, facility.Latitude, facility.Longitude);
-                return distance <= radiusKm;
-            }).ToList();
-            return _mapper.Map<IList<FacilityDto>>(nearbyFacilities);
-        }
+            var nearbyFacilities = await _facilityRepository.GetFacilitiesNearByAsync(longitude, latitude, radiusKm);
 
-        private double GetDistance(float myLat, float MyLon, float objLat, float objLon)
-        {
-            const double R = 6371;
-            var dLat = (objLat - myLat) * Math.PI / 180;
-            var dLon = (objLon - MyLon) * Math.PI / 180;
-            var distanceRad = Math.Sqrt(dLat * dLat + dLon * dLon);
-            var distance = distanceRad * R;
-            return distance;
+            return _mapper.Map<IList<FacilityDto>>(nearbyFacilities);
         }
     }
 }

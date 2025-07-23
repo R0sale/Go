@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Application.Contracts;
 using Application.Dtos;
 using AutoMapper;
+using System.Transactions;
 
 namespace Infrastructure
 {
@@ -24,7 +25,10 @@ namespace Infrastructure
 
             var mongoDatabase = mongoClient.GetDatabase(facilitiesDatabaseSettings.Value.DatabaseName);
 
-            _facilities = mongoDatabase.GetCollection<Facility>(facilitiesDatabaseSettings.Value.FacilitiesCollectionName); 
+            _facilities = mongoDatabase.GetCollection<Facility>(facilitiesDatabaseSettings.Value.FacilitiesCollectionName);
+
+            var keys = Builders<Facility>.IndexKeys.Geo2D(f => f.Coordinates);
+            _facilities.Indexes.CreateOne(new CreateIndexModel<Facility>(keys));
 
             _mapper = mapper;
         }
@@ -43,5 +47,14 @@ namespace Infrastructure
         public async Task UpdateFacilityAsync(string id, Facility updatedFacility) => await _facilities.ReplaceOneAsync(facility => facility.Id == id, updatedFacility);
 
         public async Task RemoveFacilityAsync(string id) => await _facilities.DeleteOneAsync(facility => facility.Id == id);
+
+        public async Task<IList<Facility>> GetFacilitiesNearByAsync(double longitude, double latitude, double radius)
+        {
+            var radiusInDegrees = radius / 111;
+
+            var filter = Builders<Facility>.Filter.Near(f => f.Coordinates, longitude, latitude, maxDistance: radiusInDegrees);
+
+            return await _facilities.Find(filter).ToListAsync();
+        }
     }
 }

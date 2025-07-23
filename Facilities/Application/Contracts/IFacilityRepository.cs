@@ -15,6 +15,6 @@ namespace Application.Contracts
         Task<Facility> CreateFacilityAsync(Facility newFacility);
         Task UpdateFacilityAsync(string id, Facility updatedFacility);
         Task RemoveFacilityAsync(string id);
-        
+        Task<IList<Facility>> GetFacilitiesNearByAsync(double longitude, double latitude, double radius);
     }
 }

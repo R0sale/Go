@@ -4,6 +4,7 @@ using Application.Dtos;
 using Microsoft.AspNetCore.JsonPatch;   
 using Entities.Models;
 using AutoMapper;
+using Infrastructure.Models;
 
 namespace Facilities.Controllers
 {
@@ -51,6 +52,14 @@ namespace Facilities.Controllers
         {
             await _service.UpdateFacilityAsync(id, facilityDto);
             return NoContent();
+        }
+
+        [HttpGet("near")]
+        public async Task<IActionResult> GetFacilitiesNearBy([FromBody] GeoModel person)
+        {
+            var list = await _service.GetFacilitiesNearByAsync(person.Latitude, person.Longitude, person.RadiusKm);
+
+            return Ok(list);
         }
     }
 }
