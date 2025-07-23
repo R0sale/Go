@@ -7,20 +7,6 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    public enum CuisineType
-    {
-        Italian,
-        Chinese,
-        Indian,
-        Mexican,
-        American,
-        French,
-        Japanese,
-        Mediterranean,
-        Thai,
-        Other
-    }
-
     public class Restaurant : Facility
     {
         public List<CuisineType>? CuisineType { get; set; } 

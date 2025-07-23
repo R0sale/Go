@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Converters;
+using Infrastructure.Converters;
 using Application.Dtos;
 using AutoMapper;
 using Entities.Models;
 
-namespace Application
+namespace Infrastructure
 {
     public class MappingProfile : Profile
     {
@@ -16,8 +16,6 @@ namespace Application
         {
             CreateMap<FacilityDto, Facility>().ConvertUsing<FacilityConverter>();
             CreateMap<Facility, FacilityDto>();
-            CreateMap<Facility, UpdatedFacilityDto>();
-            CreateMap<UpdatedFacilityDto, Facility>().ConvertUsing<UpdatedFacilityConverter>();
         }
     }
 }

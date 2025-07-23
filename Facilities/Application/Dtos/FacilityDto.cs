@@ -17,6 +17,6 @@ namespace Application.Dtos
         public string? Email { get; set; }
         public string? Description { get; set; }
         public string? WebsiteURL { get; set; }
-        public Dictionary<DayOfWeek, string>? Schedule { get; set; }
+        public Dictionary<DayOfWeek, OpeningTime>? Schedule { get; set; }
     }
 }

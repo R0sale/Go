@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application
+namespace Infrastructure.Converters
 {
     public class DictionarySerializer : IBsonSerializer<Dictionary<DayOfWeek, OpeningTime>>
     {

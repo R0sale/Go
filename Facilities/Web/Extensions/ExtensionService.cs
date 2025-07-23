@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Infrastructure.Models;
 
 namespace Facilities.Extensions
 {

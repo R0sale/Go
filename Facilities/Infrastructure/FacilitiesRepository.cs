@@ -1,6 +1,7 @@
 ﻿using Entities.Models;
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
+using Infrastructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

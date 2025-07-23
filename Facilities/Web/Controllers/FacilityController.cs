@@ -52,16 +52,5 @@ namespace Facilities.Controllers
             await _service.UpdateFacilityAsync(id, facilityDto);
             return NoContent();
         }
-
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchFacility([FromBody] JsonPatchDocument<UpdatedFacilityDto> patchDoc, string id)
-        {
-            var result = await _service.GetFacilityToUpdateAsync(id);
-
-            patchDoc.ApplyTo(result.updatedFacility);
-
-            await _service.PartiallyUpdateFacilityAsync(id, result.updatedFacility);
-            return NoContent();
-        }
     }
 }

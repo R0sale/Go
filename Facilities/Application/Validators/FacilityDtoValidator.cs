@@ -1,5 +1,4 @@
-﻿using SharpCompress.Archives;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,9 +34,6 @@ namespace Application.Validators
                 {
                     schedule.RuleFor(e => e.Key)
                         .IsInEnum().WithMessage("Schedule day must be a valid day of the week.");
-                    schedule.RuleFor(e => e.Value)
-                        .Matches(@"^([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-3]):[0-5][0-9]$")
-                        .WithMessage("Schedule time must be in hh:mm-hh:mm format.");
                 });
 
             RuleFor(f => f.WebsiteURL).NotEmpty().WithMessage("WebsiteUrl can't be empty.");
