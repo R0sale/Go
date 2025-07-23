@@ -12,7 +12,7 @@ namespace Application.Contracts
     {
         Task<IList<FacilityDto>> GetFacilitiesAsync();
         Task<FacilityDto> GetFacilityAsync(string id);
-        Task CreateFacilityAsync(FacilityDto newFacility);
+        Task<Facility> CreateFacilityAsync(FacilityDto newFacility);
         Task UpdateFacilityAsync(string id, FacilityDto updatedFacility);
         Task RemoveFacilityAsync(string id);
         Task<(UpdatedFacilityDto updatedFacility, Facility facility)> GetFacilityToUpdateAsync(string id);

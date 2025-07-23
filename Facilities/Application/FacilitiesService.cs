@@ -38,11 +38,13 @@ namespace Application
             return facilityDto;
         }
 
-        public async Task CreateFacilityAsync(FacilityDto newFacility)
+        public async Task<Facility> CreateFacilityAsync(FacilityDto newFacility)
         {
             var facility = _mapper.Map<Facility>(newFacility);
 
-            await _facilityRepository.CreateFacilityAsync(facility);
+            var fasc = await _facilityRepository.CreateFacilityAsync(facility);
+
+            return fasc;
         }
 
         public async Task UpdateFacilityAsync(string id, FacilityDto updatedFacility)

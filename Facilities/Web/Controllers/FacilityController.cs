@@ -24,7 +24,7 @@ namespace Facilities.Controllers
             return Ok(await _service.GetFacilitiesAsync());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "FacilityById")]
         public async Task<IActionResult> GetFacility(string id)
         {
             return Ok(await _service.GetFacilityAsync(id));
@@ -33,9 +33,9 @@ namespace Facilities.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFacility([FromBody] FacilityDto facilityDto)
         {
-            await _service.CreateFacilityAsync(facilityDto);
+            var facility = await _service.CreateFacilityAsync(facilityDto);
 
-            return Created();
+            return CreatedAtRoute("FacilityById", new { id = facility.Id }, facility);
         }
 
         [HttpDelete("{id}")]

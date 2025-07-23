@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
 using Application.Dtos;
+using PhoneNumbers;
 
 namespace Application.Validators
 {
@@ -18,7 +19,7 @@ namespace Application.Validators
 
             RuleFor(f => f.Address).NotEmpty().WithMessage("Facility address is required.");
 
-            RuleFor(f => f.PhoneNumber).Matches(@"^\+?[1-9]\d{1,14}$").WithMessage("Phone number must be in a valid international format.");
+            RuleFor(f => f.PhoneNumber).Must(ValidPhoneNumber).WithMessage("Phone number must be in a valid international format.");
 
             RuleFor(f => f.Schedule).NotEmpty().WithMessage("Schedule can't be empty");
 
@@ -43,6 +44,20 @@ namespace Application.Validators
 
             RuleFor(f => f.Longitude).InclusiveBetween(-180, 180).WithMessage("Latitude must be between -180 and 180 degrees."); ;
             RuleFor(f => f.Latitude).InclusiveBetween(-90, 90).WithMessage("Latitude must be between -90 and 90 degrees.");
+        }
+
+        private bool ValidPhoneNumber(string? phoneNumber)
+        {
+            try
+            {
+                var phoneNumberUtil = PhoneNumbers.PhoneNumberUtil.GetInstance();
+                var number = phoneNumberUtil.Parse(phoneNumber, null);
+                return phoneNumberUtil.IsValidNumber(number);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
