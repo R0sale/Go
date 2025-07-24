@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Entities.Models;
 
-namespace Application.Dtos
+namespace Entities.Dtos
 {
     public class FacilityDto
     {
         public string? Name { get; set; }
         public string? Address { get; set; }
-        public double[]? Coordinates { get; set; }
+        public Coordinates Coordinates { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
         public string? Description { get; set; }

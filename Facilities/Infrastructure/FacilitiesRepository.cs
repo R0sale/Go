@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Contracts;
-using Application.Dtos;
+using Entities.Contracts;
+using Entities.Dtos;
 using AutoMapper;
 using System.Transactions;
 
@@ -50,7 +50,9 @@ namespace Infrastructure
 
         public async Task<IList<Facility>> GetFacilitiesNearByAsync(double longitude, double latitude, double radius)
         {
-            var radiusInDegrees = radius / 111;
+            const int DEGREE_IN_KM = 111;
+
+            var radiusInDegrees = radius / DEGREE_IN_KM;
 
             var filter = Builders<Facility>.Filter.Near(f => f.Coordinates, longitude, latitude, maxDistance: radiusInDegrees);
 

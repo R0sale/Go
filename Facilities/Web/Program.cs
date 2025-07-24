@@ -1,4 +1,4 @@
-using Application.Contracts;
+using Entities.Contracts;
 using Facilities.Extensions;
 using Infrastructure.Converters;
 using Infrastructure;
@@ -10,7 +10,7 @@ using FluentValidation;
 using MongoDB.Bson.Serialization;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
-using Application.Dtos;
+using Entities.Dtos;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.IdGenerators;

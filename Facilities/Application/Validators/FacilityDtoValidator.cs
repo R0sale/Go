@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
-using Application.Dtos;
+using Entities.Dtos;
 using PhoneNumbers;
 
 namespace Application.Validators
@@ -37,14 +37,7 @@ namespace Application.Validators
                 });
 
             RuleFor(f => f.WebsiteURL).NotEmpty().WithMessage("WebsiteUrl can't be empty.");
-            RuleFor(f => f.Coordinates).NotEmpty().WithMessage("Facility must have coordinates.")
-                .Must(c => c.Length == 2).WithMessage("There must be 2 coordinates: longitude, latitude.");
 
-            RuleFor(f => f.Coordinates[0]).NotEmpty().WithMessage("Location must have longitude.")
-                .InclusiveBetween(-180, 180).WithMessage("Longitude can't be more than 180, less than -180");
-
-            RuleFor(f => f.Coordinates[1]).NotEmpty().WithMessage("Location must have latitude.")
-                .InclusiveBetween(-90, 90).WithMessage("Latitude can't be more than 90, less than -90");
 
         }
 

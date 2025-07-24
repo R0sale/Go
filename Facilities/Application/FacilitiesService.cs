@@ -1,5 +1,5 @@
-﻿using Application.Contracts;
-using Application.Dtos;
+﻿using Entities.Contracts;
+using Entities.Dtos;
 using AutoMapper;
 using Entities.Models;
 using System;

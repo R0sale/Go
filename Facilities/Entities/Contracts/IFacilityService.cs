@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Dtos;
+using Entities.Dtos;
 using Entities.Models;
 
-namespace Application.Contracts
+namespace Entities.Contracts
 {
     public interface IFacilityService
     {

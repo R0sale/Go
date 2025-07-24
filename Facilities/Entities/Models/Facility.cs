@@ -10,7 +10,7 @@ namespace Entities.Models
     {
         public string Id { get; set; }
         public string? Name { get; set; }
-        public double[]? Coordinates { get; set; }
+        public Coordinates Coordinates { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
@@ -18,7 +18,7 @@ namespace Entities.Models
         public string? WebsiteURL { get; set; }
         public Dictionary<DayOfWeek, OpeningTime> Schedule { get; set; }
 
-        public bool IsOpened { 
+        public bool IsOpen { 
             get
             {
                 var currentDay = DateTime.Now.DayOfWeek;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.Converters;
-using Application.Dtos;
+using Entities.Dtos;
 using AutoMapper;
 using Entities.Models;
 
