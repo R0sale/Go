@@ -13,7 +13,6 @@ namespace Infrastructure.Converters
     {
         public override void Write(Utf8JsonWriter writer, OpeningTime value, JsonSerializerOptions options)
         {
-            Console.WriteLine("Control flow");
             writer.WriteStringValue(value.ToString());
         }
 

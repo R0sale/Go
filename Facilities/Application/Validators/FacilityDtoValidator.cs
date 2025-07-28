@@ -34,6 +34,7 @@ namespace Application.Validators
                 {
                     schedule.RuleFor(e => e.Key)
                         .IsInEnum().WithMessage("Schedule day must be a valid day of the week.");
+
                 });
 
             RuleFor(f => f.WebsiteURL).NotEmpty().WithMessage("WebsiteUrl can't be empty.");
