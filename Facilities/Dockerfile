@@ -1,19 +1,30 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS base
 WORKDIR /app
 EXPOSE 8081
 EXPOSE 8081
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-RUN dotnet build "Facilities.csproj" -c $BUILD_CONFIGURATION -o /app/build
+COPY Web/Web.csproj ./Web/
+COPY Application/Application.csproj ./Application/
+COPY Entities/Entities.csproj ./Entities/
+COPY Infrastructure/Infrastructure.csproj ./Infrastructure/
+
+RUN dotnet restore ./Web/Web.csproj
+
+COPY Web/ ./Web/
+COPY Infrastructure/ ./Infrastructure/
+COPY Entities/ ./Entities/
+COPY Application/ ./Application/
+WORKDIR /src/Web
+RUN dotnet build "Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release 
-RUN dotnet publish "./Facilities.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Facilities.dll"]
+ENTRYPOINT ["dotnet", "Web.dll"]
