@@ -8,12 +8,17 @@ using Entities.Models;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using MongoDB.Bson.Serialization;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Mvc;
-using Entities.Dtos;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.IdGenerators;
+using Serilog;
+
+using var log = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
+
+Log.Logger = log;
+
 var builder = WebApplication.CreateBuilder(args);
 
 BsonSerializer.RegisterSerializer(new DictionarySerializer());

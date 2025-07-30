@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace Application
 {
@@ -35,6 +36,7 @@ namespace Application
             var facility = await _facilityRepository.GetFacilityAsync(id);
 
             var facilityDto = _mapper.Map<FacilityDto>(facility);
+
             return facilityDto;
         }
 
@@ -43,6 +45,8 @@ namespace Application
             var facility = _mapper.Map<Facility>(newFacility);
 
             var fasc = await _facilityRepository.CreateFacilityAsync(facility);
+
+            Log.Information("Facility with ID: {FacilityId} was created", fasc.Id);
 
             return fasc;
         }
@@ -58,6 +62,8 @@ namespace Application
 
         public async Task RemoveFacilityAsync(string id)
         {
+            Log.Information("Facility with ID: {FacilityId} was removed", id);
+
             await _facilityRepository.RemoveFacilityAsync(id);
         }
 
