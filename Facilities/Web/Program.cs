@@ -12,12 +12,13 @@ using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.IdGenerators;
 using Serilog;
+using Web.Extensions;
 
-using var log = new LoggerConfiguration()
+using var logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
 
-Log.Logger = log;
+Log.Logger = logger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,8 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<FacilityDtoValidator>();
 
 var app = builder.Build();
+
+app.ConfigureExceptionHandler(logger);
 
 app.MapControllers();
 

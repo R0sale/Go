@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Serilog;
+using Entities.Exceptions;
 
 namespace Application
 {
@@ -26,6 +27,9 @@ namespace Application
         {
             var facilities = await _facilityRepository.GetFacilitiesAsync();
 
+            if (facilities is null)
+                throw new NotFoundException("There is no facilities in the collection.");
+
             var facilitiesDto = _mapper.Map<IList<FacilityDto>>(facilities);
 
             return facilitiesDto;
@@ -34,6 +38,9 @@ namespace Application
         public async Task<FacilityDto> GetFacilityAsync(string id)
         {
             var facility = await _facilityRepository.GetFacilityAsync(id);
+
+            if (facility is null)
+                throw new FacilityNotFoundException(id);
 
             var facilityDto = _mapper.Map<FacilityDto>(facility);
 
@@ -53,6 +60,8 @@ namespace Application
 
         public async Task UpdateFacilityAsync(string id, FacilityDto updatedFacility)
         {
+            await CheckIfFacilityExists(id);
+
             var facility = _mapper.Map<Facility>(updatedFacility);
 
             facility.Id = id;
@@ -62,6 +71,8 @@ namespace Application
 
         public async Task RemoveFacilityAsync(string id)
         {
+            await CheckIfFacilityExists(id);
+
             Log.Information("Facility with ID: {FacilityId} was removed", id);
 
             await _facilityRepository.RemoveFacilityAsync(id);
@@ -72,6 +83,14 @@ namespace Application
             var nearbyFacilities = await _facilityRepository.GetFacilitiesNearByAsync(longitude, latitude, radiusKm);
 
             return _mapper.Map<IList<FacilityDto>>(nearbyFacilities);
+        }
+
+        private async Task CheckIfFacilityExists(string id)
+        {
+            var facility = await _facilityRepository.GetFacilityAsync(id);
+
+            if (facility == null)
+                throw new FacilityNotFoundException(id);
         }
     }
 }
