@@ -1,8 +1,8 @@
-import { ShoppingCart, Bed, Plus, Coffee, ShoppingBag, Dumbbell, CreditCard, Fuel, Wrench, Hospital, Landmark, Scissors, Utensils } from 'lucide-react';
+import { Bed, Plus, Coffee, ShoppingBag, Dumbbell, CreditCard, Fuel, Wrench, Hospital, Landmark, Scissors, Utensils } from 'lucide-react';
 import React from 'react';
 
 const categories = [
-  { label: 'Where to eat', icon: <ShoppingCart className="w-5 h-5" /> },
+  { label: 'Where to eat', icon: <Utensils className='w-5 h-5'/> },
   { label: 'Products', icon: <ShoppingBag className="w-5 h-5" /> },
   { label: 'Hotels', icon: <Bed className="w-5 h-5" /> },
   { label: 'Pharmacy', icon: <Plus className="w-5 h-5" /> },
@@ -15,7 +15,6 @@ const categories = [
   { label: 'Hospital', icon: <Hospital className='w-5 h-5' />},
   { label: 'Museum', icon: <Landmark className='w-5 h-5' />},
   { label: 'Beauty Salon', icon: <Scissors className='w-5 h-5' />},
-  { label: 'Fast Food', icon: <Utensils className='w-5 h-5' />}
 ];
 
 interface CategoriesProps {

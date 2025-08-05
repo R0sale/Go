@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="h-screen flex pinned-left">
       <Sidebar onSearch={setPosition} isDimmed={isDimmed} />
-      <MapView position={position} state={[isDimmed, setIsDimmed]} />
+      <MapView positionState={[position, setPosition]} state={[isDimmed, setIsDimmed]} />
     </div>
   );
 }

@@ -10,11 +10,11 @@ const SearchBar: React.FC<SearchBarProps> = ({onSearch}) => {
     const [query, setQuery] = useState('');
 
     const handleSearch = async () => {
-        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`);
+        const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=10`);
         const data = await res.json();
         if (data.length > 0)
         {
-            const { lat, lon } = data[0];
+            const {lat, lon} = data[0];
             onSearch([parseFloat(lat), parseFloat(lon)]);
         }
     }
