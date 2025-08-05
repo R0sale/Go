@@ -22,7 +22,7 @@ namespace Application
             _mapper = mapper;
         }
 
-        public Task<IEnumerable<UserDto>> GetAllUsers()
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
         {
             var users = _userManager.Users;
 
