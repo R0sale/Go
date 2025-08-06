@@ -10,5 +10,8 @@ namespace Entities.Contracts
     public interface IUserService
     {
         Task<IEnumerable<UserDto>> GetAllUsersAsync();
+        Task<UserDto> GetUserByIdAsync(Guid id);
+        Task CreateUserAsync(UserForCreationDto user);
+        Task DeleteUserAsync(Guid id);
     }
 }

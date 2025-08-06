@@ -1,4 +1,5 @@
 ﻿using Entities.Contracts;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -19,7 +20,31 @@ namespace Presentation.Controllers
         {
             var usersDto = await _userService.GetAllUsersAsync();
 
-            return Ok();
+            return Ok(usersDto);
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetAllUsers(Guid id)
+        {
+            var userDto = await _userService.GetUserByIdAsync(id);
+
+            return Ok(userDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUserAsync([FromBody] UserForCreationDto userDto)
+        {
+            await _userService.CreateUserAsync(userDto);
+
+            return Created();
+        }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteUserAsync(Guid id)
+        {
+            await _userService.DeleteUserAsync(id);
+
+            return NoContent();
         }
     }
 }

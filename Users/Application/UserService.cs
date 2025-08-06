@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Entities.Exceptions;
 
 namespace Application
 {
@@ -24,11 +26,44 @@ namespace Application
 
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
         {
-            var users = _userManager.Users;
+            var users = await _userManager.Users.ToListAsync();
 
-            var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
+            var usersDto = _mapper.Map<IEnumerable<UserDto>>(users).ToList();
+
+            for (int i = 0; i < users.Count; i++)
+            {
+                var roles = await _userManager.GetRolesAsync(users[i]);
+
+                usersDto[i].Roles = roles.ToList();
+            }
 
             return usersDto;
+        }
+
+        public async Task<UserDto> GetUserByIdAsync(Guid id)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id.Equals(id.ToString()));
+
+            if (user is null)
+                throw new NotFoundException($"User with id: {id}");
+
+            var userDto = _mapper.Map<UserDto>(user);
+
+            return userDto;
+        }
+
+        public async Task CreateUserAsync(UserForCreationDto userDto)
+        {
+            var user = _mapper.Map<User>(userDto);
+
+            await _userManager.CreateAsync(user);
+        }
+
+        public async Task DeleteUserAsync(Guid id)
+        {
+            var user = await _userManager.Users.SingleAsync(u => u.Id.Equals(id.ToString()));
+
+            await _userManager.DeleteAsync(user);
         }
     }
 }
