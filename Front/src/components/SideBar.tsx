@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import './index.css';
+import '../index.css';
 import SearchBar from './SearchBar';
 import Categories from './Categories';
 import Menu from './Menu';
-import getPosition from './GetPosition';
+import getPosition from '../GetPosition';
 
 interface SideBarProps {
     onSearch: (coords: [number, number]) => void;

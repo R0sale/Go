@@ -1,6 +1,7 @@
 import React from "react";
-import KeysImage from './assets/keys.png'
+import KeysImage from '../assets/keys.png'
 import { MapPin, Bus, Camera, Star, Text, Megaphone } from 'lucide-react';
+import { Link } from "react-router-dom";
 
 const menu = [
     {label: 'Rate Facility', icon: <Star className="w-7 h-7"/>},
@@ -23,7 +24,7 @@ const Menu: React.FC = () => {
 
                 <img src={KeysImage} alt="Keys" className="inline w-52 h-48"/>
 
-                <a href="/" className="rounded-2xl no-underline text-white bg-blue-600 p-4 mt-2 w-24 text-center ml-0 hover:opacity-75">Log in</a>
+                <Link to="/login" className="rounded-2xl no-underline text-white bg-blue-600 p-4 mt-2 w-24 text-center ml-0 hover:opacity-75">Log in</Link>
             </div>
             <div className="h-2 bg-gray-100 mt-5 m-0 p-0 border-box w-full">
 
@@ -31,8 +32,8 @@ const Menu: React.FC = () => {
 
             <div className="grid grid-cols-4 gap-2 text-center text-xs mt-3 p-4">
                 {menu.map((cmd, i) => {
-                    return <div>
-                                <div key={i} className="flex items-center justify-center h-15 w-15 flex-col bg-gray-100 rounded-2xl p-2 hover:bg-gray-200 cursor-pointer">
+                    return <div key={i}>
+                                <div className="flex items-center justify-center h-15 w-15 flex-col bg-gray-100 rounded-2xl p-2 hover:bg-gray-200 cursor-pointer">
                                     {cmd.icon}
                                 </div>
                                 <div className="text-center h-15 w-15 mt-2 font-medium">

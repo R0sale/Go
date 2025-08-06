@@ -1,17 +1,13 @@
-import './index.css'
-import { useState } from 'react';
-import Sidebar from './SideBar';
-import MapView from './MapView';
+import MainPage from "./pages/MainPage";
+import SignInPage from "./pages/SignInPage";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
-  const [position, setPosition] = useState([55.751244, 37.618423]);
-  const [isDimmed, setIsDimmed] = useState(false);
-
   return (
-    <div className="h-screen flex pinned-left">
-      <Sidebar onSearch={setPosition} isDimmed={isDimmed} />
-      <MapView positionState={[position, setPosition]} state={[isDimmed, setIsDimmed]} />
-    </div>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/login" element={<SignInPage />} />
+      </Routes>
   );
 }
 

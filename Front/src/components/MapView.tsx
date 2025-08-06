@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import { Menu, ArrowBigRightDash } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
-import './index.css';
+import '../index.css';
 
 interface MapViewProps {
     positionState: [number[], Dispatch<SetStateAction<number[]>>];
