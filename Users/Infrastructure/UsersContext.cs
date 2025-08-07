@@ -8,7 +8,7 @@ using Infrastructured.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructured
+namespace Infrastructure
 {
     public class UsersContext : IdentityDbContext<User>
     {

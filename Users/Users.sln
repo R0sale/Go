@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35825.156 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{34DFF4BC-EE24-4652-919E-630B1E1DF5AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructured", "Infrastructured\Infrastructured.csproj", "{53CDD6C5-7E5C-40FB-8CAD-3836C3BC1AAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{53CDD6C5-7E5C-40FB-8CAD-3836C3BC1AAE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{6249F2C5-51CD-46DD-8F06-026341E3DC49}"
 EndProject

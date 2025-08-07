@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Infrastructured.Migrations
+namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class ExtendUsers : Migration
