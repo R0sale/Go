@@ -55,9 +55,9 @@ namespace Facilities.Controllers
         }
 
         [HttpGet("near")]
-        public async Task<IActionResult> GetFacilitiesNearBy([FromQuery] GeoModel person)
+        public async Task<IActionResult> GetFacilitiesNearBy([FromQuery] GeoModel geoModel)
         {
-            var list = await _service.GetFacilitiesNearByAsync(person.Latitude, person.Longitude, person.RadiusKm);
+            var list = await _service.GetFacilitiesNearByAsync(geoModel.Latitude, geoModel.Longitude, geoModel.RadiusKm);
 
             return Ok(list);
         }
