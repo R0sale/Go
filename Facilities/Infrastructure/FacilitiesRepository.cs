@@ -11,6 +11,7 @@ using Entities.Contracts;
 using Entities.Dtos;
 using AutoMapper;
 using System.Transactions;
+using Serilog;
 
 namespace Infrastructure
 {
@@ -46,7 +47,7 @@ namespace Infrastructure
 
         public async Task UpdateFacilityAsync(string id, Facility updatedFacility) => await _facilities.ReplaceOneAsync(facility => facility.Id == id, updatedFacility);
 
-        public async Task RemoveFacilityAsync(string id) => await _facilities.DeleteOneAsync(facility => facility.Id == id);
+        public async Task RemoveFacilityAsync(string id) =>  await _facilities.DeleteOneAsync(facility => facility.Id == id);
 
         public async Task<IList<Facility>> GetFacilitiesNearByAsync(double longitude, double latitude, double radius)
         {
