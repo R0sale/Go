@@ -41,6 +41,16 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new OpeningTimeToJson());
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowViteDev", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddScoped<IFacilityRepository, FacilitiesRepository>();
 builder.Services.AddScoped<IFacilityService, FacilitiesService>();
 
@@ -49,6 +59,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<FacilityDtoValidator>();
 
 var app = builder.Build();
 
+app.UseCors("AllowViteDev");
 app.ConfigureExceptionHandler(logger);
 
 app.MapControllers();
