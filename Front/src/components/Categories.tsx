@@ -1,7 +1,9 @@
 import { Bed, Plus, Coffee, ShoppingBag, Dumbbell, CreditCard, Fuel, Wrench, Hospital, Landmark, Scissors, Utensils } from 'lucide-react';
 import type { Facility } from '../Facility';
 
-const queryFactory = (key: string, value: string, bounds: number[]) => `
+const queryFactory = (key: string, value: string, bounds: number[]) => {
+    if (value === '*')
+        return (`
 <osm-script output="json" timeout="25">
     <query type="node">
         <bbox-query s="${bounds[0]}" w="${bounds[1]}" n="${bounds[2]}" e="${bounds[3]}" />
@@ -9,11 +11,21 @@ const queryFactory = (key: string, value: string, bounds: number[]) => `
     </query>
     <print/>
 </osm-script>
-`;
+`)
+    else
+        return (`
+<osm-script output="json" timeout="25">
+    <query type="node">
+        <bbox-query s="${bounds[0]}" w="${bounds[1]}" n="${bounds[2]}" e="${bounds[3]}" />
+        <has-kv k="${key}" regv="${value}" />
+    </query>
+    <print limit="100"/>
+</osm-script>
+`)}
 
 const categories = [
   { label: 'Where to eat', icon: <Utensils className='w-5 h-5'/>, key: 'amenity', value: 'cafe|restaurant|fast_food'},
-  { label: 'Products', icon: <ShoppingBag className="w-5 h-5" />, key: 'shop', value: '*'},
+  { label: 'Products', icon: <ShoppingBag className="w-5 h-5" />, key: 'shop', value: ''},
   { label: 'Hotels', icon: <Bed className="w-5 h-5" />, key: 'tourism', value: 'hotel|motel|guest_house' },
   { label: 'Pharmacy', icon: <Plus className="w-5 h-5" />, key: 'amenity', value: 'pharmacy' },
   { label: 'Cafe', icon: <Coffee className="w-5 h-5" />, key: 'amenity', value: 'cafe' },
