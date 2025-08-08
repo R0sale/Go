@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Entities.Exceptions;
+using ExceptionHandler.Exceptions;
 
 namespace Application
 {
@@ -30,11 +30,11 @@ namespace Application
 
             var usersDto = _mapper.Map<IEnumerable<UserDto>>(users).ToList();
 
-            for (int i = 0; i < users.Count; i++)
+            foreach (var (user, userDto) in users.Zip(usersDto))
             {
-                var roles = await _userManager.GetRolesAsync(users[i]);
+                var roles = await _userManager.GetRolesAsync(user);
 
-                usersDto[i].Roles = roles.ToList();
+                userDto.Roles = roles.ToList();
             }
 
             return usersDto;

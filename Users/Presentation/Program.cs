@@ -4,6 +4,7 @@ using Entities.Models;
 using Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ExceptionHandler.ExceptionMiddleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,11 +36,13 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<UsersContext>();
-    context.Database.Migrate();
-}
+app.UseMiddleware<ExceptionMiddleware>();
+
+//using (var scope = app.Services.CreateScope())
+//{
+//    var context = scope.ServiceProvider.GetRequiredService<UsersContext>();
+//    context.Database.Migrate();
+//}
 
 app.MapControllers();
 

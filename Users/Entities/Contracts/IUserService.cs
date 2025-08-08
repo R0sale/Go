@@ -11,7 +11,7 @@ namespace Entities.Contracts
     {
         Task<IEnumerable<UserDto>> GetAllUsersAsync();
         Task<UserDto> GetUserByIdAsync(Guid id);
-        Task CreateUserAsync(UserForCreationDto user);
+        Task CreateUserAsync(UserForCreationDto userDto);
         Task DeleteUserAsync(Guid id);
     }
 }
