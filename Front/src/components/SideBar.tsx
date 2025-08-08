@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
 import '../index.css';
 import SearchBar from './SearchBar';
 import Categories from './Categories';
 import Menu from './Menu';
 import getPosition from '../GetPosition';
+import type { Facility } from '../Facility';
+import type { LatLngExpression } from 'leaflet';
 
 interface SideBarProps {
-    onSearch: (coords: [number, number]) => void;
+    onSearch: Dispatch<SetStateAction<LatLngExpression>>;
     isDimmed: boolean;
+    setFacilities: Dispatch<SetStateAction<Facility[]>>;
+    map: L.Map | null;
 }
 
-const Sidebar: React.FC<SideBarProps> = ({onSearch, isDimmed}) => {
+const Sidebar: React.FC<SideBarProps> = ({onSearch, isDimmed, setFacilities, map}) => {
     const [isVisible, setIsVisible] = useState(true);
     const [city, setCity] = useState('');
 
@@ -46,7 +51,7 @@ const Sidebar: React.FC<SideBarProps> = ({onSearch, isDimmed}) => {
                     {isVisible && <button onClick={handleVisible} className="text-blue-500 text-sm">All places</button>}
                 </div>
 
-                <Categories isVisible={isVisible}/>
+                <Categories isVisible={isVisible} setFacilities={setFacilities} map={map}/>
             </div>
             ) : <Menu />}
         </div>

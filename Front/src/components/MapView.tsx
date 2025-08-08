@@ -1,21 +1,42 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { useEffect } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import { Menu, ArrowBigRightDash } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 import '../index.css';
+import type { Facility } from '../Facility';
+import L, { type LatLngExpression } from 'leaflet';
 
 interface MapViewProps {
-    positionState: [number[], Dispatch<SetStateAction<number[]>>];
+    positionState: [LatLngExpression, Dispatch<SetStateAction<LatLngExpression>>];
     state: [boolean, Dispatch<SetStateAction<boolean>>];
+    facilities: Facility[];
+    setMap: Dispatch<SetStateAction<L.Map | null>>
 }
 
 interface FlyToProps {
-    position: number[];
+    position: LatLngExpression;
+}
+
+interface ProvideMapProps {
+    setMap: Dispatch<SetStateAction<L.Map | null>>;
 }
 
 function FlyTo({ position } : FlyToProps) {
   const map = useMap();
-  map.flyTo(position, 13);
+
+  useEffect(() => {
+    map.flyTo(position, 13);
+  }, [position, map]);
+
+  return null;
+}
+
+function ProvideMap({setMap} : ProvideMapProps) {
+  const map = useMap();
+  useEffect(() => {
+    setMap(map);
+  }, [map, setMap]);
   return null;
 }
 
@@ -25,7 +46,7 @@ const getPosition = (): Promise<GeolocationPosition> => {
         });
     };
 
-const MapView: React.FC<MapViewProps> = ({ positionState, state }) => {
+const MapView: React.FC<MapViewProps> = ({ positionState, state, facilities, setMap}) => {
   const [isDimmed, setIsDimmed] = state;
   const [position, setPosition] = positionState;
 
@@ -36,7 +57,7 @@ const MapView: React.FC<MapViewProps> = ({ positionState, state }) => {
   const handlePosition = async () => {
     const { latitude, longitude } = (await getPosition()).coords;
 
-    setPosition([latitude, longitude]);
+    setPosition({lat: latitude, lng: longitude});
   }
 
   return (
@@ -60,8 +81,12 @@ const MapView: React.FC<MapViewProps> = ({ positionState, state }) => {
           attribution='&copy; OpenStreetMap contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        {facilities.length > 0 && facilities.map((elem) => {
+          return <Marker position={[elem.lat, elem.lon]} />
+        })}
         <Marker position={position} />
         <FlyTo position={position} />
+        <ProvideMap setMap={setMap}/>
       </MapContainer>
     </div>
   );
