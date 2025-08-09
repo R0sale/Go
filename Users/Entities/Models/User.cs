@@ -9,6 +9,7 @@ namespace Entities.Models
 {
     public class User : IdentityUser
     {
+        public string? FirebaseUid { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
     }
