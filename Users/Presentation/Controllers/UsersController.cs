@@ -1,5 +1,6 @@
 ﻿using Entities.Contracts;
 using Entities.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -37,6 +38,17 @@ namespace Presentation.Controllers
             await _userService.CreateUserAsync(userDto);
 
             return Created();
+        }
+
+        [Authorize]
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUserAsync()
+        {
+            var firebaseUid = User.FindFirst("UserUid");
+
+            var userDto = await _userService.LoginUserAsync(firebaseUid.Value);
+
+            return Ok(userDto);
         }
 
         [HttpDelete("{id:guid}")]

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { deleteUser, signInWithEmailAndPassword, type UserCredential } from "firebase/auth";
 import { auth } from "../firebase";
 import bgImage from '../assets/worldmap.jpg';
 import { useNavigate } from "react-router-dom";
@@ -14,11 +14,12 @@ const LogInPage: React.FC = () => {
     }
 
     const login = async () => {
+        let userCredentials: UserCredential;
         try {
-            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-            const token = await userCredentials.user.getIdToken();
+            userCredentials = await signInWithEmailAndPassword(auth, email, password);
+            const token = await userCredentials.user.getIdToken(true);
 
-            const response = await fetch('', {
+            const response = await fetch('https://localhost:7023/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -29,10 +30,12 @@ const LogInPage: React.FC = () => {
             if (response.ok) {
                 alert('Everything succeeded');
             } else {
+                await deleteUser(userCredentials.user);
                 alert('Have some mistakes');
             }
         } catch (error) {
             if (error instanceof Error) {
+                await deleteUser(userCredentials.user)
                 alert("Error: " + error.message);
             } else {
                 alert("Unknown error");

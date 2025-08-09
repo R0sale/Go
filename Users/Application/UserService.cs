@@ -16,12 +16,14 @@ namespace Application
     public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
 
-        public UserService(UserManager<User> userManager, IMapper mapper)
+        public UserService(UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
-            _userManager = userManager;
+            _userManager = userManager; 
             _mapper = mapper;
+            _roleManager = roleManager;
         }
 
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
@@ -49,6 +51,10 @@ namespace Application
 
             var userDto = _mapper.Map<UserDto>(user);
 
+            var roles = await _userManager.GetRolesAsync(user);
+
+            userDto.Roles = roles.ToList();
+
             return userDto;
         }
 
@@ -56,7 +62,26 @@ namespace Application
         {
             var user = _mapper.Map<User>(userDto);
 
-            await _userManager.CreateAsync(user);
+            var result = await _userManager.CreateAsync(user, userDto.Password);
+
+            if (result.Succeeded)
+                await _userManager.AddToRoleAsync(user, "user");
+        }
+
+        public async Task<UserDto> LoginUserAsync(string uid)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.FirebaseUid.Equals(uid));
+
+            if (user is null)
+                throw new UnauthorizedException($"There is no person with {uid}.");
+
+            var userDto = _mapper.Map<UserDto>(user);
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            userDto.Roles = roles.ToList();
+
+            return userDto;
         }
 
         public async Task DeleteUserAsync(Guid id)

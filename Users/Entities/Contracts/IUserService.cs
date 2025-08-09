@@ -13,5 +13,6 @@ namespace Entities.Contracts
         Task<UserDto> GetUserByIdAsync(Guid id);
         Task CreateUserAsync(UserForCreationDto userDto);
         Task DeleteUserAsync(Guid id);
+        Task<UserDto> LoginUserAsync(string uid);
     }
 }

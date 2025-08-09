@@ -39,6 +39,7 @@ namespace ExceptionHandler.ExceptionMiddleware
             context.Response.StatusCode = ex switch
             {
                 NotFoundException => StatusCodes.Status404NotFound,
+                UnauthorizedException => StatusCodes.Status401Unauthorized,
                 _ => StatusCodes.Status500InternalServerError
             };
 
