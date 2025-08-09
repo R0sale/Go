@@ -15,6 +15,33 @@ services:
       - sharednetwork
     restart: on-failure
 
+  usersservice:
+    build:
+      context: ./Users
+      dockerfile: Dockerfile
+    ports:
+      - "5001:8080"
+    environment:
+    - ASPNETCORE_URLS=http://+:8080
+    - ConnectionStrings__sqlConnection=Server=usersdb;Database=UsersDb;User Id=sa;Password=UserPassword123!;Encrypt=False;TrustServerCertificate=True;
+    depends_on:
+      - usersdb
+    networks:
+      - sharednetwork
+    restart: on-failure
+
+  usersdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "UserPassword123!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    volumes:
+    - uservolume:/var/opt/mssql
+    networks:
+      - sharednetwork
+
   facilitiesdb:
     image: mongo:7.0
     restart: always
@@ -30,4 +57,5 @@ networks:
 
 volumes:
   mongodb_data:
+  uservolume:
     
