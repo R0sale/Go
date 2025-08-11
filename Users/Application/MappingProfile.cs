@@ -15,6 +15,7 @@ namespace Application
         {
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<UserForCreationDto, User>();
+            CreateMap<UserForGoogleCreationDto, User>();
         }
     }
 }
