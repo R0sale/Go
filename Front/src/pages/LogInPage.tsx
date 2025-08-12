@@ -13,6 +13,10 @@ const LogInPage: React.FC = () => {
         navigate('/signup');
     }
 
+    const goToGoogle = () => {
+        navigate('/login/google');
+    }
+
     const login = async () => {
         let userCredentials: UserCredential;
         try {
@@ -57,6 +61,10 @@ const LogInPage: React.FC = () => {
                 <div className="flex justify-end m-2 mt-4">
                     <button className="w-30 border-2 border-gray-300" onClick={goToSignUp}>Sign Up</button>
                 </div>
+                <div className="justify-end m-2 mt-4 flex">
+                    <button className="w-48 flex border-2 border-gray-300" onClick={goToGoogle}>Log In With Gooogle</button>
+                </div>
+                
             </div>
         </div>);
 }
