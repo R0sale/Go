@@ -16,6 +16,7 @@ namespace Presentation.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -24,8 +25,9 @@ namespace Presentation.Controllers
             return Ok(usersDto);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetAllUsers(Guid id)
+        public async Task<IActionResult> GetUser(Guid id)
         {
             var userDto = await _userService.GetUserByIdAsync(id);
 
@@ -63,6 +65,7 @@ namespace Presentation.Controllers
             return Ok(userDto);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteUserAsync(Guid id)
         {

@@ -23,6 +23,8 @@ const LogInPage: React.FC = () => {
             userCredentials = await signInWithEmailAndPassword(auth, email, password);
             const token = await userCredentials.user.getIdToken(true);
 
+            console.log(token);
+
             const response = await fetch('https://localhost:7023/api/users/login', {
                 method: 'POST',
                 headers: {

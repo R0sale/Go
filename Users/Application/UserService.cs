@@ -120,6 +120,16 @@ namespace Application
             return userResDto;
         }
 
+        public async Task GiveUserAdminRoleAsync(Guid id)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id.Equals(id.ToString()));
+
+            if (user is null)
+                throw new NotFoundException($"User with Id: {id} doesn't exist");
+
+            await _userManager.AddToRoleAsync(user, "Admin");
+        }
+
         private async Task AddCustomClaims(User user)
         {
             var roles = await _userManager.GetRolesAsync(user);
