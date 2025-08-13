@@ -55,8 +55,9 @@ const Menu: React.FC<MenuProps> = ({menuState}) => {
                     <p className="border-2 border-black rounded-2xl m-2 w-93 bg-gray-100 p-4 font-bold font-serif">{userName}</p>
                 </div>
                 <button className="rounded-2xl no-underline w-34 h-13 text-white my-bg-blue p-4 m-2 text-center mt-6 hover:opacity-75" onClick={async () => {await signOut(auth); navigate('/')}}>Sign Out</button>
+                <button className="rounded-2xl no-underline w-38 h-13 text-white my-bg-blue p-4 m-2 text-center ml-18.5 mt-6 hover:opacity-75" onClick={() => {navigate('/userPage')}}>View User Page</button>
             </div>}
-            <div className="h-2 bg-gray-100 mt-5 m-0 p-0 border-box w-full">
+            <div className="h-2 bg-gray-100 mt-5 m-0 p-0 w-full">
 
             </div>
 
