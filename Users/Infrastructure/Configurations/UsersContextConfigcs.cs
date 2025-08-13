@@ -6,24 +6,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructured.Configurations
 {
     public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
     {
+        private readonly IConfiguration _config;
+
+        public RoleConfiguration(IConfiguration config)
+        {
+            _config = config;
+        }
+
         public void Configure(EntityTypeBuilder<IdentityRole> builder)
         {
             builder.HasData
             (
                 new IdentityRole
                 {
-                    Id = "409e52ba-c288-463b-a6f1-5b1c0f17e17a",
+                    Id = _config["RolesConfig:User"],
                     Name = "User",
                     NormalizedName = "USER"
                 },
                 new IdentityRole
                 {
-                    Id = "bb32d8a3-7c76-4df5-9d1c-aba247879311",
+                    Id = _config["RolesConfig:Admin"],
                     Name = "Admin",
                     NormalizedName = "ADMIN"
                 }

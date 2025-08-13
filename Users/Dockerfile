@@ -11,11 +11,15 @@ COPY Presentation/Presentation.csproj ./Presentation/
 COPY Application/Application.csproj ./Application/
 COPY Entities/Entities.csproj ./Entities/
 COPY Infrastructure/Infrastructure.csproj ./Infrastructure/
+COPY ExceptionHandler/ExceptionHandler.csproj ./ExceptionHandler/
+COPY authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json ./authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json
 RUN dotnet restore ./Presentation/Presentation.csproj
 COPY Presentation/ ./Presentation/
 COPY Infrastructure/ ./Infrastructure/
 COPY Entities/ ./Entities/
 COPY Application/ ./Application/
+COPY ExceptionHandler/ ./ExceptionHandler/
+COPY authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json ./authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json
 WORKDIR /src/Presentation
 RUN dotnet build "Presentation.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
