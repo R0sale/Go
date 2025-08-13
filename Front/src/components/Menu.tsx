@@ -1,7 +1,10 @@
 import React from "react";
 import KeysImage from '../assets/keys.png'
 import { MapPin, Bus, Camera, Star, Text, Megaphone } from 'lucide-react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
+import { useEffect, useState } from 'react';
 
 const menu = [
     {label: 'Rate Facility', icon: <Star className="w-7 h-7"/>},
@@ -10,10 +13,27 @@ const menu = [
     {label: 'Advert', icon: <Megaphone className="w-7 h-7" />},
 ];
 
-const Menu: React.FC = () => {
+interface MenuProps {
+    menuState: boolean;
+}
+
+const Menu: React.FC<MenuProps> = ({menuState}) => {
+    const navigate = useNavigate();
+    const [userName, setUserName] = useState('');
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const tokenResult = (await auth.currentUser?.getIdTokenResult()).claims;
+            console.log(tokenResult);
+            setUserName(tokenResult.userName);
+        }
+
+        fetchUserData();
+    }, [menuState]);
+
     return (
         <div className="mt-10">
-            <div className="p-4 pt-0">
+            {auth.currentUser == null ? <div className="p-4 pt-0">
                 <div className='font-bold text-lg'>
                     Log in your account
                 </div>
@@ -25,7 +45,17 @@ const Menu: React.FC = () => {
                 <img src={KeysImage} alt="Keys" className="inline w-52 h-48"/>
 
                 <Link to="/login" className="rounded-2xl no-underline text-white bg-blue-600 p-4 mt-2 w-24 text-center ml-0 hover:opacity-75">Log in</Link>
-            </div>
+            </div> : <div className="p-4 pt-0">
+                <p className="font-bold m-2 text-left">Your current account email: </p>
+                <div className="border-2 border-black rounded-2xl m-2 p-2 w-93 bg-gray-100">
+                    <p className="p-2 font-bold font-serif">{auth.currentUser.email}</p>
+                </div>
+                <div>
+                    <p className="font-bold m-2 text-left">User Name:</p>
+                    <p className="border-2 border-black rounded-2xl m-2 w-93 bg-gray-100 p-4 font-bold font-serif">{userName}</p>
+                </div>
+                <button className="rounded-2xl no-underline w-34 h-13 text-white my-bg-blue p-4 m-2 text-center mt-6 hover:opacity-75" onClick={async () => {await signOut(auth); navigate('/')}}>Sign Out</button>
+            </div>}
             <div className="h-2 bg-gray-100 mt-5 m-0 p-0 border-box w-full">
 
             </div>
