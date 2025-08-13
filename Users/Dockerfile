@@ -11,11 +11,13 @@ COPY Presentation/Presentation.csproj ./Presentation/
 COPY Application/Application.csproj ./Application/
 COPY Entities/Entities.csproj ./Entities/
 COPY Infrastructure/Infrastructure.csproj ./Infrastructure/
+COPY ExceptionHandler/ExceptionHandler.csproj ./ExceptionHandler/
 RUN dotnet restore ./Presentation/Presentation.csproj
 COPY Presentation/ ./Presentation/
 COPY Infrastructure/ ./Infrastructure/
 COPY Entities/ ./Entities/
 COPY Application/ ./Application/
+COPY ExceptionHandler/ ./ExceptionHandler/
 WORKDIR /src/Presentation
 RUN dotnet build "Presentation.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
