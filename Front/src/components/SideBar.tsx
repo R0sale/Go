@@ -6,7 +6,7 @@ import SearchBar from './SearchBar';
 import Categories from './Categories';
 import Menu from './Menu';
 import getPosition from '../GetPosition';
-import type { Facility } from '../Facility';
+import type { Facility } from '../models/Facility';
 import type { LatLngExpression } from 'leaflet';
 
 interface SideBarProps {

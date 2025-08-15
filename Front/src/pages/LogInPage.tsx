@@ -25,7 +25,7 @@ const LogInPage: React.FC = () => {
 
             console.log(token);
 
-            const response = await fetch('https://localhost:7023/api/users/login', {
+            const response = await fetch('http://localhost:5001/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

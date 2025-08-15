@@ -12,9 +12,10 @@ namespace Entities.Contracts
     {
         Task<IList<FacilityDto>> GetFacilitiesAsync();
         Task<FacilityDto> GetFacilityAsync(string id);
-        Task<Facility> CreateFacilityAsync(FacilityDto newFacility);
+        Task<Facility> CreateFacilityAsync(FacilityDto newFacility, string uid);
         Task UpdateFacilityAsync(string id, FacilityDto updatedFacility);
         Task RemoveFacilityAsync(string id);
+        Task<IEnumerable<FacilityDto>> GetUsersFacilitiesAsync(string uid);
         Task<IList<FacilityDto>> GetFacilitiesNearByAsync(double latitude, double longitude, double radiusKm);
     }
 }

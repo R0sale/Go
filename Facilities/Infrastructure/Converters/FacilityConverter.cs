@@ -17,6 +17,7 @@ namespace Infrastructure.Converters
             {
                 destination = new Facility();
             }
+
             destination.Name = source.Name;
             destination.Address = source.Address;
             destination.PhoneNumber = source.PhoneNumber;
@@ -24,7 +25,6 @@ namespace Infrastructure.Converters
             destination.Description = source.Description;
             destination.Coordinates = source.Coordinates;
             destination.WebsiteURL = source.WebsiteURL;
-
             destination.Schedule = source.Schedule;
             
 

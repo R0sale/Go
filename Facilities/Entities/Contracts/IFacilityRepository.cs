@@ -15,6 +15,7 @@ namespace Entities.Contracts
         Task<Facility> CreateFacilityAsync(Facility newFacility);
         Task UpdateFacilityAsync(string id, Facility updatedFacility);
         Task RemoveFacilityAsync(string id);
+        Task<IEnumerable<Facility>> GetUsersFacilitiesAsync(string uid);
         Task<IList<Facility>> GetFacilitiesNearByAsync(double longitude, double latitude, double radius);
     }
 }

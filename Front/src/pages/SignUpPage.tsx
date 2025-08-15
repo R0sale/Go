@@ -28,7 +28,7 @@ const SignUpPage: React.FC = () => {
             userCredentials = await createUserWithEmailAndPassword(auth, email, password);
             const token = await userCredentials.user.getIdToken();
 
-            const response = await fetch('https://localhost:7023/api/users', {
+            const response = await fetch('http://localhost:5001/api/users', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

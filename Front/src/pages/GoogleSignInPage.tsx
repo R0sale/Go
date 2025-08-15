@@ -33,7 +33,7 @@ const GoogleSignInPage: React.FC = () => {
             const token = await result.user.getIdToken();
             console.log(`Result: ${token}`)
 
-            const response = await fetch('https://localhost:7023/api/users/google', {
+            const response = await fetch('http://localhost:5001/api/users/google', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -45,6 +45,8 @@ const GoogleSignInPage: React.FC = () => {
                     userName: `${userName}`
                 })
             })
+
+            console.log(response);
 
             if (response.ok)
                 navigate('/');

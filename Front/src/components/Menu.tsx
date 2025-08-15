@@ -23,7 +23,7 @@ const Menu: React.FC<MenuProps> = ({menuState}) => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const tokenResult = (await auth.currentUser?.getIdTokenResult()).claims;
+            const tokenResult = (await auth.currentUser?.getIdTokenResult(true)).claims;
             console.log(tokenResult);
             setUserName(tokenResult.userName);
         }

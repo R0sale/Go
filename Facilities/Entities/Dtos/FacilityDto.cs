@@ -9,6 +9,7 @@ namespace Entities.Dtos
 {
     public class FacilityDto
     {
+        public string Id { get; set; }
         public string? Name { get; set; }
         public string? Address { get; set; }
         public Coordinates Coordinates { get; set; }
