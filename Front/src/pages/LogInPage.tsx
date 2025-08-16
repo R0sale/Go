@@ -3,6 +3,7 @@ import { deleteUser, signInWithEmailAndPassword, type UserCredential } from "fir
 import { auth } from "../firebase";
 import bgImage from '../assets/worldmap.jpg';
 import { useNavigate } from "react-router-dom";
+import { config } from "../config";
 
 const LogInPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ const LogInPage: React.FC = () => {
             userCredentials = await signInWithEmailAndPassword(auth, email, password);
             const token = await userCredentials.user.getIdToken(true);
 
-            const response = await fetch('https://localhost:7023/api/users/login', {
+            const response = await fetch(config.LOG_IN_URL, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
