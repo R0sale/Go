@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword, type UserCredential } from "firebase/auth";
 import { auth } from "../firebase";
 import bgImage from '../assets/worldmap.jpg';
 import { useNavigate } from "react-router-dom";
+import { config } from "../config";
 
 const LogInPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -25,7 +26,7 @@ const LogInPage: React.FC = () => {
 
             console.log(token);
 
-            const response = await fetch('http://localhost:5001/api/users/login', {
+            const response = await fetch(config.LOG_IN_URL, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

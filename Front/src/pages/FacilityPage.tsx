@@ -5,6 +5,7 @@ import type { MyFacility } from "../models/MyFacility";
 import facilityImage from "../assets/facility.png";
 import FacilityMap from "./components/FacilityMap";
 import type { DayOfWeek } from "../models/DayOfWeek";
+import { config } from "../config";
 
 
 const FacilityPage: React.FC = () => {
@@ -24,7 +25,7 @@ const FacilityPage: React.FC = () => {
 
                 const token = await user.getIdToken();
 
-                const result = await fetch(`http://localhost:5000/api/facility/${facilityId}`, {
+                const result = await fetch(`${config.GET_FACILITIES_URL}/${facilityId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`

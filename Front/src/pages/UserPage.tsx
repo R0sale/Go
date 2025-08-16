@@ -3,6 +3,7 @@ import guestImage from "../assets/guest.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { MyFacility } from "../models/MyFacility";
+import { config } from "../config";
 
 
 
@@ -48,7 +49,7 @@ const UserPage: React.FC = () => {
             const token = await auth.currentUser.getIdToken();
 
             try {
-                const result = await fetch('http://localhost:5000/api/facility/myfacilities', {
+                const result = await fetch(config.USERS_FACILITIES_URL, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

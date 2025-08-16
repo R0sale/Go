@@ -32,8 +32,6 @@ namespace Application
 
             var facilitiesDto = _mapper.Map<IList<FacilityDto>>(facilities);
 
-            Console.WriteLine(facilitiesDto[0].Id);
-
             return facilitiesDto;
         }
 

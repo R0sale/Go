@@ -1,5 +1,5 @@
 import type { LatLngExpression } from "leaflet";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
 interface FacilityMapProp {
     coords: LatLngExpression;
@@ -8,7 +8,7 @@ interface FacilityMapProp {
 const FacilityMap: React.FC<FacilityMapProp> = ({ coords }) => {
     const eventHandler = {
         click: () => {
-            console.log("HUI")
+            console.log("Clicked");
         }
     }
 
