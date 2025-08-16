@@ -15,9 +15,12 @@ const UserPage: React.FC = () => {
     email: '',
     roles: [],
 });
+    const [loading, setLoading] = useState(false);
     const [facilities, setFacilities] = useState<MyFacility[]>([]);
 
     useEffect(() => {
+        setLoading(true);
+
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
                 const token = await user.getIdTokenResult();
@@ -32,6 +35,8 @@ const UserPage: React.FC = () => {
                     roles: [],
                 });
             }
+
+            setLoading(false);
         });
 
         return () => unsubscribe();
@@ -68,6 +73,12 @@ const UserPage: React.FC = () => {
         }
     }
 
+    if (loading) {
+        return (<div className="flex h-screen w-screen">
+            <span className="loader m-auto"></span>
+        </div>);
+    }
+
     const data = [
         {label: "Username", data: `${tokenResult.userName}`},
         {label: "Full name", data: `${tokenResult.firstName} ${tokenResult.lastName}`},
@@ -76,7 +87,7 @@ const UserPage: React.FC = () => {
     ];
 
     return (
-        <div className="h-screen flex pinned-left bg-gray-100">
+        <div className="h-screen flex pinned-left bg-gray-100 overflow-y-hidden">
             <div className="mt-4 mb-4 ml-6 mr-6 w-screen bg-white ">
                 <div className="h-1/2 bg-white">
                     <div className="p-20 flex">
@@ -101,20 +112,22 @@ const UserPage: React.FC = () => {
                         </div>);
                         })}
                     </div>
-                    <div className="w-1/3 m-2">
+                    <div className="w-1/3 m-2 h-100">
                         <div className="bg-gray-100 rounded-2xl border-2 border-black h-full">
                             <div className="flex justify-between">
                                 <p className="m-2 mt-4 text-2xl w-1/3">Your facilities:</p>
                                 <button className="w-35 h-12 text-center items-center text-l m-2 border-2 border-gray-300" onClick={getFacilities}>Get Facilities</button>
                             </div>
                             <p className="h-1 bg-white m-0 p-0 w-full"></p>
-                            {facilities.map((facility, i) => {
-                                return (
-                                    <div key={i} className="p-2 w-full h-15 leading-10.5 font-medium cursor-pointer hover:bg-gray-200">
-                                        {facility.name}: {facility.email}
-                                    </div>
-                                );
-                            })}
+                            <div className="overflow-y-scroll h-80">
+                                {facilities.map((facility, i) => {
+                                    return (
+                                        <div key={i} className="p-2 w-full h-15 leading-10.5 font-medium cursor-pointer hover:bg-gray-200" onClick={() => {navigate(`/userPage/facilityPage/${facility.id}`)}}>
+                                            {facility.name}: {facility.email}
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
                 </div>

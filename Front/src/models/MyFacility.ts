@@ -9,5 +9,13 @@ export type MyFacility = {
     email: string,
     description: string,
     websiteURL: string,
-    schedule: object
+    schedule: {
+        Monday: string,
+        Tuesday: string,
+        Wednesday: string,
+        Thursday: string,
+        Friday: string,
+        Saturday: string,
+        Sunday: string
+    }
 }

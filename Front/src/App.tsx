@@ -4,6 +4,7 @@ import LogInPage from "./pages/LogInPage";
 import { Routes, Route } from "react-router-dom";
 import GoogleSignInPage from "./pages/GoogleSignInPage";
 import UserPage from "./pages/UserPage";
+import FacilityPage from "./pages/FacilityPage";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/login" element={<LogInPage />} />
         <Route path="/login/google" element={<GoogleSignInPage />} />
         <Route path="/userPage" element={<UserPage />} />
+        <Route path="/userPage/facilityPage/:facilityId" element={<FacilityPage />}/>
       </Routes>
   );
 }

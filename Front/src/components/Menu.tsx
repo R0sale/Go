@@ -20,16 +20,31 @@ interface MenuProps {
 const Menu: React.FC<MenuProps> = ({menuState}) => {
     const navigate = useNavigate();
     const [userName, setUserName] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            const tokenResult = (await auth.currentUser?.getIdTokenResult(true)).claims;
-            console.log(tokenResult);
-            setUserName(tokenResult.userName);
-        }
+        setLoading(true);
 
-        fetchUserData();
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user)
+            {
+                const tokenResult = (await user.getIdTokenResult(true)).claims;
+                setUserName(tokenResult.userName);
+            }
+
+            setLoading(false);
+        });
+
+        
+
+        return () => unsubscribe();
     }, [menuState]);
+
+    if (loading) {
+        return (<div className="flex h-full w-full">
+            <span className="loader m-auto"></span>
+        </div>);
+    }
 
     return (
         <div className="mt-10">
