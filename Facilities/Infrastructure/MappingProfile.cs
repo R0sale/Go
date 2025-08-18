@@ -7,6 +7,7 @@ using Infrastructure.Converters;
 using Entities.Dtos;
 using AutoMapper;
 using Entities.Models;
+using System.Runtime.InteropServices;
 
 namespace Infrastructure
 {
@@ -14,8 +15,9 @@ namespace Infrastructure
     {
         public MappingProfile()
         {
-            CreateMap<FacilityDto, Facility>().ConvertUsing<FacilityConverter>();
+            CreateMap<FacilityDto, Facility>();
             CreateMap<Facility, FacilityDto>();
+            CreateMap<CreateFacilityDto, Facility>().ConvertUsing<FacilityConverter>();
         }
     }
 }

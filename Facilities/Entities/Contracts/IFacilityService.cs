@@ -12,7 +12,7 @@ namespace Entities.Contracts
     {
         Task<IList<FacilityDto>> GetFacilitiesAsync();
         Task<FacilityDto> GetFacilityAsync(string id);
-        Task<Facility> CreateFacilityAsync(FacilityDto newFacility, string uid);
+        Task<Facility> CreateFacilityAsync(CreateFacilityDto newFacility, string uid);
         Task UpdateFacilityAsync(string id, FacilityDto updatedFacility);
         Task RemoveFacilityAsync(string id);
         Task<IEnumerable<FacilityDto>> GetUsersFacilitiesAsync(string uid);

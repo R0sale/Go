@@ -6,11 +6,6 @@ interface FacilityMapProp {
 }
 
 const FacilityMap: React.FC<FacilityMapProp> = ({ coords }) => {
-    const eventHandler = {
-        click: () => {
-            console.log("Clicked");
-        }
-    }
 
     return (
     <div>
@@ -19,7 +14,7 @@ const FacilityMap: React.FC<FacilityMapProp> = ({ coords }) => {
                 attribution='&copy; OpenStreetMap contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={coords} eventHandlers={eventHandler}/>
+            <Marker position={coords}/>
         </MapContainer>
     </div>);
 }

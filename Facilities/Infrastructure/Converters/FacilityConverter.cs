@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Converters
 {
-    public class FacilityConverter : ITypeConverter<FacilityDto, Facility>
+    public class FacilityConverter : ITypeConverter<CreateFacilityDto, Facility>
     {
-        public Facility Convert(FacilityDto source, Facility destination, ResolutionContext context)
+        public Facility Convert(CreateFacilityDto source, Facility destination, ResolutionContext context)
         {
             if (destination == null)
             {
@@ -19,7 +19,6 @@ namespace Infrastructure.Converters
             }
 
             destination.Name = source.Name;
-            destination.Address = source.Address;
             destination.PhoneNumber = source.PhoneNumber;
             destination.Email = source.Email;
             destination.Description = source.Description;

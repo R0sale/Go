@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { MyFacility } from "../models/MyFacility";
 import { config } from "../config";
+import type { TokenResult } from "../models/TokenResult";
 
 
 
 const UserPage: React.FC = () => {
     const navigate = useNavigate();
-    const [tokenResult, setTokenResult] = useState({
+    const [tokenResult, setTokenResult] = useState<TokenResult>({
     userName: '',
     firstName: '',
     lastName: '',
@@ -99,9 +100,11 @@ const UserPage: React.FC = () => {
                         </div>
                         <button className="w-48 h-15 text-center items-center text-xl ml-150 flex border-2 border-gray-300" onClick={() => {navigate('/')}}>To Main Page</button>
                     </div>
-                    <div className="ml-4 font-semibold w-full h-10 text-2xl">
-                        Account
+                    <div className="ml-4 font-semibold w-full h-10 text-2xl flex justify-between">
+                        <p>Account</p>
+                        {tokenResult.roles.includes('Admin') ? <button className="w-48 h-15 text-center items-center text-xl mr-113 flex border-2 border-gray-300" onClick={() => {navigate('/userPage/facilityPage')}}>Create New Facility</button> : <div>No</div>}
                     </div>
+                    
                 </div>
                 <div className="h-1 bg-gray-100 mt-5 m-0 p-0 w-full"></div>
                 <div className="flex h-109">

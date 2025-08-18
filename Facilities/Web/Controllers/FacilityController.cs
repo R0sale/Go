@@ -43,7 +43,7 @@ namespace Facilities.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> CreateFacility([FromBody] FacilityDto facilityDto)
+        public async Task<IActionResult> CreateFacility([FromBody] CreateFacilityDto facilityDto)
         {
             var uid = User.FindFirst("UserUid");
 

@@ -15,6 +15,6 @@ namespace Entities.Contracts
         Task DeleteUserAsync(Guid id);
         Task<UserDto> LoginUserAsync(string uid);
         Task<UserDto> LoginUserViaGoogleAsync(UserForGoogleCreationDto userDto, string uid, string email);
-        Task GiveUserAdminRoleAsync(Guid id);
+        Task GiveUserRoleAsync(Guid id, string role);
     }
 }

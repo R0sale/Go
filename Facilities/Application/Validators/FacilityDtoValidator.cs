@@ -9,14 +9,12 @@ using PhoneNumbers;
 
 namespace Application.Validators
 {
-    public class FacilityDtoValidator : AbstractValidator<FacilityDto>
+    public class FacilityDtoValidator : AbstractValidator<CreateFacilityDto>
     {
         public FacilityDtoValidator()
         {
             RuleFor(f => f.Name).NotEmpty().WithMessage("Facility name is required.")
                 .MaximumLength(100).WithMessage("Facility name must not exceed 100 characters.");
-
-            RuleFor(f => f.Address).NotEmpty().WithMessage("Facility address is required.");
 
             RuleFor(f => f.PhoneNumber).Must(ValidPhoneNumber).WithMessage("Phone number must be in a valid international format.");
 

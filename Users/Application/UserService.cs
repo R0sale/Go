@@ -88,7 +88,6 @@ namespace Application
 
             return userDto;
         }
-
         public async Task DeleteUserAsync(Guid id)
         {
             var user = await _userManager.Users.SingleAsync(u => u.Id.Equals(id.ToString()));
@@ -120,14 +119,14 @@ namespace Application
             return userResDto;
         }
 
-        public async Task GiveUserAdminRoleAsync(Guid id)
+        public async Task GiveUserRoleAsync(Guid id, string role)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id.Equals(id.ToString()));
 
             if (user is null)
                 throw new NotFoundException($"User with Id: {id} doesn't exist");
 
-            await _userManager.AddToRoleAsync(user, "Admin");
+            await _userManager.AddToRoleAsync(user, role);
         }
 
         private async Task AddCustomClaims(User user)

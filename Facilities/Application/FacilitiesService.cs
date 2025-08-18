@@ -56,7 +56,7 @@ namespace Application
             return facilityDto;
         }
 
-        public async Task<Facility> CreateFacilityAsync(FacilityDto newFacility, string uid)
+        public async Task<Facility> CreateFacilityAsync(CreateFacilityDto newFacility, string uid)
         {
             var facility = _mapper.Map<Facility>(newFacility);
 

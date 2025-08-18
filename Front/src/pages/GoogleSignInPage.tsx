@@ -28,13 +28,10 @@ const GoogleSignInPage: React.FC = () => {
                     lastName: `${lastName}`,
                     userName: `${userName}`});
 
-            console.log('Validated');
             const result = await signInWithPopup(auth, googleProvider);
-            console.log(`Result: ${result}`)
             const token = await result.user.getIdToken();
-            console.log(`Result: ${token}`)
 
-            const response = await fetch(config.LOG_IN_VIA_GOOGLE_URL, {
+            const response = await fetch(config.SIGN_UP_VIA_GOOGLE_URL, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -46,8 +43,6 @@ const GoogleSignInPage: React.FC = () => {
                     userName: `${userName}`
                 })
             })
-
-            console.log(response);
 
             if (response.ok)
                 navigate('/');
@@ -70,7 +65,7 @@ const GoogleSignInPage: React.FC = () => {
     };
 
     return (
-        <div style={{backgroundImage: `url(${bgImage})`, backgroundRepeat: 'space repeat'}} className="w-screen h-screen">
+        <div style={{backgroundImage: `url(${bgImage})`, backgroundRepeat: 'space repeat'}} className="w-screen h-screen overflow-hidden">
             <div className="h-screen w-1/3 bg-white m-auto">
                 <div>
                     <label className="block m-2 font-semibold">FirstName</label>
@@ -82,10 +77,10 @@ const GoogleSignInPage: React.FC = () => {
                     <label className="block m-2 font-semibold">UserName</label>
                     <input placeholder="Enter your userName" type="text" value={userName} className="w-full p-1 border-2 rounded-md border-gray-300 h-10 m-2" onChange={(e) => {setUserName(e.target.value)}}></input>
 
-                    <button className="m-2 w-30 border-2 border-gray-300" onClick={login}>Log In</button>
+                    <button className="m-2 w-30 border-2 border-gray-300" onClick={login}>Sign Up</button>
                 </div>
                 <div className="flex justify-end m-2 mt-4">
-                    <button className="w-30 border-2 border-gray-300" onClick={goToSignUp}>Sign Up</button>
+                    <button className="w-30 border-2 border-gray-300" onClick={goToSignUp}>Sign Up Manually</button>
                 </div>
             </div>
         </div>);

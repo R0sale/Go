@@ -60,7 +60,7 @@ const SignUpPage: React.FC = () => {
         }
     };
     return (
-        <div style={{backgroundImage: `url(${bgImage})`, backgroundRepeat: 'space repeat'}} className="w-screen h-screen">
+        <div style={{backgroundImage: `url(${bgImage})`, backgroundRepeat: 'space repeat'}} className="w-screen h-screen overflow-hidden">
             <div className="h-screen w-1/3 bg-white m-auto">
                 <div>
                     <label className="block m-2 font-semibold">Email</label>

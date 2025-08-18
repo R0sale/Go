@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Entities.Models;
 
 namespace Entities.Dtos
 {
-    public class FacilityDto
+    public class CreateFacilityDto
     {
-        public string Id { get; set; }
         public string? Name { get; set; }
         public Coordinates Coordinates { get; set; }
         public string? PhoneNumber { get; set; }
