@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -122,22 +123,33 @@ namespace Infrastructure.Migrations
 
                     b.ToTable("AspNetRoles", (string)null);
 
+                    var config = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.json")
+                        .Build();
+
+                    var ownerId = config.GetSection("RolesConfig")["Owner"];
+
+                    var userId = config.GetSection("RolesConfig")["User"];
+
+                    var adminId = config.GetSection("RolesConfig")["Admin"];
+
                     b.HasData(
                         new
                         {
-                            Id = "409e52ba-c288-463b-a6f1-5b1c0f17e17a",
+                            Id = userId,
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "bb32d8a3-7c76-4df5-9d1c-aba247879311",
+                            Id = adminId,
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3010d30d-84cf-481e-8e55-9a0d987427cf",
+                            Id = ownerId,
                             Name = "Owner",
                             NormalizedName = "OWNER"
                         });

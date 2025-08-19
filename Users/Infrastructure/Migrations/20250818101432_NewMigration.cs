@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -10,19 +11,33 @@ namespace Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var ownerId = config.GetSection("RolesConfig")["Owner"];
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3010d30d-84cf-481e-8e55-9a0d987427cf", null, "Owner", "OWNER" });
+                values: new object[] { ownerId, null, "Owner", "OWNER" });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var ownerId = config.GetSection("RolesConfig")["Owner"];
+
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "3010d30d-84cf-481e-8e55-9a0d987427cf");
+                keyValue: ownerId);
 
             migrationBuilder.DropColumn(
                 name: "FirebaseUid",
