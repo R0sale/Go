@@ -4,6 +4,7 @@ import { auth, googleProvider } from "../firebase";
 import bgImage from '../assets/worldmap.jpg';
 import { useNavigate } from "react-router-dom";
 import * as z from "zod";
+import { config } from "../config";
 
 const GoogleSignInPage: React.FC = () => {
     const [firstName, setFirstName] = useState('');
@@ -33,7 +34,7 @@ const GoogleSignInPage: React.FC = () => {
             const token = await result.user.getIdToken();
             console.log(`Result: ${token}`)
 
-            const response = await fetch('https://localhost:7023/api/users/google', {
+            const response = await fetch(config.LOG_IN_VIA_GOOGLE_URL, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

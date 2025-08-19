@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword, deleteUser, type UserCredential } from 
 import { auth } from "../firebase";
 import bgImage from '../assets/worldmap.jpg';
 import { useNavigate } from "react-router-dom";
+import { config } from "../config";
 
 const SignUpPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -28,7 +29,7 @@ const SignUpPage: React.FC = () => {
             userCredentials = await createUserWithEmailAndPassword(auth, email, password);
             const token = await userCredentials.user.getIdToken();
 
-            const response = await fetch('https://localhost:7023/api/users', {
+            const response = await fetch(config.SIGN_UP_URL, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
