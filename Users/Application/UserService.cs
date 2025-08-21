@@ -69,6 +69,16 @@ namespace Application
 
             if (result.Succeeded)
                 await _userManager.AddToRoleAsync(user, "user");
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine(error.Description);
+                }
+
+                throw new BadRequestException($"Exception: {result.Errors} Succeeded: {result.Succeeded}");
+            }
+                
         }
 
         public async Task<UserDto> LoginUserAsync(string uid)

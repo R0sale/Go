@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using Entities.Dtos;
 using PhoneNumbers;
+using System.Text.RegularExpressions;
 
 namespace Application.Validators
 {
@@ -13,6 +14,10 @@ namespace Application.Validators
     {
         public FacilityDtoValidator()
         {
+            var pattern = @"/^\d{2}:\d{2}-\d{2}:\d{2}$/";
+
+            var rgForTime = new Regex(pattern);
+
             RuleFor(f => f.Name).NotEmpty().WithMessage("Facility name is required.")
                 .MaximumLength(100).WithMessage("Facility name must not exceed 100 characters.");
 
@@ -32,10 +37,11 @@ namespace Application.Validators
                 {
                     schedule.RuleFor(e => e.Key)
                         .IsInEnum().WithMessage("Schedule day must be a valid day of the week.");
-
+                    schedule.RuleFor(e => e.Value)
+                        .Must(e => rgForTime.IsMatch(e.ToString()));
                 });
 
-            RuleFor(f => f.WebsiteURL).NotEmpty().WithMessage("WebsiteUrl can't be empty.");
+            RuleFor(f => f.WebsiteURL).NotEmpty().WithMessage("WebsiteUrl can't be empty.").Matches("/^(http:\\/\\/|https:\\/\\/)[A-Za-z0-9?=_\\-/.]*$/");
 
 
         }
