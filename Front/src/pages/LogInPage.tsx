@@ -4,6 +4,7 @@ import { auth, googleProvider } from "../firebase";
 import bgImage from '../assets/worldmap.jpg';
 import { useNavigate } from "react-router-dom";
 import { config } from "../config";
+import * as z from "zod";
 
 const LogInPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -36,14 +37,28 @@ const LogInPage: React.FC = () => {
                 } else {
                     alert('Something went wrong');
                 }
-            } catch (error: any) {
+            } catch (error) {
                 alert(error);
             }
         }
 
+    const validate = (user: object) => {
+        const User = z.object({
+            email: z.email('Email must be correct.'),
+            password: z.string().min(8, 'Password must be at least 8 characters').max(16, 'Password must be at most 8 characters').regex(/^(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$/, 'Password must include at least uppercase 1 letter and 1 digit')
+        });
+
+        User.parse(user);
+    }
+
     const login = async () => {
         let userCredentials: UserCredential;
         try {
+            validate({
+                email: `${email}`,
+                password: `${password}`
+            });
+
             userCredentials = await signInWithEmailAndPassword(auth, email, password);
             const token = await userCredentials.user.getIdToken(true);
 

@@ -1,12 +1,13 @@
 import React, { useEffect, useState} from "react";
 import bgImage from '../assets/worldmap.jpg';
-import { MapContainer, Marker, Popup, TileLayer, Tooltip} from "react-leaflet";
+import { MapContainer, Marker, TileLayer, Tooltip} from "react-leaflet";
 import getPosition from "../GetPosition";
 import type { LatLng, LatLngExpression } from "leaflet";
 import { auth } from "../firebase";
 import { config } from "../config";
 import MapClickHandler from "./components/MapClickHandler";
 import { useNavigate } from "react-router-dom";
+import * as z from "zod";
 
 const CreateFacilityPage: React.FC = () => {
     const initialSchedule = [
@@ -99,8 +100,61 @@ const CreateFacilityPage: React.FC = () => {
 
     type ScheduleObj = Record<string, string>;
 
+    const validate = (facility: object) => {
+        const Facility = z.object({
+            name: z.string().min(4).max(20),
+            email: z.email(),
+            phoneNumber: z.string().regex(/^[+][0-9]{11,15}$/, 'Phone number must be valid'),
+            websiteURL: z.string().min(10).regex(/^(http:\/\/|https:\/\/)[A-Za-z0-9?=_\-/.]*$/),
+            description: z.string().min(20),
+            schedule: z.object({
+                Monday: z.string().regex(/^\d{2}:\d{2}-\d{2}:\d{2}$/),
+                Tuesday: z.string().regex(/^\d{2}:\d{2}-\d{2}:\d{2}$/),
+                Wednesday: z.string().regex(/^\d{2}:\d{2}-\d{2}:\d{2}$/),
+                Thursday: z.string().regex(/^\d{2}:\d{2}-\d{2}:\d{2}$/),
+                Friday: z.string().regex(/^\d{2}:\d{2}-\d{2}:\d{2}$/),
+                Saturday: z.string().regex(/^\d{2}:\d{2}-\d{2}:\d{2}$/),
+                Sunday: z.string().regex(/^\d{2}:\d{2}-\d{2}:\d{2}$/)
+            }),
+            coordinates: z.object({
+                latitude: z.number().gte(-90).lte(90),
+                longitude: z.number().gte(-180).lte(180)
+            })
+        });
+
+        Facility.parse(facility);
+    }
+
     const createFacility = async () => {
         try {
+            console.log(schedule.reduce((accumulator, day) => {
+                            const formattedStr = `${day.time.start.h}:${day.time.start.m}-${day.time.end.h}:${day.time.end.m}`;
+
+                            accumulator[day.day] = formattedStr;
+
+                            return accumulator;
+                        }, {} as ScheduleObj));
+
+            validate({
+                    name: `${name}`,
+                    email: `${email}`,
+                    phoneNumber: `${phone}`,
+                    websiteURL: `${website}`,
+                    description: `${description}`,
+                    schedule: 
+                        schedule.reduce((accumulator, day) => {
+                            const formattedStr = `${day.time.start.h}:${day.time.start.m}-${day.time.end.h}:${day.time.end.m}`;
+
+                            accumulator[day.day] = formattedStr;
+
+                            return accumulator;
+                        }, {} as ScheduleObj),
+                    coordinates: {
+                        latitude: coords?.lat ?? 0,
+                        longitude: coords?.lng ?? 0
+                    }
+                });
+
             const token = await auth.currentUser?.getIdToken(true);
             const result = await fetch(config.CREATE_FACILITY_URL, {
                 method: 'POST',
@@ -155,11 +209,11 @@ const CreateFacilityPage: React.FC = () => {
             } else {
                 alert(result.statusText);
             }
-        } catch (error: any) {
+        } catch (error) {
             if (error instanceof Error) {
-                alert('Grustics');
+                alert(`Grustics ${error.message}`);
             } else {
-                alert('Everything succeeded');
+                alert('Some troubles.');
             }
                 
         }

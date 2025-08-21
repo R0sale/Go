@@ -4,6 +4,7 @@ import { auth } from "../firebase";
 import bgImage from '../assets/worldmap.jpg';
 import { useNavigate } from "react-router-dom";
 import { config } from "../config";
+import * as z from "zod";
 
 const SignUpPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -22,10 +23,36 @@ const SignUpPage: React.FC = () => {
         navigate('/login/google');
     }
 
+    const validate = (user: object) => {
+        const User = z.object({
+            email: z.email(),
+            firstname: z.string().min(4, 'Firstname must be at least 4 characters').max(20, 'Firstname must be at most 20 characters'),
+            lastname: z.string().min(4, 'Lastname must be at least 4 characters').max(20, 'Lastname must be at most 20 characters'),
+            username: z.string().min(4, 'Username must be at least 4 characters').max(20, 'Username must be at most 20 characters'),
+            password: z.string().min(8, 'Password must be at least 8 characters').max(16, 'Password must be at most 16 characters').regex(/^(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$/, 'Password must include at least uppercase 1 letter and 1 digit'),
+            repeatedPassword: z.string().min(8, 'Password must be at least 8 characters').max(16, 'Password must be at most 16 characters').regex(/^(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$/, 'Repeated password must include at least 1 uppercase letter and 1 digit')
+        });
+
+        User.parse(user);
+    }
+
     const signUp = async () => {
         let userCredentials :UserCredential;
-
         try {
+            validate({
+                    email: `${email}`,
+                    firstname: `${firstName}`,
+                    lastname: `${lastName}`,
+                    username: `${userName}`,
+                    password: `${password}`,
+                    repeatedPassword: `${repeatedPassword}`
+                });
+
+            if (password != repeatedPassword) {
+                alert("Passwords don't match");
+                return;
+            }
+
             userCredentials = await createUserWithEmailAndPassword(auth, email, password);
             const token = await userCredentials.user.getIdToken();
 

@@ -14,9 +14,9 @@ const GoogleSignInPage: React.FC = () => {
 
     const validate = (user: object) => {
         const User = z.object({
-            userName: z.string().min(4).max(20),
-            firstName: z.string().min(4).max(20),
-            lastName: z.string().min(4).max(20)
+            userName: z.string().min(4, 'Username must be at least 4 characters').max(20, 'Username must be at most 20 characters'),
+            firstName: z.string().min(4, 'Firstname must be at least 4 characters').max(20, 'Firstname must be at least 20 characters'),
+            lastName: z.string().min(4, 'Lastname must be at least 4 characters').max(20, 'Lastname must be at least 20 characters')
         })
 
         User.parse(user);

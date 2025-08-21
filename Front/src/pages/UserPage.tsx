@@ -62,7 +62,7 @@ const UserPage: React.FC = () => {
 
                 setFacilities(response);
 
-            } catch (er: any) {
+            } catch (er) {
                 if (er instanceof Error)
                 {
                     alert(`Error: ${er.message}`);
