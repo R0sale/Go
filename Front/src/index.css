@@ -49,7 +49,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #f9f9f9;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -57,12 +57,13 @@ button:hover {
   border-color: #000000;
 }
 
+.my-bg-blue {
+  background-color: #155dfc;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }

@@ -1,5 +1,6 @@
 ﻿using Entities.Contracts;
 using Entities.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -15,6 +16,7 @@ namespace Presentation.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -23,8 +25,9 @@ namespace Presentation.Controllers
             return Ok(usersDto);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetAllUsers(Guid id)
+        public async Task<IActionResult> GetUser(Guid id)
         {
             var userDto = await _userService.GetUserByIdAsync(id);
 
@@ -39,6 +42,30 @@ namespace Presentation.Controllers
             return Created();
         }
 
+        [Authorize]
+        [HttpPost("google")]
+        public async Task<IActionResult> CreateUserFromGoogleAsync([FromBody] UserForGoogleCreationDto userDto)
+        {
+            var fireBaseUid = User.FindFirst("UserUid");
+            var email = User.FindFirst("Email");
+
+            await _userService.LoginUserViaGoogleAsync(userDto, fireBaseUid.Value, email.Value);
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUserAsync()
+        {
+            var firebaseUid = User.FindFirst("UserUid");
+
+            var userDto = await _userService.LoginUserAsync(firebaseUid.Value);
+
+            return Ok(userDto);
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteUserAsync(Guid id)
         {

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, type UserCredential } from "firebase/auth";
 import { auth } from "../firebase";
 import bgImage from '../assets/worldmap.jpg';
 import { useNavigate } from "react-router-dom";
+import { config } from "../config";
 
 const LogInPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -13,12 +14,19 @@ const LogInPage: React.FC = () => {
         navigate('/signup');
     }
 
-    const login = async () => {
-        try {
-            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-            const token = await userCredentials.user.getIdToken();
+    const goToGoogle = () => {
+        navigate('/login/google');
+    }
 
-            const response = await fetch('', {
+    const login = async () => {
+        let userCredentials: UserCredential;
+        try {
+            userCredentials = await signInWithEmailAndPassword(auth, email, password);
+            const token = await userCredentials.user.getIdToken(true);
+
+            console.log(token);
+
+            const response = await fetch(config.LOG_IN_URL, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -28,6 +36,7 @@ const LogInPage: React.FC = () => {
 
             if (response.ok) {
                 alert('Everything succeeded');
+                navigate('/');
             } else {
                 alert('Have some mistakes');
             }
@@ -55,6 +64,10 @@ const LogInPage: React.FC = () => {
                 <div className="flex justify-end m-2 mt-4">
                     <button className="w-30 border-2 border-gray-300" onClick={goToSignUp}>Sign Up</button>
                 </div>
+                <div className="justify-end m-2 mt-4 flex">
+                    <button className="w-48 flex border-2 border-gray-300" onClick={goToGoogle}>Log In With Gooogle</button>
+                </div>
+                
             </div>
         </div>);
 }
