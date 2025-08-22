@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Entities.Models;
 using AutoMapper;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Facilities.Controllers
 {
@@ -19,6 +20,7 @@ namespace Facilities.Controllers
             _service = service;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetFacilities()
         {

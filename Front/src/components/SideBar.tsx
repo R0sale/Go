@@ -53,7 +53,7 @@ const Sidebar: React.FC<SideBarProps> = ({onSearch, isDimmed, setFacilities, map
 
                 <Categories isVisible={isVisible} setFacilities={setFacilities} map={map}/>
             </div>
-            ) : <Menu />}
+            ) : <Menu menuState={isDimmed}/>}
         </div>
     );
 };
