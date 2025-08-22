@@ -47,6 +47,8 @@ const GoogleSignInPage: React.FC = () => {
                 })
             })
 
+            console.log(response);
+
             if (response.ok)
                 navigate('/');
             else {

@@ -2,7 +2,7 @@ import '../index.css'
 import { useState } from 'react';
 import Sidebar from '../components/SideBar';
 import MapView from '../components/MapView';
-import type { Facility } from '../Facility';
+import type { Facility } from '../models/Facility';
 import type { LatLngExpression } from 'leaflet';
 
 function MainPage() {

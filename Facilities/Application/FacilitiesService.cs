@@ -35,6 +35,15 @@ namespace Application
             return facilitiesDto;
         }
 
+        public async Task<IEnumerable<FacilityDto>> GetUsersFacilitiesAsync(string uid)
+        {
+            var facilities = await _facilityRepository.GetUsersFacilitiesAsync(uid);
+
+            var facilitiesDto = _mapper.Map<IEnumerable<FacilityDto>>(facilities);
+
+            return facilitiesDto;
+        }
+
         public async Task<FacilityDto> GetFacilityAsync(string id)
         {
             var facility = await _facilityRepository.GetFacilityAsync(id);
@@ -47,9 +56,11 @@ namespace Application
             return facilityDto;
         }
 
-        public async Task<Facility> CreateFacilityAsync(FacilityDto newFacility)
+        public async Task<Facility> CreateFacilityAsync(FacilityDto newFacility, string uid)
         {
             var facility = _mapper.Map<Facility>(newFacility);
+
+            facility.UserUid = uid;
 
             var fasc = await _facilityRepository.CreateFacilityAsync(facility);
 

@@ -33,10 +33,22 @@ namespace Facilities.Controllers
             return Ok(await _service.GetFacilityAsync(id));
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet("myfacilities")]
+        public async Task<IActionResult> GetMyFacilities()
+        {
+            var uid = User.FindFirst("UserUid");
+
+            return Ok(await _service.GetUsersFacilitiesAsync(uid.Value));
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateFacility([FromBody] FacilityDto facilityDto)
         {
-            var facility = await _service.CreateFacilityAsync(facilityDto);
+            var uid = User.FindFirst("UserUid");
+
+            var facility = await _service.CreateFacilityAsync(facilityDto, uid.Value);
 
             return CreatedAtRoute("FacilityById", new { id = facility.Id }, facility);
         }

@@ -57,6 +57,8 @@ namespace Facilities.Extensions
                                     throw new NotValidTokenException("Your firebase id token doesn't have roles.");
 
                                 var identity = (ClaimsIdentity)context.Principal.Identity;
+                                identity.AddClaim(new Claim("UserUid", decoded.Uid));
+
                                 foreach (var role in rolesList)
                                     identity.AddClaim(new Claim(ClaimTypes.Role, role));
                         }

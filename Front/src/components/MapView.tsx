@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import { Menu, ArrowBigRightDash } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 import '../index.css';
-import type { Facility } from '../Facility';
+import type { Facility } from '../models/Facility';
 import L, { type LatLngExpression } from 'leaflet';
 
 interface MapViewProps {
