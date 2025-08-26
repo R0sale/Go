@@ -30,52 +30,25 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCarAsync([FromBody] CreateCarDto carDto)
         {
-            try
-            {
-                var car = await _service.CreateCarAsync(carDto);
+            var car = await _service.CreateCarAsync(carDto);
 
-                return CreatedAtRoute("CarById", new { id = car.Id }, car);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-
-                return Ok();
-            }
+            return CreatedAtRoute("CarById", new { id = car.Id }, car);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCarAsync(string id)
         {
-            try
-            {
-                await _service.DeleteCarAsync(id);
+            await _service.DeleteCarAsync(id);
 
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-
-                return Ok();
-            }
+            return NoContent();
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCar([FromBody] CarDto carDto, string id)
         {
-            try
-            {
-                await _service.UpdateCarAsync(id, carDto);
+            await _service.UpdateCarAsync(id, carDto);
 
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-
-                return Ok();
-            }
+            return NoContent();
         }
     }
 }

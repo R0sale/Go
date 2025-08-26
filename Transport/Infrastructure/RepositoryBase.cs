@@ -27,24 +27,7 @@ namespace Infrastructure
             _transport = mongoDatabase.GetCollection<T>(transportDatabaseSettings.Value.TransportCollectionName);
         }
 
-        public async Task<IEnumerable<T>> FindAllAsync()
-        {
-            Console.WriteLine(typeOfRepository.Name);
-
-            foreach (var t in await _transport.Find(t => t.Type.ToString().Equals(typeOfRepository.Name)).ToListAsync())
-            {
-                Console.WriteLine(t);
-            }
-
-            Console.WriteLine("Car".Equals(TransportType.Car.ToString()));
-
-            foreach (var t in _transport.Find(t => t.Type.ToString().Equals(typeOfRepository.Name)).ToList())
-            {
-                Console.WriteLine(t);
-            }
-
-            return await _transport.Find(t => t.Type.ToString().Equals(typeOfRepository.Name)).ToListAsync();
-        }
+        public async Task<IEnumerable<T>> FindAllAsync() => await _transport.Find(t => t.Type.ToString().Equals(typeOfRepository.Name)).ToListAsync();
 
         public async Task<IEnumerable<T>> FindByConditionAsync(Func<T, bool> expression) => (await FindAllAsync()).Where(expression);
 
