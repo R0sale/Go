@@ -14,7 +14,7 @@ namespace Infrastructure
         public MappingProfile()
         {
             CreateMap<Car, CarDto>().ReverseMap();
-            CreateMap<Motocycle, MotocycleDto>();
+            CreateMap<Motorcycle, MotorcycleDto>();
             CreateMap<Bicycle, BicycleDto>();
             CreateMap<Scooter, ScooterDto>();
             CreateMap<CreateCarDto, Car>();

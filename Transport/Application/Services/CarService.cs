@@ -18,7 +18,7 @@ namespace Application.Services
 
         public async Task<IEnumerable<CarDto>> GetAllCarsAsync()
         {
-            var cars = await _repository.GetAllCarsAsync(trackChanges: false);
+            var cars = await _repository.GetAllCarsAsync();
 
             var carsDto = _mapper.Map<IEnumerable<CarDto>>(cars);
 
@@ -27,7 +27,7 @@ namespace Application.Services
 
         public async Task<CarDto> GetCarByIdAsync(string id)
         {
-            var car = await _repository.GetCarByIdAsync(id, trackChanges: false);
+            var car = await _repository.GetCarByIdAsync(id);
 
             var carDto = _mapper.Map<CarDto>(car);
 
@@ -38,29 +38,25 @@ namespace Application.Services
         {
             var car = _mapper.Map<Car>(createCarDto);
 
-            _repository.CreateCar(car);
-
-            await _repository.SaveAsync();
+            await _repository.CreateCarAsync(car);
 
             return car;
         }
 
         public async Task DeleteCarAsync(string id)
         {
-            var car = await _repository.GetCarByIdAsync(id, trackChanges: false);
+            var car = await _repository.GetCarByIdAsync(id);
 
-            _repository.DeleteCar(car);
-
-            await _repository.SaveAsync();
+            await _repository.DeleteCarAsync(car);
         }
 
         public async Task UpdateCarAsync(string id, CarDto updateCarDto)
         {
-            var car = await _repository.GetCarByIdAsync(id, trackChanges: true);
+            var car = _mapper.Map<Car>(updateCarDto);
 
-            _mapper.Map(updateCarDto, car);
+            car.Id = id;
 
-            await _repository.SaveAsync();
+            await _repository.UpdateCarAsync(car);
         }
     }
 }

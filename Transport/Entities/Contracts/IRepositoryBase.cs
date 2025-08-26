@@ -10,10 +10,10 @@ namespace Entities.Contracts
 {
     public interface IRepositoryBase<T>
     {
-        IQueryable<T> FindAll(bool trackChanges);
-        IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges);
-        void Create(T entity);
-        void Delete(T entity);
-        void Update(T entity);
+        Task<IEnumerable<T>> FindAllAsync();
+        Task<IEnumerable<T>> FindByConditionAsync(Func<T, bool> expression);
+        Task CreateAsync(T entity);
+        Task DeleteAsync(T entity);
+        Task UpdateAsync(T entity);
     }
 }

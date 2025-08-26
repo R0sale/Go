@@ -1,4 +1,5 @@
 ﻿using Infrastructure;
+using Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Presentation.Extensions
@@ -7,10 +8,7 @@ namespace Presentation.Extensions
     {
         public static void ConfigureDB(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<TransportContext>(opts =>
-            {
-                opts.UseSqlServer(config.GetConnectionString("sqlConnection"));
-            });
+            services.Configure<TransportDatabaseSettings>(config.GetSection("TransportDatabase"));
         }
     }
 }

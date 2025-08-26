@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Dto
 {
-    public class MotocycleDto
+    public class MotorcycleDto
     {
         public TransportType Type { get; set; }
         public string? MoodelName { get; set; }

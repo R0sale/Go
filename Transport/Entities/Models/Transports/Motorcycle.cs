@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entities.Models.Transports
 {
-    public class Motocycle : Transport
+    public class Motorcycle : Transport
     {
-        public override TransportType Type { get; init; } = TransportType.Motocycle;
+        public override TransportType Type { get; init; } = TransportType.Motorcycle;
         public string? Color { get; set; }
         public int MaxSpeed { get; set; }
         public FuelType FuelType { get; init; }

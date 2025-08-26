@@ -19,8 +19,8 @@ namespace Presentation.Controllers
             return Ok(cars);
         }
 
-        [HttpGet("{id:guid}", Name = "CarById")]
-        public async Task<IActionResult> GetAllCarsAsync(Guid id)
+        [HttpGet("{id}", Name = "CarById")]
+        public async Task<IActionResult> GetAllCarsAsync(string id)
         {
             var cars = await _service.GetAllCarsAsync();
 
@@ -30,25 +30,52 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCarAsync([FromBody] CreateCarDto carDto)
         {
-            var car = await _service.CreateCarAsync(carDto);
+            try
+            {
+                var car = await _service.CreateCarAsync(carDto);
 
-            return CreatedAtRoute("CarById", new { id = car.Id}, car);
+                return CreatedAtRoute("CarById", new { id = car.Id }, car);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+
+                return Ok();
+            }
         }
 
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteCarAsync(Guid id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCarAsync(string id)
         {
-            await _service.DeleteCarAsync(id.ToString());
+            try
+            {
+                await _service.DeleteCarAsync(id);
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+
+                return Ok();
+            }
         }
 
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateCar([FromBody] CarDto carDto, Guid id)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCar([FromBody] CarDto carDto, string id)
         {
-            await _service.UpdateCarAsync(id.ToString(), carDto);
+            try
+            {
+                await _service.UpdateCarAsync(id, carDto);
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+
+                return Ok();
+            }
         }
     }
 }

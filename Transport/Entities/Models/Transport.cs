@@ -8,7 +8,7 @@ namespace Entities.Models
 {
     abstract public class Transport
     {
-        public Guid Id { get; set; }
+        public string? Id { get; set; }
         public abstract TransportType Type { get; init; }
         public string? ModelName { get; set; }
         public decimal Cost { get; set; }

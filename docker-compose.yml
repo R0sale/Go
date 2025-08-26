@@ -42,7 +42,8 @@ services:
       - "5002:8082"
     environment:
     - ASPNETCORE_URLS=http://+:8082
-    - ConnectionStrings__sqlConnection=Server=transportdb;Database=TransportDb;User Id=sa;Password=TransportPassword123!;Encrypt=False;TrustServerCertificate=True;
+    - Mongo__ConnectionString=mongodb://transportdb:27017
+    - Mongo__Database=TransportDB
     depends_on:
       - transportdb
     networks:
@@ -64,14 +65,12 @@ services:
       - sharednetwork
 
   transportdb:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      SA_PASSWORD: "TransportPassword123!"
-      ACCEPT_EULA: "Y"
+    image: mongo:7.0
+    restart: always
     ports:
-      - "1435:1433"
+      - "27019:27017"
     volumes:
-      - transportvolume:/var/opt/mssql
+      - mongodb_transport_data:/data/db
     networks:
       - sharednetwork
 
@@ -93,5 +92,5 @@ networks:
 volumes:
   mongodb_data:
   uservolume:
-  transportvolume:
+  mongodb_transport_data:
     

@@ -6,8 +6,27 @@ using Entities.Contracts.Services;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson;
 using Presentation.Extensions;
 using System.Text.Json.Serialization;
+using MongoDB.Bson.Serialization.IdGenerators;
+using Entities.Models;
+
+BsonClassMap.RegisterClassMap<Transport>(cm =>
+{
+    cm.AutoMap();
+    cm.MapIdMember(c => c.Id)
+        .SetSerializer(new StringSerializer(BsonType.ObjectId))
+        .SetIdGenerator(StringObjectIdGenerator.Instance);
+
+    cm.MapMember(c => c.Type)
+    .SetSerializer(new EnumSerializer<TransportType>(BsonType.String));
+
+    cm.MapMember(c => c.Type)
+    .SetSerializer(new EnumSerializer<FuelType>(BsonType.String));
+});
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,12 +49,6 @@ builder.Services.AddControllers()
 var app = builder.Build();
 
 app.UseHttpsRedirection();
-
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<TransportContext>();
-    await context.Database.MigrateAsync();
-}
 
 app.UseAuthorization();
 
