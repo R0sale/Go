@@ -34,6 +34,23 @@ services:
       - ./Users/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:/app/src/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:ro
     restart: on-failure
 
+  transportservice:
+    build:
+      context: ./Transport
+      dockerfile: Dockerfile
+    ports:
+      - "5002:8082"
+    environment:
+    - ASPNETCORE_URLS=http://+:8082
+    - ConnectionStrings__sqlConnection=Server=transportdb;Database=TransportDb;User Id=sa;Password=TransportPassword123!;Encrypt=False;TrustServerCertificate=True;
+    depends_on:
+      - transportdb
+    networks:
+      - sharednetwork
+    volumes:
+      - ./Users/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:/app/src/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:ro
+    restart: on-failure
+
   usersdb:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -43,6 +60,18 @@ services:
       - "1434:1433"
     volumes:
     - uservolume:/var/opt/mssql
+    networks:
+      - sharednetwork
+
+  transportdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "TransportPassword123!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1435:1433"
+    volumes:
+      - transportvolume:/var/opt/mssql
     networks:
       - sharednetwork
 
@@ -56,10 +85,13 @@ services:
     volumes:
       - mongodb_data:/data/db
 
+  
+
 networks:
   sharednetwork:
 
 volumes:
   mongodb_data:
   uservolume:
+  transportvolume:
     
