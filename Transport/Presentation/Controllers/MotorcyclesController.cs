@@ -5,7 +5,7 @@ namespace Presentation.Controllers
 {
     [ApiController]
     [Route("api/transport/motocycles")]
-    public class MotocyclesController : ControllerBase
+    public class MotorcyclesController : ControllerBase
     {
     }
 }

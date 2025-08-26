@@ -11,6 +11,6 @@ namespace Entities.Models
         Car,
         Bicycle,
         Scooter,
-        Motocycle
+        Motorcycle
     }
 }

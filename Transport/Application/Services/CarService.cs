@@ -50,6 +50,8 @@ namespace Application.Services
             var car = await _repository.GetCarByIdAsync(id, trackChanges: false);
 
             _repository.DeleteCar(car);
+
+            await _repository.SaveAsync();
         }
 
         public async Task UpdateCarAsync(string id, CarDto updateCarDto)
