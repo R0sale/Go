@@ -14,10 +14,11 @@ namespace Infrastructure
         public MappingProfile()
         {
             CreateMap<Car, CarDto>().ReverseMap();
-            CreateMap<Motorcycle, MotorcycleDto>();
+            CreateMap<Motorcycle, MotorcycleDto>().ReverseMap();
             CreateMap<Bicycle, BicycleDto>();
             CreateMap<Scooter, ScooterDto>();
             CreateMap<CreateCarDto, Car>();
+            CreateMap<CreateMotorcycleDto, Motorcycle>();
         }
     }
 }
