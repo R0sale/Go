@@ -58,6 +58,18 @@ builder.Services.AddScoped<IScooterService, ScooterService>();
 builder.Services.AddScoped<IBicycleRepository, BicycleRepository>();
 builder.Services.AddScoped<IBicycleService, BicycleService>();
 
+builder.Services.AddScoped<ITransportManager, TransportManager>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowViteDev", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<MappingProfile>();
@@ -70,6 +82,8 @@ builder.Services.AddControllers()
     });
 
 var app = builder.Build();
+
+app.UseCors("AllowViteDev");
 
 app.UseHttpsRedirection();
 
