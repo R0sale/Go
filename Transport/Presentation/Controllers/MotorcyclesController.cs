@@ -15,86 +15,42 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllMotorcyclesAsync()
         {
-            try
-            {
-                var motos = await _service.GetAllMotorcyclesAsync();
+            var motos = await _service.GetAllMotorcyclesAsync();
 
-                return Ok(motos);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            return Ok(motos);
         }
 
         [HttpGet("{id}", Name = "MotorcycleById")]
         public async Task<IActionResult> GetMotorcycleByIdAsync(string id)
         {
-            try
-            {
-                var moto = await _service.GetMotorcycleByIdAsync(id);
+            var moto = await _service.GetMotorcycleByIdAsync(id);
 
-                return Ok(moto);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            return Ok(moto);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateMotorcycleAsync([FromBody] CreateMotorcycleDto motoDto)
         {
-            try
-            {
-                var moto = await _service.CreateMotorcycleAsync(motoDto);
+            var moto = await _service.CreateMotorcycleAsync(motoDto);
 
-                return CreatedAtRoute("MotorcycleById", new { id = moto.Id }, moto);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            return CreatedAtRoute("MotorcycleById", new { id = moto.Id }, moto);
+            
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMotorcycleAsync(string id)
         {
-            try
-            {
-                await _service.DeleteMotorcycleAsync(id);
+            await _service.DeleteMotorcycleAsync(id);
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            return NoContent();
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMotorcycle([FromBody] MotorcycleDto motoDto, string id)
         {
-            try
-            {
-                await _service.UpdateMotorcycleAsync(id, motoDto);
+            await _service.UpdateMotorcycleAsync(id, motoDto);
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            return NoContent();
         }
     }
 }

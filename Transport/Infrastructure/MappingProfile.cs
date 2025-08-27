@@ -15,10 +15,12 @@ namespace Infrastructure
         {
             CreateMap<Car, CarDto>().ReverseMap();
             CreateMap<Motorcycle, MotorcycleDto>().ReverseMap();
-            CreateMap<Bicycle, BicycleDto>();
-            CreateMap<Scooter, ScooterDto>();
+            CreateMap<Bicycle, BicycleDto>().ReverseMap();
+            CreateMap<Scooter, ScooterDto>().ReverseMap();
             CreateMap<CreateCarDto, Car>();
             CreateMap<CreateMotorcycleDto, Motorcycle>();
+            CreateMap<CreateScooterDto, Scooter>();
+            CreateMap<CreateBicycleDto, Bicycle>();
         }
     }
 }
