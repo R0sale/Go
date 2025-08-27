@@ -10,7 +10,7 @@ namespace Entities.Dto
     public class CreateBicycleDto
     {
         public TransportType Type { get; } = TransportType.Bicycle;
-        public string? MoodelName { get; set; }
+        public string? ModelName { get; set; }
         public decimal Cost { get; set; }
         public Coordinates? Coordinates { get; set; }
         public bool IsElectric { get; set; }

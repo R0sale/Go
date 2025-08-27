@@ -55,6 +55,9 @@ builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
 builder.Services.AddScoped<IScooterRepository, ScooterRepository>();
 builder.Services.AddScoped<IScooterService, ScooterService>();
 
+builder.Services.AddScoped<IBicycleRepository, BicycleRepository>();
+builder.Services.AddScoped<IBicycleService, BicycleService>();
+
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<MappingProfile>();

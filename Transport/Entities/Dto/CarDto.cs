@@ -9,7 +9,7 @@ namespace Entities.Dto
 {
     public class CarDto
     {
-        public TransportType Type { get; set; }
+        public TransportType Type { get; } = TransportType.Car;
         public string? ModelName { get; set; }
         public decimal Cost { get; set; }
         public Coordinates? Coordinates { get; set; }
