@@ -1,6 +1,7 @@
 ﻿using Entities.Contracts;
 using Entities.Contracts.Services;
 using Entities.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZstdSharp.Unsafe;
 
@@ -29,6 +30,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> CreateMotorcycleAsync([FromBody] CreateMotorcycleDto motoDto)
         {
             var moto = await _service.CreateMotorcycleAsync(motoDto);
@@ -38,6 +40,7 @@ namespace Presentation.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> DeleteMotorcycleAsync(string id)
         {
             await _service.DeleteMotorcycleAsync(id);
@@ -46,6 +49,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> UpdateMotorcycle([FromBody] MotorcycleDto motoDto, string id)
         {
             await _service.UpdateMotorcycleAsync(id, motoDto);
