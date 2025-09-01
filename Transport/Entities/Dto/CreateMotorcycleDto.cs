@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Entities.Dto
 {
-    public class CarDto
+    public class CreateMotorcycleDto
     {
-        public TransportType Type { get; } = TransportType.Car;
+        public TransportType Type { get; } = TransportType.Motorcycle;
         public string? ModelName { get; set; }
         public decimal Cost { get; set; }
         public Coordinates? Coordinates { get; set; }

@@ -13,6 +13,7 @@ using Presentation.Extensions;
 using System.Text.Json.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using Entities.Models;
+using Entities.Models.Transports;
 
 BsonClassMap.RegisterClassMap<Transport>(cm =>
 {
@@ -23,8 +24,21 @@ BsonClassMap.RegisterClassMap<Transport>(cm =>
 
     cm.MapMember(c => c.Type)
     .SetSerializer(new EnumSerializer<TransportType>(BsonType.String));
+});
 
-    cm.MapMember(c => c.Type)
+BsonClassMap.RegisterClassMap<Car>(cm =>
+{
+    cm.AutoMap();
+
+    cm.MapMember(c => c.FuelType)
+    .SetSerializer(new EnumSerializer<FuelType>(BsonType.String));
+});
+
+BsonClassMap.RegisterClassMap<Motorcycle>(cm =>
+{
+    cm.AutoMap();
+
+    cm.MapMember(c => c.FuelType)
     .SetSerializer(new EnumSerializer<FuelType>(BsonType.String));
 });
 
@@ -34,6 +48,15 @@ builder.Services.ConfigureDB(builder.Configuration);
 
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<ICarService, CarService>();
+
+builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
+builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
+
+builder.Services.AddScoped<IScooterRepository, ScooterRepository>();
+builder.Services.AddScoped<IScooterService, ScooterService>();
+
+builder.Services.AddScoped<IBicycleRepository, BicycleRepository>();
+builder.Services.AddScoped<IBicycleService, BicycleService>();
 
 builder.Services.AddAutoMapper(cfg =>
 {

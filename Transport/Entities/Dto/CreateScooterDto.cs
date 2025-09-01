@@ -7,15 +7,11 @@ using System.Threading.Tasks;
 
 namespace Entities.Dto
 {
-    public class CarDto
+    public class CreateScooterDto
     {
-        public TransportType Type { get; } = TransportType.Car;
+        public TransportType Type { get; } = TransportType.Scooter;
         public string? ModelName { get; set; }
         public decimal Cost { get; set; }
         public Coordinates? Coordinates { get; set; }
-        public int MaxSpeed { get; set; }
-        public FuelType FuelType { get; init; }
-        public string? Color { get; set; }
-        public string? PlatesNumber { get; init; }
     }
 }

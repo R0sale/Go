@@ -22,9 +22,9 @@ namespace Presentation.Controllers
         [HttpGet("{id}", Name = "CarById")]
         public async Task<IActionResult> GetAllCarsAsync(string id)
         {
-            var cars = await _service.GetAllCarsAsync();
+            var car = await _service.GetCarByIdAsync(id);
 
-            return Ok(cars);
+            return Ok(car);
         }
 
         [HttpPost]
