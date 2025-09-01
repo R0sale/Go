@@ -64,7 +64,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowViteDev", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins(builder.Configuration.GetSection("FrontServer").ToString())
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
