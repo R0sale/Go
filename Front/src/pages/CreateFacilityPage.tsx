@@ -156,6 +156,9 @@ const CreateFacilityPage: React.FC = () => {
                 });
 
             const token = await auth.currentUser?.getIdToken(true);
+
+            console.log(`Bearer ${token}`);
+
             const result = await fetch(config.CREATE_FACILITY_URL, {
                 method: 'POST',
                 headers: {
@@ -186,8 +189,8 @@ const CreateFacilityPage: React.FC = () => {
             console.log(JSON.stringify({
                     name: `${name}`,
                     email: `${email}`,
-                    phone: `${phone}`,
-                    website: `${website}`,
+                    phoneNumber: `${phone}`,
+                    websiteURL: `${website}`,
                     description: `${description}`,
                     schedule: 
                         schedule.reduce((accumulator, day) => {
@@ -207,7 +210,7 @@ const CreateFacilityPage: React.FC = () => {
                 alert('Good job! Now you have new facility');
                 navigate('/userPage');
             } else {
-                alert(result.statusText);
+                console.log(result.statusText);
             }
         } catch (error) {
             if (error instanceof Error) {

@@ -1,6 +1,7 @@
 ﻿using Entities.Contracts;
 using Entities.Contracts.Services;
 using Entities.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -28,6 +29,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> CreateScooterAsync([FromBody] CreateScooterDto scooterDto)
         {
             var scooter = await _service.CreateScooterAsync(scooterDto);
@@ -36,6 +38,7 @@ namespace Presentation.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> DeleteScooterAsync(string id)
         {
             await _service.DeleteScooterAsync(id);
@@ -44,6 +47,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> UpdateScooter([FromBody] ScooterDto scooterDto, string id)
         {
             await _service.UpdateScooterAsync(id, scooterDto);
