@@ -21,7 +21,16 @@ namespace Presentation.Controllers
         [HttpPost("admin")]
         public async Task<IActionResult> GiveAdminRole([FromBody] Guid id)
         {
-            await _userService.GiveUserAdminRoleAsync(id);
+            await _userService.GiveUserRoleAsync(id, "Admin");
+
+            return Ok();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("owner")]
+        public async Task<IActionResult> GiveOwnerRole([FromBody] Guid id)
+        {
+            await _userService.GiveUserRoleAsync(id, "Owner");
 
             return Ok();
         }

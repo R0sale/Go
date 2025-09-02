@@ -34,6 +34,24 @@ services:
       - ./Users/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:/app/src/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:ro
     restart: on-failure
 
+  transportservice:
+    build:
+      context: ./Transport
+      dockerfile: Dockerfile
+    ports:
+      - "5002:8082"
+    environment:
+    - ASPNETCORE_URLS=http://+:8082
+    - Mongo__ConnectionString=mongodb://transportdb:27017
+    - Mongo__Database=TransportDB
+    depends_on:
+      - transportdb
+    networks:
+      - sharednetwork
+    volumes:
+      - ./Users/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:/app/src/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:ro
+    restart: on-failure
+
   usersdb:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -46,15 +64,27 @@ services:
     networks:
       - sharednetwork
 
+  transportdb:
+    image: mongo:7.0
+    restart: always
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongodb_transport_data:/data/db
+    networks:
+      - sharednetwork
+
   facilitiesdb:
     image: mongo:7.0
     restart: always
     ports:
-      - "27017:27017"
+      - "27018:27017"
     networks:
       - sharednetwork
     volumes:
       - mongodb_data:/data/db
+
+  
 
 networks:
   sharednetwork:
@@ -62,4 +92,5 @@ networks:
 volumes:
   mongodb_data:
   uservolume:
+  mongodb_transport_data:
     

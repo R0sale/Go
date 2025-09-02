@@ -34,6 +34,12 @@ namespace Infrastructured.Configurations
                     Id = _config["RolesConfig:Admin"],
                     Name = "Admin",
                     NormalizedName = "ADMIN"
+                },
+                new IdentityRole
+                {
+                    Id = _config["RolesConfig:Owner"],
+                    Name = "Owner",
+                    NormalizedName = "OWNER"
                 }
             );
         }

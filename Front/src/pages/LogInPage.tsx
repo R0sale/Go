@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword, type UserCredential } from "firebase/auth";
-import { auth } from "../firebase";
+import { signInWithEmailAndPassword, signInWithPopup, type UserCredential } from "firebase/auth";
+import { auth, googleProvider } from "../firebase";
 import bgImage from '../assets/worldmap.jpg';
 import { useNavigate } from "react-router-dom";
 import { config } from "../config";
+import * as z from "zod";
 
 const LogInPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -18,9 +19,46 @@ const LogInPage: React.FC = () => {
         navigate('/login/google');
     }
 
+    const googleLogin = async () => {
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                const token = await result.user.getIdToken();
+    
+                const response = await fetch(config.LOG_IN_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-type': 'application/json'
+                    }
+                })
+    
+                if (response.ok) {
+                    navigate('/');
+                } else {
+                    alert('Something went wrong');
+                }
+            } catch (error) {
+                alert(error);
+            }
+        }
+
+    const validate = (user: object) => {
+        const User = z.object({
+            email: z.email('Email must be correct.'),
+            password: z.string().min(8, 'Password must be at least 8 characters').max(16, 'Password must be at most 8 characters').regex(/^(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$/, 'Password must include at least uppercase 1 letter and 1 digit')
+        });
+
+        User.parse(user);
+    }
+
     const login = async () => {
         let userCredentials: UserCredential;
         try {
+            validate({
+                email: `${email}`,
+                password: `${password}`
+            });
+
             userCredentials = await signInWithEmailAndPassword(auth, email, password);
             const token = await userCredentials.user.getIdToken(true);
 
@@ -49,7 +87,7 @@ const LogInPage: React.FC = () => {
         }
     };
     return (
-        <div style={{backgroundImage: `url(${bgImage})`, backgroundRepeat: 'space repeat'}} className="w-screen h-screen">
+        <div style={{backgroundImage: `url(${bgImage})`, backgroundRepeat: 'space repeat'}} className="w-screen h-screen overflow-hidden">
             <div className="h-screen w-1/3 bg-white m-auto">
                 <div>
                     <label className="block m-2 font-semibold">Email</label>
@@ -59,13 +97,14 @@ const LogInPage: React.FC = () => {
                     <input placeholder="Enter your password" type="password" value={password} className="w-full p-1 border-2 rounded-md border-gray-300 h-10 m-2" onChange={(e) => {setPassword(e.target.value)}}></input>
 
                     <button className="m-2 w-30 border-2 border-gray-300" onClick={login}>Log In</button>
+                    <button className="m-2 w-48 border-2 border-gray-300" onClick={googleLogin}>Log In Via Google</button>
                 </div>
                 <p className="font-bold m-2 text-right">Don't have an account?</p>
                 <div className="flex justify-end m-2 mt-4">
                     <button className="w-30 border-2 border-gray-300" onClick={goToSignUp}>Sign Up</button>
                 </div>
                 <div className="justify-end m-2 mt-4 flex">
-                    <button className="w-48 flex border-2 border-gray-300" onClick={goToGoogle}>Log In With Gooogle</button>
+                    <button className="w-48 flex border-2 border-gray-300" onClick={goToGoogle}>Sign Up With Gooogle</button>
                 </div>
                 
             </div>
