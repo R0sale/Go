@@ -45,7 +45,6 @@ const Menu: React.FC<MenuProps> = ({menuState}) => {
             <span className="loader m-auto"></span>
         </div>);
     }
-
     return (
         <div className="mt-10">
             {auth.currentUser == null ? <div className="p-4 pt-0">

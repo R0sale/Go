@@ -8,6 +8,7 @@ namespace Entities.Dtos
 {
     public class UserForCreationDto
     {
+        public string? FirebaseUid { get; set; }
         public string? FirstName { get; init; }
 
         public string? LastName { get; init; }
