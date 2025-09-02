@@ -4,17 +4,19 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    partial class UsersContextModelSnapshot : ModelSnapshot
+    [Migration("20250828092821_AddedTransportManagerRole")]
+    partial class AddedTransportManagerRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,27 +125,16 @@ namespace Infrastructure.Migrations
 
                     b.ToTable("AspNetRoles", (string)null);
 
-                    var config = new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json")
-                        .Build();
-
-                    var ownerId = config.GetSection("RolesConfig")["Owner"];
-
-                    var userId = config.GetSection("RolesConfig")["User"];
-
-                    var adminId = config.GetSection("RolesConfig")["Admin"];
-
                     b.HasData(
                         new
                         {
-                            Id = userId,
+                            Id = "409e52ba-c288-463b-a6f1-5b1c0f17e17a",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = adminId,
+                            Id = "bb32d8a3-7c76-4df5-9d1c-aba247879311",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },

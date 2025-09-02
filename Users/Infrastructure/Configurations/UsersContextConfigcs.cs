@@ -40,6 +40,12 @@ namespace Infrastructured.Configurations
                     Id = _config["RolesConfig:Owner"],
                     Name = "Owner",
                     NormalizedName = "OWNER"
+                },
+                new IdentityRole
+                {
+                    Id = _config["RolesConfig:TransportManager"],
+                    Name = "TransportManager",
+                    NormalizedName = "TRANSPORTMANAGER"
                 }
             );
         }
