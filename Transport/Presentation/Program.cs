@@ -46,17 +46,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureDB(builder.Configuration);
 
-builder.Services.AddScoped<ICarRepository, CarRepository>();
-builder.Services.AddScoped<ICarService, CarService>();
+builder.Services.CreateFirebaseApp(builder.Configuration);
+builder.Services.ConfigureAuthentication(builder.Configuration);
+builder.Services.AddAuthorization();
 
-builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
-builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
+builder.Services.ConfigureServices();
 
-builder.Services.AddScoped<IScooterRepository, ScooterRepository>();
-builder.Services.AddScoped<IScooterService, ScooterService>();
-
-builder.Services.AddScoped<IBicycleRepository, BicycleRepository>();
-builder.Services.AddScoped<IBicycleService, BicycleService>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowViteDev", policy =>
+    {
+        policy.WithOrigins(builder.Configuration.GetSection("FrontServer").ToString())
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddAutoMapper(cfg =>
 {
@@ -71,8 +75,11 @@ builder.Services.AddControllers()
 
 var app = builder.Build();
 
+app.UseCors("AllowViteDev");
+
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
