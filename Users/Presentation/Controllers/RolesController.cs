@@ -34,7 +34,7 @@ namespace Presentation.Controllers
 
             return Ok();
         }
-
+        
         [Authorize(Roles = "Admin")]
         [HttpPost("transportmanager")]
         public async Task<IActionResult> GiveTransportManagerRole([FromBody] Guid id)

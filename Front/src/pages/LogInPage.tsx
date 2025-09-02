@@ -23,7 +23,6 @@ const LogInPage: React.FC = () => {
             try {
                 const result = await signInWithPopup(auth, googleProvider);
                 const token = await result.user.getIdToken();
-                console.log(`Bearer ${token}`);
     
                 const response = await fetch(config.LOG_IN_URL, {
                     method: 'POST',

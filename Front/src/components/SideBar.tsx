@@ -59,7 +59,6 @@ const Sidebar: React.FC<SideBarProps> = ({onSearch, isDimmed, setFacilities, set
                 <Transport setTransport={setTransport} map={map}/>
             </div>
             ) : <Menu menuState={isDimmed}/>}
-            
         </div>
     );
 };

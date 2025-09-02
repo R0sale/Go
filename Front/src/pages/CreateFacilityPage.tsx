@@ -156,9 +156,6 @@ const CreateFacilityPage: React.FC = () => {
                 });
 
             const token = await auth.currentUser?.getIdToken(true);
-
-            console.log(`Bearer ${token}`);
-
             const result = await fetch(config.CREATE_FACILITY_URL, {
                 method: 'POST',
                 headers: {

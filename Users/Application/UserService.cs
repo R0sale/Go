@@ -78,7 +78,6 @@ namespace Application
 
                 throw new BadRequestException($"Exception: {result.Errors} Succeeded: {result.Succeeded}");
             }
-                
         }
 
         public async Task<UserDto> LoginUserAsync(string uid)
