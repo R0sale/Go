@@ -26,8 +26,7 @@ namespace ExceptionHandler.ExceptionHandler
             }
             catch (Exception ex)
             {
-                context.Response.StatusCode = 500;
-                await context.Response.WriteAsync($"Internal Server Error: {ex.Message}");
+                await HandleExceptionAsync(context, ex);
             }
         }
 

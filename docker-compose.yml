@@ -13,6 +13,8 @@ services:
       - facilitiesdb
     networks:
       - sharednetwork
+    volumes:
+      - ./Users/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:/app/src/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:ro
     restart: on-failure
 
   routeservice:
@@ -29,6 +31,8 @@ services:
       - routesdb
     networks:
       - sharednetwork
+    volumes:
+      - ./Users/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:/app/src/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:ro
     restart: on-failure
 
   facilitiesdb:

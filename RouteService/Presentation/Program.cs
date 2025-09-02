@@ -7,6 +7,9 @@ builder.Services.AddControllers();
 
 builder.Services.ConfigureDB(builder.Configuration);
 
+builder.Services.CreateFirebaseApp(builder.Configuration);
+builder.Services.ConfigureAuthentication(builder.Configuration);
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowViteDev",
