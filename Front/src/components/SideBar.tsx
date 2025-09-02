@@ -6,17 +6,20 @@ import SearchBar from './SearchBar';
 import Categories from './Categories';
 import Menu from './Menu';
 import getPosition from '../GetPosition';
-import type { Facility } from '../Facility';
+import type { Facility } from '../models/Facility';
 import type { LatLngExpression } from 'leaflet';
+import Transport from './Transport';
+import type { Vehicle } from '../models/Transport';
 
 interface SideBarProps {
     onSearch: Dispatch<SetStateAction<LatLngExpression>>;
     isDimmed: boolean;
     setFacilities: Dispatch<SetStateAction<Facility[]>>;
+    setTransport: Dispatch<SetStateAction<Vehicle[]>>;
     map: L.Map | null;
 }
 
-const Sidebar: React.FC<SideBarProps> = ({onSearch, isDimmed, setFacilities, map}) => {
+const Sidebar: React.FC<SideBarProps> = ({onSearch, isDimmed, setFacilities, setTransport, map}) => {
     const [isVisible, setIsVisible] = useState(true);
     const [city, setCity] = useState('');
 
@@ -52,8 +55,10 @@ const Sidebar: React.FC<SideBarProps> = ({onSearch, isDimmed, setFacilities, map
                 </div>
 
                 <Categories isVisible={isVisible} setFacilities={setFacilities} map={map}/>
+                <div className="h-2 bg-gray-100 mt-5 m-0 p-0 w-full"></div>
+                <Transport setTransport={setTransport} map={map}/>
             </div>
-            ) : <Menu />}
+            ) : <Menu menuState={isDimmed}/>}
         </div>
     );
 };

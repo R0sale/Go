@@ -1,5 +1,5 @@
 import { Bed, Plus, Coffee, ShoppingBag, Dumbbell, CreditCard, Fuel, Wrench, Hospital, Landmark, Scissors, Utensils } from 'lucide-react';
-import type { Facility } from '../Facility';
+import type { Facility } from '../models/Facility';
 
 const queryFactory = (key: string, value: string, bounds: number[]) => {
     if (value === '*')

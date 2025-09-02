@@ -32,8 +32,11 @@ BsonClassMap.RegisterClassMap<Facility>(cm =>
         .SetIdGenerator(StringObjectIdGenerator.Instance);
 });
 
-
+builder.Services.CreateFirebaseApp(builder.Configuration);
 builder.Services.ConfigureDB(builder.Configuration);
+builder.Services.ConfigureAuthentication(builder.Configuration);
+builder.Services.AddAuthorization();
+
 builder.Services.AddAutoMapper(typeof(Infrastructure.AssemblyReference).Assembly);
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -41,11 +44,13 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new OpeningTimeToJson());
     });
 
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowViteDev", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins(builder.Configuration.GetSection("FrontService").ToString())
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -60,6 +65,10 @@ builder.Services.AddValidatorsFromAssemblyContaining<FacilityDtoValidator>();
 var app = builder.Build();
 
 app.UseCors("AllowViteDev");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.ConfigureExceptionHandler(logger);
 
 app.MapControllers();

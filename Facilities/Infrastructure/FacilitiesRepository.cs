@@ -38,6 +38,8 @@ namespace Infrastructure
 
         public async Task<Facility> GetFacilityAsync(string id) => await _facilities.Find(facility => facility.Id == id).FirstOrDefaultAsync();
 
+        public async Task<IEnumerable<Facility>> GetUsersFacilitiesAsync(string uid) => await _facilities.Find(facility => facility.UserUid == uid).ToListAsync();
+
         public async Task<Facility> CreateFacilityAsync(Facility newFacility)
         {
             await _facilities.InsertOneAsync(newFacility);

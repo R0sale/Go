@@ -4,13 +4,15 @@ import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import { Menu, ArrowBigRightDash } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 import '../index.css';
-import type { Facility } from '../Facility';
+import type { Facility } from '../models/Facility';
 import L, { type LatLngExpression } from 'leaflet';
+import type { Vehicle } from '../models/Transport';
 
 interface MapViewProps {
     positionState: [LatLngExpression, Dispatch<SetStateAction<LatLngExpression>>];
     state: [boolean, Dispatch<SetStateAction<boolean>>];
     facilities: Facility[];
+    transport: Vehicle[];
     setMap: Dispatch<SetStateAction<L.Map | null>>
 }
 
@@ -46,7 +48,7 @@ const getPosition = (): Promise<GeolocationPosition> => {
         });
     };
 
-const MapView: React.FC<MapViewProps> = ({ positionState, state, facilities, setMap}) => {
+const MapView: React.FC<MapViewProps> = ({ positionState, state, facilities, transport, setMap}) => {
   const [isDimmed, setIsDimmed] = state;
   const [position, setPosition] = positionState;
 
@@ -83,6 +85,9 @@ const MapView: React.FC<MapViewProps> = ({ positionState, state, facilities, set
         />
         {facilities.length > 0 && facilities.map((elem) => {
           return <Marker position={[elem.lat, elem.lon]} />
+        })}
+        {transport.length > 0 && transport.map((elem) => {
+          return <Marker position={[elem.coordinates.latitude, elem.coordinates.longitude]} />
         })}
         <Marker position={position} />
         <FlyTo position={position} />

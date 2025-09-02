@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Entities.Models;
 using AutoMapper;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Facilities.Controllers
 {
@@ -19,6 +20,7 @@ namespace Facilities.Controllers
             _service = service;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetFacilities()
         {
@@ -31,10 +33,22 @@ namespace Facilities.Controllers
             return Ok(await _service.GetFacilityAsync(id));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateFacility([FromBody] FacilityDto facilityDto)
+        [Authorize(Roles = "Admin")]
+        [HttpGet("myfacilities")]
+        public async Task<IActionResult> GetMyFacilities()
         {
-            var facility = await _service.CreateFacilityAsync(facilityDto);
+            var uid = User.FindFirst("UserUid");
+
+            return Ok(await _service.GetUsersFacilitiesAsync(uid.Value));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> CreateFacility([FromBody] CreateFacilityDto facilityDto)
+        {
+            var uid = User.FindFirst("UserUid");
+
+            var facility = await _service.CreateFacilityAsync(facilityDto, uid.Value);
 
             return CreatedAtRoute("FacilityById", new { id = facility.Id }, facility);
         }

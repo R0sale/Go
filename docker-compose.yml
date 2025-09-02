@@ -35,11 +35,68 @@ services:
       - ./Users/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:/app/src/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:ro
     restart: on-failure
 
+  usersservice:
+    build:
+      context: ./Users
+      dockerfile: Dockerfile
+    ports:
+      - "5001:8080"
+    environment:
+    - ASPNETCORE_URLS=http://+:8080
+    - ConnectionStrings__sqlConnection=Server=usersdb;Database=UsersDb;User Id=sa;Password=UserPassword123!;Encrypt=False;TrustServerCertificate=True;
+    depends_on:
+      - usersdb
+    networks:
+      - sharednetwork
+    volumes:
+      - ./Users/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:/app/src/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:ro
+    restart: on-failure
+
+  transportservice:
+    build:
+      context: ./Transport
+      dockerfile: Dockerfile
+    ports:
+      - "5002:8082"
+    environment:
+    - ASPNETCORE_URLS=http://+:8082
+    - Mongo__ConnectionString=mongodb://transportdb:27017
+    - Mongo__Database=TransportDB
+    depends_on:
+      - transportdb
+    networks:
+      - sharednetwork
+    volumes:
+      - ./Users/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:/app/src/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:ro
+    restart: on-failure
+
+  usersdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "UserPassword123!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    volumes:
+    - uservolume:/var/opt/mssql
+    networks:
+      - sharednetwork
+
+  transportdb:
+    image: mongo:7.0
+    restart: always
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongodb_transport_data:/data/db
+    networks:
+      - sharednetwork
+
   facilitiesdb:
     image: mongo:7.0
     restart: always
     ports:
-      - "27017:27017"
+      - "27018:27017"
     networks:
       - sharednetwork
     volumes:
@@ -63,4 +120,6 @@ networks:
 volumes:
   mongodb_data:
   mongodb_routes_data:
+  uservolume:
+  mongodb_transport_data:
     
