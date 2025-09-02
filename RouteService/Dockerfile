@@ -11,11 +11,14 @@ COPY Presentation/Presentation.csproj ./Presentation/
 COPY Infrastructure/Infrastructure.csproj ./Infrastructure/
 COPY Application/Application.csproj ./Application/
 COPY Entities/Entities.csproj ./Entities/
+COPY ExceptionHandler/ExceptionHandler.csproj ./ExceptionHandler/
 RUN dotnet restore RouteService.sln
+
 COPY Presentation/ ./Presentation/
 COPY Infrastructure/ ./Infrastructure/
 COPY Application/ ./Application/
 COPY Entities/ ./Entities/
+COPY ExceptionHandler/ ./ExceptionHandler/
 
 WORKDIR /src/Presentation
 RUN dotnet build "Presentation.csproj" -c $BUILD_CONFIGURATION -o app/build

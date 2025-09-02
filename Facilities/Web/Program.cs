@@ -50,7 +50,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowViteDev", policy =>
     {
-        policy.WithOrigins(builder.Configuration.GetSection("FrontService").ToString())
+        policy.WithOrigins(builder.Configuration["FrontService"])
             .AllowAnyHeader()
             .AllowAnyMethod();
     });

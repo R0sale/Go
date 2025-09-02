@@ -123,27 +123,16 @@ namespace Infrastructure.Migrations
 
                     b.ToTable("AspNetRoles", (string)null);
 
-                    var config = new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json")
-                        .Build();
-
-                    var ownerId = config.GetSection("RolesConfig")["Owner"];
-
-                    var userId = config.GetSection("RolesConfig")["User"];
-
-                    var adminId = config.GetSection("RolesConfig")["Admin"];
-
                     b.HasData(
                         new
                         {
-                            Id = userId,
+                            Id = "409e52ba-c288-463b-a6f1-5b1c0f17e17a",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = adminId,
+                            Id = "bb32d8a3-7c76-4df5-9d1c-aba247879311",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },

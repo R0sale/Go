@@ -1,5 +1,6 @@
 ﻿using Entities.Contracts;
 using Entities.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -27,6 +28,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,RouteManager")]
         public async Task<IActionResult> CreateRoute([FromBody] CreateRouteDto routeToCreate)
         {
             var route = await _service.CreateRouteAsync(routeToCreate);
@@ -35,6 +37,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,RouteManager")]
         public async Task<IActionResult> DeleteRouteAsync(string id, RouteDto updatedRoute)
         {
             await _service.UpdateRouteAsync(updatedRoute, id);
@@ -43,6 +46,7 @@ namespace Presentation.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,RouteManager")]
         public async Task<IActionResult> DeleteRouteAsync(string id)
         {
             await _service.DeleteRouteAsync(id);

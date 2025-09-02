@@ -9,6 +9,7 @@ builder.Services.ConfigureDB(builder.Configuration);
 
 builder.Services.CreateFirebaseApp(builder.Configuration);
 builder.Services.ConfigureAuthentication(builder.Configuration);
+builder.Services.AddAuthorization();
 
 builder.Services.AddCors(options =>
 {
@@ -26,6 +27,9 @@ builder.Services.ConfigureServices();
 var app = builder.Build();
 
 app.UseCors("AllowViteDev");
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseMiddleware<ExceptionHandler.ExceptionHandler.ExceptionHandler>();
 

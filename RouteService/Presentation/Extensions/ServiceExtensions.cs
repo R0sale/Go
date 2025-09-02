@@ -53,7 +53,7 @@ namespace Presentation.Extensions
 
         public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration config)
         {
-            var projectId = config["Firebase:ProjetId"];
+            var projectId = config["Firebase:ProjectId"];
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -65,7 +65,7 @@ namespace Presentation.Extensions
                     {
                         OnTokenValidated = async context =>
                         {
-                            var headers = context.Request.Headers["Authorization"].ToString();
+                            var headers = context.HttpContext.Request.Headers["Authorization"].ToString();
 
                             if (!headers.StartsWith("Bearer "))
                                 throw new InvalidTokenException("Your token is not valid (Doesn't start with Bearer )");
