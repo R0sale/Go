@@ -15,6 +15,22 @@ services:
       - sharednetwork
     restart: on-failure
 
+  routeservice:
+    build:
+      context: ./RouteService
+      dockerfile: Dockerfile
+    ports:
+      - "5003:8083"
+    environment:
+    - ASPNETCORE_URLS=http://+:8083
+    - Mongo__ConnectionString=mogodb://routesdb:27017
+    - Mongo__Database=RoutesDB
+    depends_on:
+      - routesdb
+    networks:
+      - sharednetwork
+    restart: on-failure
+
   facilitiesdb:
     image: mongo:7.0
     restart: always
@@ -25,9 +41,22 @@ services:
     volumes:
       - mongodb_data:/data/db
 
+  routesdb:
+    image: mongo:7.0
+    restart: always
+    ports:
+      - "27020:27017"
+    networks:
+      - sharednetwork
+    volumes:
+      - mongodb_routes_data:/data/db
+
+  
+
 networks:
   sharednetwork:
 
 volumes:
   mongodb_data:
+  mongodb_routes_data:
     

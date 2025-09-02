@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{7CAD6C17-635F-42B4-B64A-A8D2254FDA6D}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{D9B36639-FC23-47D6-A74F-614874AA4418}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{27B62F5E-0E00-4A65-8F34-05792E31D589}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionHandler", "ExceptionHandler\ExceptionHandler.csproj", "{C04E01B5-5E2A-4757-9138-32BEE87B88BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{27B62F5E-0E00-4A65-8F34-05792E31D589}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27B62F5E-0E00-4A65-8F34-05792E31D589}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27B62F5E-0E00-4A65-8F34-05792E31D589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C04E01B5-5E2A-4757-9138-32BEE87B88BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04E01B5-5E2A-4757-9138-32BEE87B88BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04E01B5-5E2A-4757-9138-32BEE87B88BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04E01B5-5E2A-4757-9138-32BEE87B88BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

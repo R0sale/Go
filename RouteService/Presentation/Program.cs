@@ -24,6 +24,8 @@ var app = builder.Build();
 
 app.UseCors("AllowViteDev");
 
+app.UseMiddleware<ExceptionHandler.ExceptionHandler.ExceptionHandler>();
+
 app.MapControllers();
 
 app.Run();
