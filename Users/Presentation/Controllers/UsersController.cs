@@ -25,6 +25,14 @@ namespace Presentation.Controllers
             return Ok(usersDto);
         }
 
+        [HttpGet("uid/{uid}")]
+        public async Task<IActionResult> GetUserByUid(string uid)
+        {
+            var user = await _userService.GetUserByUidAsync(uid);
+
+            return Ok(user);
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetUser(Guid id)

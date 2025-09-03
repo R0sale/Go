@@ -22,11 +22,13 @@ namespace Application
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public UserService(UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _roleManager = roleManager;
         }
 
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
@@ -59,6 +61,50 @@ namespace Application
             userDto.Roles = roles.ToList();
 
             return userDto;
+        }
+
+        public async Task<UserDto> GetUserByUidAsync(string uid)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.FirebaseUid.Equals(uid));
+
+            if (user is null)
+                throw new UserNotFoundException("There's no such a uid in a database.");
+
+            var userDto = _mapper.Map<UserDto>(user);
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            userDto.Roles = roles.ToList();
+
+            return userDto;
+        }
+
+        public async Task ChangeUsersRolesAsync(string uid, IEnumerable<string> roles)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.FirebaseUid.Equals(uid));
+
+            if (user is null)
+                throw new NotFoundException($"User with id: {uid} not found.");
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var programRoles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+
+            var res = await _userManager.RemoveFromRolesAsync(user, userRoles);
+
+            if (!res.Succeeded)
+                throw new BadRequestException($"Exception: {res.Errors} Succeeded: {res.Succeeded}");
+
+            foreach (var role in roles)
+            {
+                if (!programRoles.Contains(role))
+                    throw new NotFoundException("Role wasn't found.");
+            }
+
+            res = await _userManager.AddToRolesAsync(user, roles);
+
+            if (!res.Succeeded)
+                throw new BadRequestException($"Exception: {res.Errors} Succeeded: {res.Succeeded}");
         }
 
         public async Task CreateUserAsync(UserForCreationDto userDto)
