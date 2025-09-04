@@ -11,6 +11,7 @@ namespace Entities.Dtos
     {
         public string? Name { get; set; }
         public string? Description { get; set; }
+        public string? City { get; set; }
         public List<Node>? Nodes { get; set; }
     }
 }

@@ -33,6 +33,9 @@ namespace Infrastructure
         public async Task<Route?> GetRouteByIdAsync(string id) =>
             await _routes.Find(x => x.Id == id).FirstOrDefaultAsync();
 
+        public async Task<IEnumerable<Route>> GetRoutesByOwnerUidAsync(string uid) =>
+            await _routes.Find(x => x.OwnerUid.Equals(uid)).ToListAsync();
+
         public async Task CreateRouteAsync(Route route) => 
             await _routes.InsertOneAsync(route);
 

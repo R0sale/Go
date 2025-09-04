@@ -6,6 +6,7 @@ import GoogleSignInPage from "./pages/GoogleSignInPage";
 import UserPage from "./pages/UserPage";
 import FacilityPage from "./pages/FacilityPage";
 import CreateFacilityPage from "./pages/CreateFacilityPage";
+import RoutesPage from "./pages/RoutesPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/userPage" element={<UserPage />} />
         <Route path="/userPage/facilityPage/:facilityId" element={<FacilityPage />}/>
         <Route path="/userPage/facilityPage" element={<CreateFacilityPage />}/>
+        <Route path="/routes" element={<RoutesPage />} />
       </Routes>
   );
 }
