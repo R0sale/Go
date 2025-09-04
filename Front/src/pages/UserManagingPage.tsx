@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { auth } from "../firebase";
 import { config } from "../config";
 import type { User } from "../models/User";
-import { sl } from "zod/locales";
 
 const UserManagingPage: React.FC = () => {
     const { userUid } = useParams();
@@ -81,6 +80,7 @@ const UserManagingPage: React.FC = () => {
         {name: 'TransportManager', id: 2},
         {name: 'RouteManager', id: 3},
         {name: 'User', id: 4},
+        {name: 'Owner', id: 5}
     ]
 
     const handleSubmit = async () => {
@@ -115,7 +115,7 @@ const UserManagingPage: React.FC = () => {
                         <p className="text-xl font-semibold h-10 p-2 m-3">Roles: {user?.roles.join(", ")}</p>
                         <button className="w-52 h-13 text-center mt-2 items-center text-xl flex border-2 border-gray-300" onClick={() => {setRolesVisible(!rolesVisible)}}>Rearrange Roles</button>
                         {rolesVisible && 
-                        <form className="w-45 h-35 bg-gray-200 ml-10 rounded-2xl mt-2" onSubmit={async (e) =>  { e.preventDefault(); await handleSubmit();}} >
+                        <form className="w-45 h-45 bg-gray-200 ml-10 rounded-2xl mt-2" onSubmit={async (e) =>  { e.preventDefault(); await handleSubmit(); location.reload()}} >
                             {roles.map((role, i) => (<div>
                                 <label className="ml-4 mt-2 flex" key={i}>
                                 <input type="checkbox" className="" key={i} name={role.name} value={role.name} checked={selectedRoles.includes(role.name)} onChange={e => handleRoleSelection(e)} /> 
@@ -123,7 +123,7 @@ const UserManagingPage: React.FC = () => {
                                     </label>
                             </div>))
                             }
-                            <input type="submit" className="w-20 h-8 bg-blue-500 text-white rounded-2xl mt-4 " value="Submit" />
+                            <input type="submit" className="w-20 h-8 bg-blue-500 text-white rounded-2xl mt-6 " value="Submit" />
                         </form>}
                     </div>
                 </div>
