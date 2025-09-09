@@ -31,11 +31,22 @@ namespace Application
             var routeDto = _mapper.Map<RouteDto>(route);
 
             return routeDto;
-        }   
+        }
 
-        public async Task<Route> CreateRouteAsync(CreateRouteDto route)
+        public async Task<IEnumerable<RouteDto>> GetRoutesByOwnerUidAsync(string ownerUid)
+        {
+            var routes = await _repository.GetRoutesByOwnerUidAsync(ownerUid);
+
+            var routeDto = _mapper.Map<IEnumerable<RouteDto>>(routes);
+
+            return routeDto;
+        }
+
+        public async Task<Route> CreateRouteAsync(CreateRouteDto route, string ownerUid)
         {
             var routeEntity = _mapper.Map<Route>(route);
+
+            routeEntity.OwnerUid = ownerUid;
 
             await _repository.CreateRouteAsync(routeEntity);
 

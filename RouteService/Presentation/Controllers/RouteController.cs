@@ -27,11 +27,24 @@ namespace Presentation.Controllers
             return Ok(route);
         }
 
+        [HttpGet("myroutes")]
+        [Authorize(Roles = "Admin,RouteManager")]
+        public async Task<IActionResult> GetRoutesOfUserAsync()
+        {
+            var uid = User.FindFirst("UserUid").Value.ToString();
+
+            var routes = await _service.GetRoutesByOwnerUidAsync(uid);
+
+            return Ok(routes);
+        }
+
         [HttpPost]
         [Authorize(Roles = "Admin,RouteManager")]
         public async Task<IActionResult> CreateRoute([FromBody] CreateRouteDto routeToCreate)
         {
-            var route = await _service.CreateRouteAsync(routeToCreate);
+            var ownerUid = User.FindFirst("UserUid").Value.ToString();
+
+            var route = await _service.CreateRouteAsync(routeToCreate, ownerUid);
 
             return CreatedAtAction(nameof(GetRouteById), new { id = route.Id }, route);
         }

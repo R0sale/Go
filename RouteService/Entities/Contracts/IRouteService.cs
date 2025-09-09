@@ -12,7 +12,8 @@ namespace Entities.Contracts
     {
         Task<RouteDto> GetRouteByIdAsync(string id);
         Task<IEnumerable<RouteDto>> GetAllRoutesAsync();
-        Task<Route> CreateRouteAsync(CreateRouteDto route);
+        Task<IEnumerable<RouteDto>> GetRoutesByOwnerUidAsync(string ownerUid);
+        Task<Route> CreateRouteAsync(CreateRouteDto route, string ownerUid);
         Task UpdateRouteAsync(RouteDto updatedRoute, string id);
         Task DeleteRouteAsync(string id);
     }

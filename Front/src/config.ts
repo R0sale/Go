@@ -6,4 +6,5 @@ export const config = {
     GET_FACILITIES_URL: 'http://localhost:5000/api/facility',
     CREATE_FACILITY_URL: 'http://localhost:5000/api/facility',
     GET_TRANSPORT_URL: 'http://localhost:5002/api/transport', 
+    GET_USERS_ROUTES_URL: 'http://localhost:5003/api/routes/myroutes/',
 };
