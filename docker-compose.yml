@@ -70,6 +70,23 @@ services:
       - ./Users/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:/app/src/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:ro
     restart: on-failure
 
+  apigateway:
+    build:
+      context: ./Gateway
+      dockerfile: Dockerfile
+    ports:
+      - "5004:8084" 
+    environment:
+      - ASPNETCORE_URLS=http://+:8084
+    networks:
+      - sharednetwork
+    depends_on:
+      - usersservice
+      - transportservice
+      - routeservice
+      - facilitiesservice
+    restart: on-failure
+
   usersdb:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
