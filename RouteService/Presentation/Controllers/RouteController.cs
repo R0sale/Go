@@ -19,14 +19,6 @@ namespace Presentation.Controllers
             return Ok(routes);
         }
 
-        [HttpGet("{id}")]   
-        public async Task<IActionResult> GetRouteById(string id)
-        {
-            var route = await _service.GetRouteByIdAsync(id);
-
-            return Ok(route);
-        }
-
         [HttpGet("myroutes")]
         [Authorize(Roles = "Admin,RouteManager")]
         public async Task<IActionResult> GetRoutesOfUserAsync()
@@ -36,6 +28,14 @@ namespace Presentation.Controllers
             var routes = await _service.GetRoutesByOwnerUidAsync(uid);
 
             return Ok(routes);
+        }
+
+        [HttpGet("{id}")]   
+        public async Task<IActionResult> GetRouteById(string id)
+        {
+            var route = await _service.GetRouteByIdAsync(id);
+
+            return Ok(route);
         }
 
         [HttpPost]
