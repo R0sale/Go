@@ -82,6 +82,18 @@
       "UpstreamHttpMethod": [ "Get", "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/api/facility/image/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "facilitiesservice",
+          "Port": 8081
+        }
+      ],
+      "UpstreamPathTemplate": "/facility/image/{id}",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/facility/myfacilities",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

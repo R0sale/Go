@@ -1,6 +1,6 @@
 import { auth } from "../firebase";
 import guestImage from "../assets/guest.png";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { MyFacility } from "../models/MyFacility";
 import { config } from "../config";
@@ -20,6 +20,7 @@ const UserPage: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [facilities, setFacilities] = useState<MyFacility[]>([]);
     const [userImage, setUserImage] = useState<string>(guestImage);
+    const inputRef = useRef(null);
 
     useEffect(() => {
         setLoading(true);
@@ -105,12 +106,52 @@ const UserPage: React.FC = () => {
         {label: "Roles", data: `${tokenResult.roles}`}
     ];
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files?.[0]) {
+            const newFile = event.target.files[0];
+
+            handleImageUpload(newFile);
+        }
+    }
+
+    const handleImageClick = () => {
+        inputRef.current.click();
+    }
+
+    const handleImageUpload = async (newFile: File) => {
+        if (newFile == null) {
+            alert("No file selected");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", newFile);
+
+        if (auth.currentUser == null) {
+            alert("User not authenticated");
+            return;
+        }
+
+        const response = await fetch(config.CHANGE_USERS_IMAGE_URL, {
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${await auth.currentUser.getIdToken()}`
+            },
+            body: formData
+        });
+
+        if (response.ok) {
+            setUserImage(config.AZURE_USERS_URL + auth.currentUser.uid);
+        }
+    }
+
     return (
         <div className="h-screen flex pinned-left bg-gray-100 overflow-y-hidden">
             <div className="mt-4 mb-4 ml-6 mr-6 w-screen bg-white ">
                 <div className="h-1/2 bg-white">
                     <div className="p-20 flex">
-                        <img className="rounded-full w-60 h-60 block" src={userImage} ></img>
+                        <input type="file" style={{ display: 'none' }} ref={inputRef} onChange={handleFileChange}></input>
+                        <img className="rounded-full w-60 h-60 block cursor-pointer" src={userImage} onClick={handleImageClick}></img>
                         <div className="ml-100">
                             <p className="text-6xl font-bold">{tokenResult.firstName} {tokenResult.lastName}</p>
                             <p className="text-2xl text-blue-600 underline mt-4 decoration-2">{tokenResult.email}</p>
