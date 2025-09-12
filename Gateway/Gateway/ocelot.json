@@ -48,6 +48,17 @@
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/api/users/image",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usersservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/users/image",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/users/login",
       "DownstreamHostAndPorts": [
         {

@@ -42,6 +42,17 @@ namespace Presentation.Controllers
             return Ok(userDto);
         }
 
+        [Authorize]
+        [HttpPost("image")]
+        public async Task<IActionResult> AddImageAsync([FromForm] IFormFile file)
+        {
+            var uid = User.FindFirst("UserUid").Value;
+
+            await _userService.AddImageAsync(file, uid);
+
+            return Created();
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateUserAsync([FromBody] UserForCreationDto userDto)
         {

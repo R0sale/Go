@@ -19,6 +19,7 @@ const UserPage: React.FC = () => {
 });
     const [loading, setLoading] = useState(false);
     const [facilities, setFacilities] = useState<MyFacility[]>([]);
+    const [userImage, setUserImage] = useState<string>(guestImage);
 
     useEffect(() => {
         setLoading(true);
@@ -39,6 +40,22 @@ const UserPage: React.FC = () => {
             }
 
             setLoading(false);
+        });
+
+        
+
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const response = await fetch(config.AZURE_USERS_URL + user.uid);
+
+                if (response.status == 200) {
+                    setUserImage(config.AZURE_USERS_URL + user.uid);
+                }
+            } 
         });
 
         return () => unsubscribe();
@@ -93,7 +110,7 @@ const UserPage: React.FC = () => {
             <div className="mt-4 mb-4 ml-6 mr-6 w-screen bg-white ">
                 <div className="h-1/2 bg-white">
                     <div className="p-20 flex">
-                        <img className="rounded-full w-60 h-60 block" src={guestImage} ></img>
+                        <img className="rounded-full w-60 h-60 block" src={userImage} ></img>
                         <div className="ml-100">
                             <p className="text-6xl font-bold">{tokenResult.firstName} {tokenResult.lastName}</p>
                             <p className="text-2xl text-blue-600 underline mt-4 decoration-2">{tokenResult.email}</p>

@@ -9,4 +9,5 @@ export const config = {
     GET_ALL_USERS_URL: 'http://localhost:5004/users',
     GET_USER_BY_UID_URL: 'http://localhost:5004/users/uid/',
     UPDATE_USER_ROLES_URL: 'http://localhost:5004/users/roles/',
+    AZURE_USERS_URL: 'http://localhost:10000/devstoreaccount1/users-images/',
 };
