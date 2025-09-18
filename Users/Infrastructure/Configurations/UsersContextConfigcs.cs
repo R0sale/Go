@@ -46,6 +46,12 @@ namespace Infrastructured.Configurations
                     Id = _config["RolesConfig:TransportManager"],
                     Name = "TransportManager",
                     NormalizedName = "TRANSPORTMANAGER"
+                },
+                new IdentityRole
+                {
+                    Id = _config["RolesConfig:RouteManager"],
+                    Name = "RouteManager",
+                    NormalizedName = "ROUTEMANAGER"
                 }
             );
         }

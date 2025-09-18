@@ -56,6 +56,8 @@ const SignUpPage: React.FC = () => {
             userCredentials = await createUserWithEmailAndPassword(auth, email, password);
             const token = await userCredentials.user.getIdToken();
 
+            console.log(token);
+
             const response = await fetch(config.SIGN_UP_URL, {
                 method: 'POST',
                 headers: {

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entities.Dtos;
 using Entities.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Entities.Contracts
 {
@@ -12,6 +13,7 @@ namespace Entities.Contracts
     {
         Task<IList<FacilityDto>> GetFacilitiesAsync();
         Task<FacilityDto> GetFacilityAsync(string id);
+        Task AddImageAsync(IFormFile file, string id);
         Task<Facility> CreateFacilityAsync(CreateFacilityDto newFacility, string uid);
         Task UpdateFacilityAsync(string id, FacilityDto updatedFacility);
         Task RemoveFacilityAsync(string id);

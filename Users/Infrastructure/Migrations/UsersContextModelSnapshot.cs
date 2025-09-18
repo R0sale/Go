@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -46,6 +45,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -123,27 +125,16 @@ namespace Infrastructure.Migrations
 
                     b.ToTable("AspNetRoles", (string)null);
 
-                    var config = new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json")
-                        .Build();
-
-                    var ownerId = config.GetSection("RolesConfig")["Owner"];
-
-                    var userId = config.GetSection("RolesConfig")["User"];
-
-                    var adminId = config.GetSection("RolesConfig")["Admin"];
-
                     b.HasData(
                         new
                         {
-                            Id = userId,
+                            Id = "409e52ba-c288-463b-a6f1-5b1c0f17e17a",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = adminId,
+                            Id = "bb32d8a3-7c76-4df5-9d1c-aba247879311",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
@@ -158,6 +149,12 @@ namespace Infrastructure.Migrations
                             Id = "d1f3e2c3-1f4e-4b2a-8e6b-3c9f0e5a7b8c",
                             Name = "TransportManager",
                             NormalizedName = "TRANSPORTMANAGER"
+                        },
+                        new
+                        {
+                            Id = "e2a1b4c5-6d7e-8f9a-0b1c-2d3e4f5a6b7c",
+                            Name = "RouteManager",
+                            NormalizedName = "ROUTEMANAGER"
                         });
                 });
 

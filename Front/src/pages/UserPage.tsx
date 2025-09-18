@@ -1,6 +1,6 @@
 import { auth } from "../firebase";
 import guestImage from "../assets/guest.png";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { MyFacility } from "../models/MyFacility";
 import { config } from "../config";
@@ -19,6 +19,8 @@ const UserPage: React.FC = () => {
 });
     const [loading, setLoading] = useState(false);
     const [facilities, setFacilities] = useState<MyFacility[]>([]);
+    const [userImage, setUserImage] = useState<string>(guestImage);
+    const inputRef = useRef(null);
 
     useEffect(() => {
         setLoading(true);
@@ -39,6 +41,22 @@ const UserPage: React.FC = () => {
             }
 
             setLoading(false);
+        });
+
+        
+
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const response = await fetch(config.AZURE_USERS_URL + user.uid);
+
+                if (response.status == 200) {
+                    setUserImage(config.AZURE_USERS_URL + user.uid);
+                }
+            } 
         });
 
         return () => unsubscribe();
@@ -88,21 +106,66 @@ const UserPage: React.FC = () => {
         {label: "Roles", data: `${tokenResult.roles}`}
     ];
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files?.[0]) {
+            const newFile = event.target.files[0];
+
+            handleImageUpload(newFile);
+        }
+    }
+
+    const handleImageClick = () => {
+        inputRef.current.click();
+    }
+
+    const handleImageUpload = async (newFile: File) => {
+        if (newFile == null) {
+            alert("No file selected");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", newFile);
+
+        if (auth.currentUser == null) {
+            alert("User not authenticated");
+            return;
+        }
+
+        const response = await fetch(config.CHANGE_USERS_IMAGE_URL, {
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${await auth.currentUser.getIdToken()}`
+            },
+            body: formData
+        });
+
+        if (response.ok) {
+            setUserImage(config.AZURE_USERS_URL + auth.currentUser.uid);
+        }
+    }
+
     return (
         <div className="h-screen flex pinned-left bg-gray-100 overflow-y-hidden">
             <div className="mt-4 mb-4 ml-6 mr-6 w-screen bg-white ">
                 <div className="h-1/2 bg-white">
                     <div className="p-20 flex">
-                        <img className="rounded-full w-60 h-60 block" src={guestImage} ></img>
+                        <input type="file" style={{ display: 'none' }} ref={inputRef} onChange={handleFileChange}></input>
+                        <img className="rounded-full w-60 h-60 block cursor-pointer" src={userImage} onClick={handleImageClick}></img>
                         <div className="ml-100">
                             <p className="text-6xl font-bold">{tokenResult.firstName} {tokenResult.lastName}</p>
                             <p className="text-2xl text-blue-600 underline mt-4 decoration-2">{tokenResult.email}</p>
                         </div>
-                        <button className="w-48 h-15 text-center items-center text-xl ml-150 flex border-2 border-gray-300" onClick={() => {navigate('/')}}>To Main Page</button>
+                        <div className="block"> 
+                            <button className="w-48 h-15 text-center items-center text-xl ml-150 flex border-2 border-gray-300" onClick={() => {navigate('/')}}>To Main Page</button>
+                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl ml-150 mt-10 flex border-2 border-gray-300" onClick={() => {navigate('/routes')}}>To Routes Page</button>}
+                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl ml-150  mt-10 flex border-2 border-gray-300" onClick={() => {navigate('/transport')}}>To Transport Page</button>}
+                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl ml-150 flex border-2 mt-10 border-gray-300" onClick={() => {navigate('/userPage/facilityPage')}}>Create New Facility</button>}
+                        </div>
                     </div>
                     <div className="ml-4 font-semibold w-full h-10 text-2xl flex justify-between">
                         <p>Account</p>
-                        {tokenResult.roles.includes('Admin') ? <button className="w-48 h-15 text-center items-center text-xl mr-113 flex border-2 border-gray-300" onClick={() => {navigate('/userPage/facilityPage')}}>Create New Facility</button> : <div>No</div>}
+                        
                     </div>
                     
                 </div>

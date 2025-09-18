@@ -56,7 +56,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowViteDev", policy =>
     {
-        policy.WithOrigins(builder.Configuration.GetSection("FrontServer").ToString())
+        policy.WithOrigins(builder.Configuration["FrontService"])
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -76,8 +76,6 @@ builder.Services.AddControllers()
 var app = builder.Build();
 
 app.UseCors("AllowViteDev");
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
