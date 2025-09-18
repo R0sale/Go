@@ -13,4 +13,5 @@ export const config = {
     CHANGE_USERS_IMAGE_URL: 'http://localhost:5004/users/image',
     AZURE_USERS_URL: 'http://localhost:10000/devstoreaccount1/users-images/',
     AZURE_FACILITIES_URL: 'http://localhost:10000/devstoreaccount1/facilities-images/',
+    GET_USERS_ROUTES_URL: 'http://localhost:5003/api/routes/myroutes/',
 };

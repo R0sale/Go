@@ -156,11 +156,16 @@ const UserPage: React.FC = () => {
                             <p className="text-6xl font-bold">{tokenResult.firstName} {tokenResult.lastName}</p>
                             <p className="text-2xl text-blue-600 underline mt-4 decoration-2">{tokenResult.email}</p>
                         </div>
-                        <button className="w-48 h-15 text-center items-center text-xl ml-150 flex border-2 border-gray-300" onClick={() => {navigate('/')}}>To Main Page</button>
+                        <div className="block"> 
+                            <button className="w-48 h-15 text-center items-center text-xl ml-150 flex border-2 border-gray-300" onClick={() => {navigate('/')}}>To Main Page</button>
+                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl ml-150 mt-10 flex border-2 border-gray-300" onClick={() => {navigate('/routes')}}>To Routes Page</button>}
+                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl ml-150  mt-10 flex border-2 border-gray-300" onClick={() => {navigate('/transport')}}>To Transport Page</button>}
+                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl ml-150 flex border-2 mt-10 border-gray-300" onClick={() => {navigate('/userPage/facilityPage')}}>Create New Facility</button>}
+                        </div>
                     </div>
                     <div className="ml-4 font-semibold w-full h-10 text-2xl flex justify-between">
                         <p>Account</p>
-                        {tokenResult.roles.includes('Admin') ? <button className="w-48 h-15 text-center items-center text-xl mr-113 flex border-2 border-gray-300" onClick={() => {navigate('/userPage/facilityPage')}}>Create New Facility</button> : <div>No</div>}
+                        
                     </div>
                     
                 </div>
