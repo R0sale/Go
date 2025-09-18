@@ -19,8 +19,7 @@ namespace Web.Extensions
                     {
                         context.Response.StatusCode = contextFeature.Error switch
                         {
-                            ArgumentNullException => StatusCodes.Status400BadRequest,
-                            ArgumentException => StatusCodes.Status400BadRequest,
+                            BadRequestException => StatusCodes.Status400BadRequest,
                             NotFoundException => StatusCodes.Status404NotFound,
                             _ => StatusCodes.Status500InternalServerError
                         };

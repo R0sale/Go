@@ -48,6 +48,17 @@
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/api/users/image",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usersservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/users/image",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/users/login",
       "DownstreamHostAndPorts": [
         {
@@ -69,6 +80,18 @@
       ],
       "UpstreamPathTemplate": "/facility",
       "UpstreamHttpMethod": [ "Get", "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/facility/image/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "facilitiesservice",
+          "Port": 8081
+        }
+      ],
+      "UpstreamPathTemplate": "/facility/image/{id}",
+      "UpstreamHttpMethod": [ "Post" ]
     },
     {
       "DownstreamPathTemplate": "/api/facility/myfacilities",

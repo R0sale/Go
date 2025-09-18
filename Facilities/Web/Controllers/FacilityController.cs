@@ -53,6 +53,14 @@ namespace Facilities.Controllers
             return CreatedAtRoute("FacilityById", new { id = facility.Id }, facility);
         }
 
+        [Authorize]
+        [HttpPost("image/{id}")]
+        public async Task<IActionResult> UploadImage([FromForm] IFormFile file, string id)
+        {
+            await _service.AddImageAsync(file, id);
+            return Created();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFacility(string id)
         {
