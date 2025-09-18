@@ -1,4 +1,5 @@
 ﻿using Application;
+using Entities.Contracts;
 using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -7,14 +8,23 @@ using Microsoft.AspNetCore.Mvc;
 namespace Presentation.Controllers
 {
     [ApiController]
-    [Route("api/roles")]
+    [Route("api/users/roles")]
     public class RolesController : ControllerBase
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public RolesController(UserService userService)
+        public RolesController(IUserService userService)
         {
             _userService = userService;
+        }
+
+        [HttpPut("{uid}")]
+        [Authorize]
+        public async Task<IActionResult> ChangeUserRole([FromBody] IEnumerable<string> roles, string uid)
+        {
+            await _userService.ChangeUsersRolesAsync(uid, roles);
+
+            return Ok();
         }
 
         [Authorize(Roles = "Admin")]

@@ -12,12 +12,6 @@ namespace Presentation.Controllers
     {
         private readonly ITransportManager _manager = manager;
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok();
-        }
-
         [HttpPost]
         public async Task<IActionResult> FindTransportAsync([FromBody] Filter filter)
         {

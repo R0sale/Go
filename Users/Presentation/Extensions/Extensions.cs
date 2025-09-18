@@ -60,17 +60,16 @@ namespace Presentation.Extensions
                             var user = await db.Users
                                 .FirstOrDefaultAsync(u => u.FirebaseUid == uid);
 
-                            var roles = await (from ur in db.UserRoles
-                                               join r in db.Roles on ur.RoleId equals r.Id
-                                               where ur.UserId == uid
-                                               select r.Name).ToListAsync();
-
                             if (user is null)
                             {
                                 await ModifyBodyAsync(context.HttpContext, uid);
+                                return;
                             }
 
-                            var rolesClaims = JsonSerializer.Serialize(roles);
+                            var roles = await (from ur in db.UserRoles
+                                               join r in db.Roles on ur.RoleId equals r.Id
+                                               where ur.UserId == user.Id
+                                               select r.Name).ToListAsync();
 
                             var identity = (ClaimsIdentity)context.Principal.Identity;
                             identity.AddClaim(new Claim("UserUid", uid));

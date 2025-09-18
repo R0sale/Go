@@ -17,6 +17,7 @@ namespace Entities.Models
         public string? Description { get; set; }
         public string? WebsiteURL { get; set; }
         public Dictionary<DayOfWeek, OpeningTime> Schedule { get; set; }
+        public string? ImageUrl { get; set; }
 
         public bool IsOpen { 
             get

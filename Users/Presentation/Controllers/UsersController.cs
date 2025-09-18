@@ -25,6 +25,14 @@ namespace Presentation.Controllers
             return Ok(usersDto);
         }
 
+        [HttpGet("uid/{uid}")]
+        public async Task<IActionResult> GetUserByUid(string uid)
+        {
+            var user = await _userService.GetUserByUidAsync(uid);
+
+            return Ok(user);
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetUser(Guid id)
@@ -32,6 +40,17 @@ namespace Presentation.Controllers
             var userDto = await _userService.GetUserByIdAsync(id);
 
             return Ok(userDto);
+        }
+
+        [Authorize]
+        [HttpPost("image")]
+        public async Task<IActionResult> AddImageAsync([FromForm] IFormFile file)
+        {
+            var uid = User.FindFirst("UserUid").Value;
+
+            await _userService.AddImageAsync(file, uid);
+
+            return Created();
         }
 
         [HttpPost]

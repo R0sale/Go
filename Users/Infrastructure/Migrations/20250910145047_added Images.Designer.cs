@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    partial class UsersContextModelSnapshot : ModelSnapshot
+    [Migration("20250910145047_added Images")]
+    partial class addedImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,12 +152,6 @@ namespace Infrastructure.Migrations
                             Id = "d1f3e2c3-1f4e-4b2a-8e6b-3c9f0e5a7b8c",
                             Name = "TransportManager",
                             NormalizedName = "TRANSPORTMANAGER"
-                        },
-                        new
-                        {
-                            Id = "e2a1b4c5-6d7e-8f9a-0b1c-2d3e4f5a6b7c",
-                            Name = "RouteManager",
-                            NormalizedName = "ROUTEMANAGER"
                         });
                 });
 

@@ -6,6 +6,9 @@ import GoogleSignInPage from "./pages/GoogleSignInPage";
 import UserPage from "./pages/UserPage";
 import FacilityPage from "./pages/FacilityPage";
 import CreateFacilityPage from "./pages/CreateFacilityPage";
+import AdminPage from "./pages/AdminPage";
+import UserManagingPage from "./pages/UserManagingPage";
+import Images from "./pages/Images";
 import RoutesPage from "./pages/RoutesPage";
 
 function App() {
@@ -18,6 +21,9 @@ function App() {
         <Route path="/userPage" element={<UserPage />} />
         <Route path="/userPage/facilityPage/:facilityId" element={<FacilityPage />}/>
         <Route path="/userPage/facilityPage" element={<CreateFacilityPage />}/>
+        <Route path="/adminPage" element={<AdminPage />} />
+        <Route path="/adminPage/user/:userUid" element={<UserManagingPage />} />
+        <Route path="/images" element={<Images />} />
         <Route path="/routes" element={<RoutesPage />} />
       </Routes>
   );
