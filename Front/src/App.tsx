@@ -8,6 +8,7 @@ import FacilityPage from "./pages/FacilityPage";
 import CreateFacilityPage from "./pages/CreateFacilityPage";
 import AdminPage from "./pages/AdminPage";
 import UserManagingPage from "./pages/UserManagingPage";
+import Images from "./pages/Images";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/userPage/facilityPage" element={<CreateFacilityPage />}/>
         <Route path="/adminPage" element={<AdminPage />} />
         <Route path="/adminPage/user/:userUid" element={<UserManagingPage />} />
+        <Route path="/images" element={<Images />} />
       </Routes>
   );
 }

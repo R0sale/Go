@@ -12,5 +12,6 @@ namespace Entities.Models
         public string? FirebaseUid { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

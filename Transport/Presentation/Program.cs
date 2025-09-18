@@ -77,8 +77,6 @@ var app = builder.Build();
 
 app.UseCors("AllowViteDev");
 
-app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 

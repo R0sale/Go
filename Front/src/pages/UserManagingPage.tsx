@@ -29,7 +29,7 @@ const UserManagingPage: React.FC = () => {
 
                 setToken(token);
 
-                const response = await fetch(`${config.GET_USER_BY_UID__URL}${userUid}`, {
+                const response = await fetch(`${config.GET_USER_BY_UID_URL}${userUid}`, {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",

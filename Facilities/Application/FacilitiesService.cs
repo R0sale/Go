@@ -7,8 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using Entities.Exceptions;
+using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Http;
+using System.ComponentModel;
+using Azure.Storage.Blobs.Models;
 
 namespace Application
 {
@@ -16,11 +21,21 @@ namespace Application
     {
         private readonly IFacilityRepository _facilityRepository;
         private readonly IMapper _mapper;
+        private readonly BlobContainerClient _container;
+        private readonly IConfiguration _config;
 
-        public FacilitiesService(IFacilityRepository facilityRepository, IMapper mapper)
+        public FacilitiesService(IFacilityRepository facilityRepository, IMapper mapper, IConfiguration config)
         {
             _facilityRepository = facilityRepository;
             _mapper = mapper;
+            _config = config;
+
+            var service = new BlobServiceClient(config["Azure:ConnectionString"]);
+
+            _container = service.GetBlobContainerClient(config["Azure:Container"]);
+
+            _container.CreateIfNotExists();
+            _container.SetAccessPolicy(PublicAccessType.Blob);
         }
 
         public async Task<IList<FacilityDto>> GetFacilitiesAsync()
@@ -54,6 +69,38 @@ namespace Application
             var facilityDto = _mapper.Map<FacilityDto>(facility);
 
             return facilityDto;
+        }
+
+        public async Task AddImageAsync(IFormFile file, string id)
+        {
+            if (file is null || file.Length == 0)
+                throw new InvalidFileException("Image can't be null or of length 0.");
+
+            var facility = await _facilityRepository.GetFacilityAsync(id);
+
+            if (facility is null)
+                throw new FacilityNotFoundException(id);
+
+            var blob = _container.GetBlobClient(id);
+
+            var blobHttpHeader = new BlobHttpHeaders()
+            {
+                ContentType = file.ContentType
+            };
+
+            var blobHttpOptions = new BlobUploadOptions()
+            {
+                HttpHeaders = blobHttpHeader
+            };
+
+            using (var stream = file.OpenReadStream())
+            {
+                await blob.UploadAsync(stream, blobHttpOptions);
+            }
+
+            facility.ImageUrl = blob.Uri.ToString();
+
+            await _facilityRepository.UpdateFacilityAsync(id, facility);
         }
 
         public async Task<Facility> CreateFacilityAsync(CreateFacilityDto newFacility, string uid)

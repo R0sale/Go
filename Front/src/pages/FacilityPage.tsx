@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { auth } from "../firebase";
 import type { MyFacility } from "../models/MyFacility";
-import facilityImage from "../assets/facility.png";
+import defaultFacilityImage from "../assets/facility.png";
 import FacilityMap from "./components/FacilityMap";
 import type { DayOfWeek } from "../models/DayOfWeek";
 import { config } from "../config";
@@ -14,6 +14,8 @@ const FacilityPage: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [time, setTime] = useState(new Date());
     const navigate = useNavigate();
+    const inputRef = useRef(null);
+    const [facilityImage, setFacilityImage] = useState(defaultFacilityImage);
 
     useEffect(() => {
         setLoading(true);
@@ -21,8 +23,6 @@ const FacilityPage: React.FC = () => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user)
             {
-                
-
                 const token = await user.getIdToken();
 
                 const result = await fetch(`${config.GET_FACILITIES_URL}/${facilityId}`, {
@@ -51,9 +51,57 @@ const FacilityPage: React.FC = () => {
         return () => clearInterval(timerId);
     });
 
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user && facility) {
+                const result = await fetch(config.AZURE_FACILITIES_URL + facility.id);
+
+                if (result.ok) {
+                    setFacilityImage(config.AZURE_FACILITIES_URL + facility.id);
+                }
+            }
+        });
+
+        return () => unsubscribe();
+    }, [facility]);
+
     const parseTimeToMinutes= (timeString: string) => {
         const [hours, minutes] = timeString.split(':').map(Number);
         return hours * 60 + minutes;
+    }
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newFile = e.target.files?.[0];
+        if (newFile) {
+            handleImageUpload(newFile);
+        }
+    }
+
+    const handleImageUpload = async (newFile: File) => {
+        if (!auth.currentUser || !facility) {
+            alert("U're not registered or ur facility doesn't exist.");
+            return;
+        }
+        const formData = new FormData();
+        formData.append('file', newFile);
+
+        const response = await fetch(config.CHANGE_FACILITIES_IMAGE_URL + facility.id, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${await auth.currentUser.getIdToken()}`
+            },
+            body: formData
+        });
+
+        if (response.ok) {
+            setFacilityImage(config.AZURE_FACILITIES_URL + facility.id);
+        } else {
+            alert("Pupupu");
+        }
+    }
+
+    const handleImageClick = () => {
+        inputRef.current.click();
     }
 
     const isOpen = () => {
@@ -118,7 +166,8 @@ const FacilityPage: React.FC = () => {
     <div className="bg-gray-100 h-screen flex">
         <div className="bg-white m-2 w-screen flex">
             <div className="block">
-                <img src={facilityImage} alt="Facility icon" className="bg-gray-100 rounded-full w-90 h-90 m-20 mb-0"></img>
+                <input type="file" style={{ display: 'none' }} ref={inputRef} onChange={handleFileChange}></input>
+                <img src={facilityImage} alt="Facility icon" className="bg-gray-100 rounded-full w-90 h-90 m-20 mb-0" onClick={handleImageClick}></img>
                 <div className="border-1 h-96 rounded-2xl m-20 mt-5 bg-gray-100">
                     <p className="m-2 text-3xl">Schedule: </p>
                     {schedule.map((day, i) => {
