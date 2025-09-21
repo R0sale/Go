@@ -10,6 +10,7 @@ import AdminPage from "./pages/AdminPage";
 import UserManagingPage from "./pages/UserManagingPage";
 import Images from "./pages/Images";
 import RoutesPage from "./pages/RoutesPage";
+import TransportPage from "./pages/TransportPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/adminPage/user/:userUid" element={<UserManagingPage />} />
         <Route path="/images" element={<Images />} />
         <Route path="/routes" element={<RoutesPage />} />
+        <Route path="/userPage/transport" element={<TransportPage />} />
       </Routes>
   );
 }

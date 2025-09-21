@@ -25,6 +25,18 @@
       "UpstreamHttpMethod": [ "Get", "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/api/users/pdf",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usersservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/users/pdf",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/users/uid/{uid}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -260,6 +272,18 @@
       ],
       "UpstreamPathTemplate": "/routes/{id}",
       "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/routes/myroutes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "routeservice",
+          "Port": 8083
+        }
+      ],
+      "UpstreamPathTemplate": "/routes/myroutes",
+      "UpstreamHttpMethod": [ "Get" ]
     }
   ]
 }

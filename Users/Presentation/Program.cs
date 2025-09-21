@@ -11,9 +11,17 @@ using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var ironPdfLicenseKey = builder.Configuration["IronPdf:LicenseKey"];
+if (!string.IsNullOrEmpty(ironPdfLicenseKey))
+{
+    IronPdf.Installation.LicenseKey = ironPdfLicenseKey;
+}
+
 builder.Services.AddFirebaseAuth(builder.Configuration);
 builder.Services.ConfigureDb(builder.Configuration);
 builder.Services.AddAppAuthentication(builder.Configuration);
+builder.Services.AddScoped<RazorRender>();
+builder.Services.AddScoped<PdfService>();
 builder.Services.AddAuthorization();
 
 builder.Services.AddFluentValidationAutoValidation();
