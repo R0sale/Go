@@ -22,8 +22,13 @@ BsonClassMap.RegisterClassMap<Transport>(cm =>
         .SetSerializer(new StringSerializer(BsonType.ObjectId))
         .SetIdGenerator(StringObjectIdGenerator.Instance);
 
-    cm.MapMember(c => c.Type)
-    .SetSerializer(new EnumSerializer<TransportType>(BsonType.String));
+    cm.SetDiscriminator(nameof(Transport.TransportType));
+    cm.GetMemberMap(c => c.TransportType).SetSerializer(new EnumSerializer<TransportType>(BsonType.String));
+
+    cm.SetDiscriminatorIsRequired(true);
+
+    cm.AddKnownType(typeof(Car));
+    cm.AddKnownType(typeof(Motorcycle));
 });
 
 BsonClassMap.RegisterClassMap<Car>(cm =>
@@ -32,6 +37,8 @@ BsonClassMap.RegisterClassMap<Car>(cm =>
 
     cm.MapMember(c => c.FuelType)
     .SetSerializer(new EnumSerializer<FuelType>(BsonType.String));
+
+    cm.SetDiscriminator(nameof(Car));
 });
 
 BsonClassMap.RegisterClassMap<Motorcycle>(cm =>
@@ -40,7 +47,11 @@ BsonClassMap.RegisterClassMap<Motorcycle>(cm =>
 
     cm.MapMember(c => c.FuelType)
     .SetSerializer(new EnumSerializer<FuelType>(BsonType.String));
+
+    cm.SetDiscriminator(nameof(Motorcycle));
 });
+
+Bson
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,7 +67,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowViteDev", policy =>
     {
-        policy.WithOrigins(builder.Configuration["FrontService"])
+        policy.WithOrigins(builder.Configuration["FrontService"], builder.Configuration["GatewayService"])
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -74,6 +85,8 @@ builder.Services.AddControllers()
     });
 
 var app = builder.Build();
+
+app.ConfigureExceptionHandler();
 
 app.UseCors("AllowViteDev");
 

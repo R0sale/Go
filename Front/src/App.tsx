@@ -11,6 +11,7 @@ import UserManagingPage from "./pages/UserManagingPage";
 import Images from "./pages/Images";
 import RoutesPage from "./pages/RoutesPage";
 import TransportPage from "./pages/TransportPage";
+import CreateTransportPage from "./pages/CreateTransportPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/images" element={<Images />} />
         <Route path="/routes" element={<RoutesPage />} />
         <Route path="/userPage/transport" element={<TransportPage />} />
+        <Route path="/userPage/createTransport" element={<CreateTransportPage />} />
       </Routes>
   );
 }

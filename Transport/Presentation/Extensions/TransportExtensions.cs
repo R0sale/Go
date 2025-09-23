@@ -1,6 +1,7 @@
 using Application.Services;
 using Entities.Contracts.Repositories;
 using Entities.Contracts.Services;
+using Entities.Exceptions;
 using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
@@ -8,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Configuration;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Text.Json;
@@ -84,6 +86,38 @@ namespace Presentation.Extensions
             services.AddScoped<IBicycleService, BicycleService>();
 
             services.AddScoped<ITransportManager, TransportManager>();
+            services.AddScoped<ITransportRepository, TransportRepository>();
+        }
+
+        public static void ConfigureExceptionHandler(this WebApplication app)
+        {
+            app.UseExceptionHandler(appError =>
+            {
+                appError.Run(async context =>
+                {
+                    context.Response.ContentType = "application/json";
+
+                    var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+
+                    if (contextFeature is not null)
+                    {
+                        context.Response.StatusCode = contextFeature.Error switch
+                        {
+                            NotFoundException => StatusCodes.Status404NotFound,
+                            BadRequestException => StatusCodes.Status400BadRequest,
+                            UnauthorizedException => StatusCodes.Status401Unauthorized,
+                            ForbiddenException => StatusCodes.Status403Forbidden,
+                            _ => StatusCodes.Status500InternalServerError
+                        };
+                    }
+
+                    await context.Response.WriteAsync(new
+                    {
+                        StatusCode = context.Response.StatusCode,
+                        Message = contextFeature?.Error.Message
+                    }.ToString());
+                });
+            });
         }
     }
 }

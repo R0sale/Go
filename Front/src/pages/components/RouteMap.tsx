@@ -2,12 +2,12 @@ import type { LatLngExpression } from "leaflet";
 import { MapContainer, Polyline, TileLayer } from "react-leaflet";
 import type { Node } from "../../models/Node";
 
-interface FacilityMapProp {
+interface RouteMapProp {
     nodes: Node[];
     coords: LatLngExpression;
 }
 
-const RouteMap: React.FC<FacilityMapProp> = ({ nodes, coords }) => {
+const RouteMap: React.FC<RouteMapProp> = ({ nodes, coords }) => {
     const polylinePoints: [number, number][] = nodes.map(n => [n.latitude, n.longitude]);
 
     return (

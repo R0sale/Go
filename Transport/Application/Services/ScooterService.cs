@@ -2,6 +2,7 @@
 using Entities.Contracts.Repositories;
 using Entities.Contracts.Services;
 using Entities.Dto;
+using Entities.Exceptions;
 using Entities.Models.Transports;
 using System;
 using System.Collections.Generic;
@@ -34,24 +35,39 @@ namespace Application.Services
             return scooterDto;
         }
 
-        public async Task<Scooter> CreateScooterAsync(CreateScooterDto createScooterDto)
+        public async Task<IEnumerable<KeyValueDtoObject>> GetSelectedScooterById(string id)
+        {
+            return await _repository.FindSelectedTransportByIdAsync(id);
+        }
+
+        public async Task<Scooter> CreateScooterAsync(CreateScooterDto createScooterDto, string uid)
         {
             var scooter = _mapper.Map<Scooter>(createScooterDto);
+
+            scooter.UserId = uid;
 
             await _repository.CreateScooterAsync(scooter);
 
             return scooter;
         }
 
-        public async Task DeleteScooterAsync(string id)
+        public async Task DeleteScooterAsync(string id, string uid)
         {
             var scooter = await _repository.GetScooterByIdAsync(id);
+
+            if (!scooter.UserId.Equals(uid))
+                throw new DeletionIsNotAllowedException(uid);
 
             await _repository.DeleteScooterAsync(scooter);
         }
 
-        public async Task UpdateScooterAsync(string id, ScooterDto updateScooterDto)
+        public async Task UpdateScooterAsync(string id, ScooterDto updateScooterDto, string uid)
         {
+            var currentScooter = await _repository.GetScooterByIdAsync(id);
+
+            if (!currentScooter.UserId.Equals(uid))
+                throw new UpdateIsNotAllowedException(uid);
+
             var scooter = _mapper.Map<Scooter>(updateScooterDto);
 
             scooter.Id = id;

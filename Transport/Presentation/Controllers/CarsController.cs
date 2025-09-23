@@ -21,9 +21,17 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("{id}", Name = "CarById")]
-        public async Task<IActionResult> GetAllCarsAsync(string id)
+        public async Task<IActionResult> GetCarByIdAsync(string id)
         {
             var car = await _service.GetCarByIdAsync(id);
+
+            return Ok(car);
+        }
+
+        [HttpGet("selected/{id}")]
+        public async Task<IActionResult> GetSelectedCarById(string id)
+        {
+            var car = await _service.GetSelectedCarById(id);
 
             return Ok(car);
         }
@@ -32,7 +40,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> CreateCarAsync([FromBody] CreateCarDto carDto)
         {
-            var car = await _service.CreateCarAsync(carDto);
+            var uid = User.FindFirst("UserUid").Value;
+
+            var car = await _service.CreateCarAsync(carDto, uid);
 
             return CreatedAtRoute("CarById", new { id = car.Id }, car);
         }
@@ -41,7 +51,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> DeleteCarAsync(string id)
         {
-            await _service.DeleteCarAsync(id);
+            var uid = User.FindFirst("UserUid").Value;
+
+            await _service.DeleteCarAsync(id, uid);
 
             return NoContent();
         }
@@ -50,7 +62,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> UpdateCar([FromBody] CarDto carDto, string id)
         {
-            await _service.UpdateCarAsync(id, carDto);
+            var uid = User.FindFirst("UserUid").Value;
+
+            await _service.UpdateCarAsync(id, carDto, uid);
 
             return NoContent();
         }

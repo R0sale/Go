@@ -8,6 +8,6 @@ namespace Entities.Models.Transports
 {
     public class Scooter : Transport
     {
-        public override TransportType Type { get; init; } = TransportType.Scooter;
+        public override TransportType TransportType { get; init; } = TransportType.Scooter;
     }
 }

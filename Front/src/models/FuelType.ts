@@ -1,0 +1,1 @@
+export type FuelType = 'Petrol' | 'Diesel' | 'Electricity' | 'Gas';

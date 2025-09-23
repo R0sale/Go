@@ -1,4 +1,9 @@
 ﻿using Entities.Contracts;
+using Entities.Dto;
+using Entities.Exceptions;
+using Entities.Models;
+using Entities.Models.Transports;
+using Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -8,8 +13,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Infrastructure.Configuration;
-using Entities.Models;
 
 namespace Infrastructure
 {
@@ -27,18 +30,27 @@ namespace Infrastructure
             _transport = mongoDatabase.GetCollection<T>(transportDatabaseSettings.Value.TransportCollectionName);
         }
 
-        public async Task<IEnumerable<T>> FindAllAsync() => await _transport.Find(t => t.Type.ToString().Equals(typeOfRepository.Name)).ToListAsync();
+        public async Task<IEnumerable<T>> FindAllAsync() => await _transport.Find(t => t.TransportType.ToString().Equals(typeOfRepository.Name)).ToListAsync();
 
-        public async Task<IEnumerable<T>> FindByConditionAsync(Func<T, bool> expression)
+        public async Task<IEnumerable<T>> FindByConditionAsync(Func<T, bool> expression) => (await FindAllAsync()).Where(expression);
+
+        public async Task<IEnumerable<KeyValueDtoObject>> FindSelectedTransportByIdAsync(string id)
         {
-            Console.WriteLine((await FindAllAsync()).Where(expression).Count());
+            var props = typeOfRepository.GetProperties();
 
-            foreach (var i in (await FindAllAsync()).Where(expression))
+            var transport = (await FindByConditionAsync(transport => transport.Id.Equals(id))).FirstOrDefault();
+
+            if (transport is null)
+                throw new NotFoundException($"Transport with id {id} was not found.");
+
+            var list = new List<KeyValueDtoObject>();
+
+            foreach (var prop in props)
             {
-                Console.WriteLine(i.Id);
+                list.Add(new KeyValueDtoObject { Label = prop.Name, Value = prop.GetValue(transport).ToString() });
             }
 
-            return (await FindAllAsync()).Where(expression);
+            return list;
         }
 
         public async Task CreateAsync(T entity) => await _transport.InsertOneAsync(entity);

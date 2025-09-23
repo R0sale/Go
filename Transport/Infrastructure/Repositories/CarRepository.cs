@@ -19,6 +19,7 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Car>> GetAllCarsAsync() => await FindAllAsync();
         public async Task<Car> GetCarByIdAsync(string id) => (await FindByConditionAsync(car => car.Id.Equals(id))).FirstOrDefault();
+        public async Task<IEnumerable<Car>> GetUsersCarAsync(string uid) => (await FindByConditionAsync(car => car.UserId.Equals(uid))).ToList();
         public async Task CreateCarAsync(Car car) => await CreateAsync(car);
         public async Task DeleteCarAsync(Car car) => await DeleteAsync(car);
         public async Task UpdateCarAsync(Car car) => await UpdateAsync(car);
