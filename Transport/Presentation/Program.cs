@@ -51,7 +51,19 @@ BsonClassMap.RegisterClassMap<Motorcycle>(cm =>
     cm.SetDiscriminator(nameof(Motorcycle));
 });
 
-Bson
+BsonClassMap.RegisterClassMap<Bicycle>(cm =>
+{
+    cm.AutoMap();
+
+    cm.SetDiscriminator(nameof(Bicycle));
+});
+
+BsonClassMap.RegisterClassMap<Scooter>(cm =>
+{
+    cm.AutoMap();
+
+    cm.SetDiscriminator(nameof(Scooter));
+});
 
 var builder = WebApplication.CreateBuilder(args);
 
