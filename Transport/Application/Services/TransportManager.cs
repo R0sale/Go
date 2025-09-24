@@ -12,28 +12,20 @@ using Entities.Dto;
 
 namespace Application.Services
 {
-    public class TransportManager(ICarRepository carRepository, IBicycleRepository bicycleRepository, IMotorcycleRepository motorcycleRepository, IScooterRepository scooterRepository) : ITransportManager
+    public class TransportManager(ITransportRepository transportRepository) : ITransportManager
     {
-        private readonly ICarRepository _carRepository = carRepository;
-        private readonly IBicycleRepository _bicycleRepository = bicycleRepository;
-        private readonly IMotorcycleRepository _motorcycleRepository = motorcycleRepository;
-        private readonly IScooterRepository _scooterRepository = scooterRepository;
+        private readonly ITransportRepository _transportRepository = transportRepository;
 
         public async Task<IEnumerable<Transport>> GetAllTransportAsync(Filter filter)
         {
-            switch (filter.Type)
-            {
-                case TransportType.Car:
-                    return await _carRepository.GetAllCarsAsync();
-                case TransportType.Bicycle:
-                    return await _bicycleRepository.GetAllBicyclesAsync();
-                case TransportType.Motorcycle:
-                    return await _motorcycleRepository.GetAllMotorcyclesAsync();
-                case TransportType.Scooter:
-                    return await _scooterRepository.GetAllScootersAsync();
-            }
+            return (await _transportRepository.GetAllTransportAsync()).Where(t => t.TransportType.Equals(filter.Type));
+        }
 
-            return null;
+        public async Task<IEnumerable<Transport>> GetUsersTransport(string uid)
+        {
+            var transport = await _transportRepository.FindUsersTransportAsync(uid);
+
+            return transport;
         }
     }
 }

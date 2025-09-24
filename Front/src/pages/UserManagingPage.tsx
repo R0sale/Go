@@ -107,7 +107,7 @@ const UserManagingPage: React.FC = () => {
             <div>
                 <p className="text-3xl font-bold ml-10 mb-10 mt-10">User Details:</p>
                 <div className="ml-10">
-                    {userData.map((data, i) => (<div className="ml-4 mt-4 text-xl justify-between flex">
+                    {userData.map((data) => (<div className="ml-4 mt-4 text-xl justify-between flex">
                             <p className="p-2 font-semibold">{data.label}</p>
                             <p className="mr-40 w-140 p-2  rounded-2xl border-1 bg-gray-100">{data.value}</p>
                     </div>))}
@@ -120,7 +120,7 @@ const UserManagingPage: React.FC = () => {
                                 <label className="ml-4 mt-2 flex" key={i}>
                                 <input type="checkbox" className="" key={i} name={role.name} value={role.name} checked={selectedRoles.includes(role.name)} onChange={e => handleRoleSelection(e)} /> 
                                 <span className="ml-2">{role.name}</span>
-                                    </label>
+                                </label>
                             </div>))
                             }
                             <input type="submit" className="w-20 h-8 bg-blue-500 text-white rounded-2xl mt-6 " value="Submit" />

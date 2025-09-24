@@ -5,7 +5,7 @@ EXPOSE 8082
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
-ARG BUILD_CONFIGURATION=Release
+ARG BUILD_CONFIGURATION=Debug
 COPY Transport.sln .
 COPY Presentation/Presentation.csproj ./Presentation/
 COPY Infrastructure/Infrastructure.csproj ./Infrastructure/
@@ -21,7 +21,7 @@ WORKDIR /src/Presentation
 RUN dotnet build "Presentation.csproj" -c $BUILD_CONFIGURATION -o app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release 
+ARG BUILD_CONFIGURATION=Debug
 RUN dotnet publish "./Presentation.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 
 FROM base AS final

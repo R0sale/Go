@@ -127,14 +127,6 @@ const CreateFacilityPage: React.FC = () => {
 
     const createFacility = async () => {
         try {
-            console.log(schedule.reduce((accumulator, day) => {
-                            const formattedStr = `${day.time.start.h}:${day.time.start.m}-${day.time.end.h}:${day.time.end.m}`;
-
-                            accumulator[day.day] = formattedStr;
-
-                            return accumulator;
-                        }, {} as ScheduleObj));
-
             validate({
                     name: `${name}`,
                     email: `${email}`,

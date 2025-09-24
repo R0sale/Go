@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    abstract public class Transport
+    public class Transport
     {
         public string? UserId { get; set; }
         public string? Id { get; set; }
-        public abstract TransportType Type { get; init; }
+        public virtual TransportType TransportType { get; init; }
         public string? ModelName { get; set; }
         public decimal Cost { get; set; }
         public Coordinates? Coordinates { get; set; }

@@ -1,6 +1,6 @@
 interface Transport {
     id: string;
-    type: string;
+    transportType: string;
     modelName: string;
     cost: number;
     coordinates: {
@@ -10,7 +10,7 @@ interface Transport {
 }
 
 interface Car extends Transport {
-    type: 'car';
+    transportType: 'car';
     maxSpeed: number;
     fuelType: string;
     color: string;
@@ -18,7 +18,7 @@ interface Car extends Transport {
 }
 
 interface Motorcycle extends Transport {
-    type: 'motorcycle';
+    transportType: 'motorcycle';
     maxSpeed: number;
     fuelType: string;
     color: string;
@@ -26,12 +26,12 @@ interface Motorcycle extends Transport {
 }
 
 interface Bicycle extends Transport {
-    type: 'bicycle';
+    transportType: 'bicycle';
     isElectric: boolean;
 }
 
 interface Scooter extends Transport {
-    type: 'scooter';
+    transportType: 'scooter';
 }
 
 type Vehicle = Car | Motorcycle | Bicycle | Scooter;

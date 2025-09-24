@@ -3,6 +3,7 @@ using Entities.Contracts.Repositories;
 using Entities.Contracts.Services;
 using Entities.Dto;
 using Entities.Models.Transports;
+using Entities.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,24 +35,39 @@ namespace Application.Services
             return carDto;
         }
 
-        public async Task<Car> CreateCarAsync(CreateCarDto createCarDto)
+        public async Task<IEnumerable<KeyValueDtoObject>> GetSelectedCarById(string id)
+        {
+            return await _repository.FindSelectedTransportByIdAsync(id);
+        }
+
+        public async Task<Car> CreateCarAsync(CreateCarDto createCarDto, string uid)
         {
             var car = _mapper.Map<Car>(createCarDto);
+
+            car.UserId = uid;
 
             await _repository.CreateCarAsync(car);
 
             return car;
         }
 
-        public async Task DeleteCarAsync(string id)
+        public async Task DeleteCarAsync(string id, string uid)
         {
             var car = await _repository.GetCarByIdAsync(id);
+
+            if (!car.UserId.Equals(uid))
+                throw new DeletionIsNotAllowedException(uid);
 
             await _repository.DeleteCarAsync(car);
         }
 
-        public async Task UpdateCarAsync(string id, CarDto updateCarDto)
+        public async Task UpdateCarAsync(string id, CarDto updateCarDto, string uid)
         {
+            var currentCar = await _repository.GetCarByIdAsync(id);
+
+            if (!currentCar.UserId.Equals(uid))
+                throw new UpdateIsNotAllowedException(uid);
+
             var car = _mapper.Map<Car>(updateCarDto);
 
             car.Id = id;

@@ -11,5 +11,6 @@ namespace Entities.Contracts.Services
     public interface ITransportManager
     {
         Task<IEnumerable<Transport>> GetAllTransportAsync(Filter filter);
+        Task<IEnumerable<Transport>> GetUsersTransport(string uid);
     }
 }

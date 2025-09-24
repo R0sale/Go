@@ -14,5 +14,17 @@ export const config = {
     AZURE_USERS_URL: 'http://localhost:10000/devstoreaccount1/users-images/',
     AZURE_FACILITIES_URL: 'http://localhost:10000/devstoreaccount1/facilities-images/',
     GET_USERS_ROUTES_URL: 'http://localhost:5004/routes/myroutes/',
+<<<<<<< HEAD
     DOWNLOAD_USER_INFO_URL: 'http://localhost:5004/users/pdf',
+=======
+    GET_USERS_TRANSPORT: 'http://localhost:5004/transport',
+    GET_SELECTED_CAR_URL: 'http://localhost:5004/transport/cars/selected/',
+    GET_SELECTED_MOTORCYCLE_URL: 'http://localhost:5004/transport/motorcycles/selected/',
+    GET_SELECTED_BICYCLE_URL: 'http://localhost:5004/transport/bicycles/selected/',
+    GET_SELECTED_SCOOTER_URL: 'http://localhost:5004/transport/scooters/selected/',
+    CREATE_CAR_URL: 'http://localhost:5004/transport/cars',
+    CREATE_MOTORCYCLE_URL: 'http://localhost:5004/transport/motorcycles',
+    CREATE_BICYCLE_URL: 'http://localhost:5004/transport/bicycles',
+    CREATE_SCOOTER_URL: 'http://localhost:5004/transport/scooters',
+>>>>>>> transportPage
 };

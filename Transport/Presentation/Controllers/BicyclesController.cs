@@ -28,11 +28,21 @@ namespace Presentation.Controllers
             return Ok(bicycle);
         }
 
+        [HttpGet("selected/{id}")]
+        public async Task<IActionResult> GetSelectedBicycleById(string id)
+        {
+            var bicycle = await _service.GetSelectedBicycleById(id);
+
+            return Ok(bicycle);
+        }
+
         [HttpPost]
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> CreateBicycleAsync([FromBody] CreateBicycleDto bicycleDto)
         {
-            var bicycle = await _service.CreateBicycleAsync(bicycleDto);
+            var uid = User.FindFirst("UserUid").Value;
+
+            var bicycle = await _service.CreateBicycleAsync(bicycleDto, uid);
 
             return CreatedAtRoute("BicycleById", new { id = bicycle.Id }, bicycle);
         }
@@ -41,7 +51,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> DeleteBicycleAsync(string id)
         {
-            await _service.DeleteBicycleAsync(id);
+            var uid = User.FindFirst("UserUid").Value;
+
+            await _service.DeleteBicycleAsync(id, uid);
 
             return NoContent();
         }
@@ -50,7 +62,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> UpdateBicycle([FromBody] BicycleDto bicycleDto, string id)
         {
-            await _service.UpdateBicycleAsync(id, bicycleDto);
+            var uid = User.FindFirst("UserUid").Value;
+
+            await _service.UpdateBicycleAsync(id, bicycleDto, uid);
 
             return NoContent();
         }

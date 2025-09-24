@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,6 +13,7 @@ namespace Entities.Contracts
     {
         Task<IEnumerable<T>> FindAllAsync();
         Task<IEnumerable<T>> FindByConditionAsync(Func<T, bool> expression);
+        Task<IEnumerable<KeyValueDtoObject>> FindSelectedTransportByIdAsync(string id);
         Task CreateAsync(T entity);
         Task DeleteAsync(T entity);
         Task UpdateAsync(T entity);
