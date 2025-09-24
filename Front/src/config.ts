@@ -14,4 +14,5 @@ export const config = {
     AZURE_USERS_URL: 'http://localhost:10000/devstoreaccount1/users-images/',
     AZURE_FACILITIES_URL: 'http://localhost:10000/devstoreaccount1/facilities-images/',
     GET_USERS_ROUTES_URL: 'http://localhost:5004/routes/myroutes/',
+    DOWNLOAD_USER_INFO_URL: 'http://localhost:5004/users/pdf',
 };

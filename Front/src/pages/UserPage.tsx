@@ -115,6 +115,45 @@ const UserPage: React.FC = () => {
         }
     }
 
+    const downloadUserInfo = async () => {
+        try {
+            const token = await auth.currentUser.getIdToken(true);
+
+            const response = await fetch(config.DOWNLOAD_USER_INFO_URL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to download user info');
+            }
+
+            const blob = await response.blob();
+
+            if (!blob) {
+                throw new Error('No data received');
+            }
+
+            const url = window.URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = "YourInfo.pdf";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (er) {
+            if (er instanceof Error) {
+                alert(`Error: ${er.message}`);
+            } else {
+                alert(`Some undefined error occured.`);
+            }
+        }
+    }
+
     const handleImageClick = () => {
         inputRef.current.click();
     }
@@ -161,7 +200,7 @@ const UserPage: React.FC = () => {
                         <div className="ml-0">
                             <p className="text-6xl font-bold">{tokenResult.firstName} {tokenResult.lastName}</p>
                             <p className="text-2xl text-blue-600 underline mt-4 decoration-2">{tokenResult.email}</p>
-                            <button className="w-48 h-15 text-center items-center text-xl mt-10 flex border-2 border-gray-300">Download my information</button>
+                            <button className="w-48 h-15 text-center items-center text-xl mt-10 flex border-2 border-gray-300" onClick={async () => {await downloadUserInfo()}}>Download my information</button>
                         </div>
                         <div className="block ml-120"> 
                             <button className="w-48 h-15 text-center items-center text-xl flex border-2 border-gray-300" onClick={() => {navigate('/')}}>To Main Page</button>

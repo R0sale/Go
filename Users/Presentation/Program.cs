@@ -8,6 +8,7 @@ using ExceptionHandler.ExceptionMiddleware;
 using Presentation.Extensions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
