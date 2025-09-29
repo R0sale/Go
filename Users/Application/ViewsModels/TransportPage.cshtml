@@ -1,10 +1,9 @@
-﻿@model Entities.Dtos.UserDto
+﻿@model IEnumerable<Entities.Dtos.TransportDto>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Profile - @Model.FirstName @Model.LastName</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,16 +51,12 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>@Model.FirstName @Model.LastName</h1>
-        <p><span class="label">Email:</span> @Model.Email</p>
-        <div class="roles">
-            <span class="label">Roles:</span><br />
-            @foreach (var role in Model.Roles)
-            {
-                <span class="role">@role</span>
-            }
+    @foreach (var transport in Model)
+    {
+        <div class="container">
+            <h1>@transport.TransportType @transport.ModelName</h1>
+            <p><span class="label">Cost:</span> @transport.Cost</p>
         </div>
-    </div>
+    }
 </body>
 </html>

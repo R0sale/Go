@@ -102,7 +102,7 @@ namespace Presentation.Controllers
         {
             var uid = User.FindFirst("UserUid").Value;
 
-            var pdf = await _pdfService.CreateUserPagePdfAsync(uid);
+            var pdf = await _pdfService.CreateFullPdfPageAsync(uid);
 
             return File(pdf.BinaryData, "application/pdf", "UserPage.pdf");
         }

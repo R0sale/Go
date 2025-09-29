@@ -1,28 +1,26 @@
-﻿using Application.Services;
-using Entities.Contracts.Services;
-using Entities.Exceptions;
+﻿using Entities.Contracts;
+using Entities.Dtos;
 using Entities.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
-using Entities.Contracts;
+using Entities.Exceptions;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Infrastructure.RabbitMq
 {
     public class RpcServer : IRpcServer
     {
         private IChannel _channel;
-        private const string QUEUE_NAME = "transport_rpc";
-        private readonly ITransportManager _transportManager;
-        public RpcServer(ITransportManager transportManager) 
+        private const string QUEUE_NAME = "facility_rpc";
+        private readonly IFacilityService _facilityService;
+        public RpcServer(IFacilityService facilityService)
         {
-            _transportManager = transportManager;
+            _facilityService = facilityService;
         }
 
         public async Task StartAsync(IChannel channel)
@@ -55,13 +53,13 @@ namespace Infrastructure.RabbitMq
                 if (body.Length == 0)
                     throw new UserIdNotFoundException("User id is null.");
 
-                IEnumerable<Transport> answer = null;
+                IEnumerable<FacilityDto> answer = null;
 
                 try
                 {
                     var uid = Encoding.UTF8.GetString(body);
 
-                    answer = await _transportManager.GetUsersTransport(uid);
+                    answer = await _facilityService.GetUsersFacilitiesAsync(uid);
                 }
                 catch (Exception e)
                 {

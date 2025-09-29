@@ -14,6 +14,9 @@ using System.Text.Json.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using Entities.Models;
 using Entities.Models.Transports;
+using RabbitMQ.Client;
+using Infrastructure.RabbitMq;
+using Presentation.HostedServices;
 
 BsonClassMap.RegisterClassMap<Transport>(cm =>
 {
@@ -66,6 +69,8 @@ BsonClassMap.RegisterClassMap<Scooter>(cm =>
 });
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton<IRpcServer, RpcServer>();
+builder.Services.AddHostedService<RabbitMqInitializer>();
 
 builder.Services.ConfigureDB(builder.Configuration);
 
