@@ -108,7 +108,7 @@ const TransportPage: React.FC = () => {
                 <div className="w-1/2 h-full">
                         <TransportMap coords={selectedTransport?.coordinates ? [selectedTransport.coordinates.latitude, selectedTransport.coordinates.latitude] : [45.2671, 19.8335]} />
                     <div className="w-full h-102">
-                        {selectedTransport && information.map((row, i) => {
+                        {(selectedTransport && information.length) && information?.map((row, i) => {
                             if (row.label == 'Coordinates' || row.label === 'Id' || row.label === 'UserId')
                                 return;
                             

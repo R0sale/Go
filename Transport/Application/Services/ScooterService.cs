@@ -35,11 +35,6 @@ namespace Application.Services
             return scooterDto;
         }
 
-        public async Task<IEnumerable<KeyValueDtoObject>> GetSelectedScooterById(string id)
-        {
-            return await _repository.FindSelectedTransportByIdAsync(id);
-        }
-
         public async Task<Scooter> CreateScooterAsync(CreateScooterDto createScooterDto, string uid)
         {
             var scooter = _mapper.Map<Scooter>(createScooterDto);

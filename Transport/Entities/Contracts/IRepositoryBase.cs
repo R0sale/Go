@@ -13,7 +13,6 @@ namespace Entities.Contracts
     {
         Task<IEnumerable<T>> FindAllAsync();
         Task<IEnumerable<T>> FindByConditionAsync(Func<T, bool> expression);
-        Task<IEnumerable<KeyValueDtoObject>> FindSelectedTransportByIdAsync(string id);
         Task CreateAsync(T entity);
         Task DeleteAsync(T entity);
         Task UpdateAsync(T entity);
