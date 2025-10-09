@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
+	<CopyOutputSymbolsToPublishDirectory>true</CopyOutputSymbolsToPublishDirectory>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -10,6 +12,12 @@
     <PackageReference Include="AutoMapper" Version="15.0.1" />
     <PackageReference Include="FirebaseAdmin" Version="3.3.0" />
     <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="IronPdf" Version="2025.9.4" />
+    <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
+    <PackageReference Include="RazorLight" Version="2.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+	<PackageReference Include="IronPdf.Native.Chrome.Linux" Version="2025.9.4" />
   </ItemGroup>
 
   <ItemGroup>

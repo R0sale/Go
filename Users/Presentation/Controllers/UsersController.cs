@@ -1,4 +1,5 @@
-﻿using Entities.Contracts;
+﻿using Application;
+using Entities.Contracts;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace Presentation.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly PdfService _pdfService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, PdfService pdfService)
         {
             _userService = userService;
+            _pdfService = pdfService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -91,6 +94,17 @@ namespace Presentation.Controllers
             await _userService.DeleteUserAsync(id);
 
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpPost("pdf")]
+        public async Task<IActionResult> GetPdfForUser()
+        {
+            var uid = User.FindFirst("UserUid").Value;
+
+            var pdf = await _pdfService.CreateFullPdfPageAsync(uid);
+
+            return File(pdf.BinaryData, "application/pdf", "UserPage.pdf");
         }
     }
 }

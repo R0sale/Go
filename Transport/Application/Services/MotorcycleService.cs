@@ -2,6 +2,7 @@
 using Entities.Contracts.Repositories;
 using Entities.Contracts.Services;
 using Entities.Dto;
+using Entities.Exceptions;
 using Entities.Models.Transports;
 using System;
 using System.Collections.Generic;
@@ -34,24 +35,34 @@ namespace Application.Services
             return motoDto;
         }
 
-        public async Task<Motorcycle> CreateMotorcycleAsync(CreateMotorcycleDto createMotoDto)
+        public async Task<Motorcycle> CreateMotorcycleAsync(CreateMotorcycleDto createMotoDto, string uid)
         {
             var moto = _mapper.Map<Motorcycle>(createMotoDto);
+
+            moto.UserId = uid;
 
             await _repository.CreateMotorcycleAsync(moto);
 
             return moto;
         }
 
-        public async Task DeleteMotorcycleAsync(string id)
+        public async Task DeleteMotorcycleAsync(string id, string uid)
         {
             var moto = await _repository.GetMotorcycleByIdAsync(id);
+
+            if (!moto.UserId.Equals(uid))
+                throw new DeletionIsNotAllowedException(uid);
 
             await _repository.DeleteMotorcycleAsync(moto);
         }
 
-        public async Task UpdateMotorcycleAsync(string id, MotorcycleDto updateMotoDto)
+        public async Task UpdateMotorcycleAsync(string id, MotorcycleDto updateMotoDto, string uid)
         {
+            var currentMoto = await _repository.GetMotorcycleByIdAsync(id);
+
+            if (!currentMoto.UserId.Equals(uid))
+                throw new UpdateIsNotAllowedException(uid);
+
             var moto = _mapper.Map<Motorcycle>(updateMotoDto);
 
             moto.Id = id;

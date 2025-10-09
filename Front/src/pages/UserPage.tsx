@@ -93,6 +93,7 @@ const UserPage: React.FC = () => {
         }
     }
 
+
     if (loading) {
         return (<div className="flex h-screen w-screen">
             <span className="loader m-auto"></span>
@@ -111,6 +112,45 @@ const UserPage: React.FC = () => {
             const newFile = event.target.files[0];
 
             handleImageUpload(newFile);
+        }
+    }
+
+    const downloadUserInfo = async () => {
+        try {
+            const token = await auth.currentUser.getIdToken(true);
+
+            const response = await fetch(config.DOWNLOAD_USER_INFO_URL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to download user info');
+            }
+
+            const blob = await response.blob();
+
+            if (!blob) {
+                throw new Error('No data received');
+            }
+
+            const url = window.URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = "YourInfo.pdf";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (er) {
+            if (er instanceof Error) {
+                alert(`Error: ${er.message}`);
+            } else {
+                alert(`Some undefined error occured.`);
+            }
         }
     }
 
@@ -147,26 +187,29 @@ const UserPage: React.FC = () => {
 
     return (
         <div className="h-screen flex pinned-left bg-gray-100 overflow-y-hidden">
-            <div className="mt-4 mb-4 ml-6 mr-6 w-screen bg-white ">
+            <div className="mt-4 mb-4 ml-6 mr-6 w-468 bg-white ">
                 <div className="h-1/2 bg-white">
                     <div className="p-20 flex">
                         <input type="file" style={{ display: 'none' }} ref={inputRef} onChange={handleFileChange}></input>
-                        <img className="rounded-full w-60 h-60 block cursor-pointer" src={userImage} onClick={handleImageClick}></img>
-                        <div className="ml-100">
+                        <div className="w-200 ">
+                            <img className="rounded-full w-60 h-60 block cursor-pointer" src={userImage} onClick={handleImageClick}></img>
+                            <div className="ml-4 mt-20 font-semibold h-10 w-60 text-2xl flex justify-between">
+                                <p>Account</p>
+                            </div>
+                        </div>
+                        <div className="ml-0">
                             <p className="text-6xl font-bold">{tokenResult.firstName} {tokenResult.lastName}</p>
                             <p className="text-2xl text-blue-600 underline mt-4 decoration-2">{tokenResult.email}</p>
+                            <button className="w-48 h-15 text-center items-center text-xl mt-10 flex border-2 border-gray-300" onClick={async () => {await downloadUserInfo()}}>Download my information</button>
                         </div>
-                        <div className="block"> 
-                            <button className="w-48 h-15 text-center items-center text-xl ml-150 flex border-2 border-gray-300" onClick={() => {navigate('/')}}>To Main Page</button>
-                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl ml-150 mt-10 flex border-2 border-gray-300" onClick={() => {navigate('/routes')}}>To Routes Page</button>}
-                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl ml-150  mt-10 flex border-2 border-gray-300" onClick={() => {navigate('/transport')}}>To Transport Page</button>}
-                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl ml-150 flex border-2 mt-10 border-gray-300" onClick={() => {navigate('/userPage/facilityPage')}}>Create New Facility</button>}
+                        <div className="block ml-120"> 
+                            <button className="w-48 h-15 text-center items-center text-xl flex border-2 border-gray-300" onClick={() => {navigate('/')}}>To Main Page</button>
+                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl mt-10 flex border-2 border-gray-300" onClick={() => {navigate('/routes')}}>To Routes Page</button>}
+                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl  mt-10 flex border-2 border-gray-300" onClick={() => {navigate('/userPage/transport')}}>To Transport Page</button>}
+                            {tokenResult.roles.includes('Admin') && <button className="w-48 h-15 text-center items-center text-xl flex border-2 mt-10 border-gray-300" onClick={() => {navigate('/userPage/facilityPage')}}>Create New Facility</button>}
                         </div>
                     </div>
-                    <div className="ml-4 font-semibold w-full h-10 text-2xl flex justify-between">
-                        <p>Account</p>
-                        
-                    </div>
+                    
                     
                 </div>
                 <div className="h-1 bg-gray-100 mt-5 m-0 p-0 w-full"></div>

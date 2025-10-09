@@ -1,4 +1,5 @@
-﻿using Entities.Contracts;
+﻿using AutoMapper;
+using Entities.Contracts;
 using Entities.Contracts.Services;
 using Entities.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -9,9 +10,10 @@ namespace Presentation.Controllers
 {
     [ApiController]
     [Route("api/transport/motorcycles")]
-    public class MotorcyclesController(IMotorcycleService service) : ControllerBase
+    public class MotorcyclesController(IMotorcycleService service, IMapper mapper) : ControllerBase
     {
         private readonly IMotorcycleService _service = service;
+        private readonly IMapper _mapper = mapper;
 
         [HttpGet]
         public async Task<IActionResult> GetAllMotorcyclesAsync()
@@ -29,11 +31,23 @@ namespace Presentation.Controllers
             return Ok(moto);
         }
 
+        [HttpGet("selected/{id}")]
+        public async Task<IActionResult> GetSelectedMotorcycleByIdAsync(string id)
+        {
+            var moto = await _service.GetMotorcycleByIdAsync(id);
+
+            var motoKV = _mapper.Map<IEnumerable<KeyValueDtoObject>>(moto);
+
+            return Ok(motoKV);
+        }
+
         [HttpPost]
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> CreateMotorcycleAsync([FromBody] CreateMotorcycleDto motoDto)
         {
-            var moto = await _service.CreateMotorcycleAsync(motoDto);
+            var uid = User.FindFirst("UserUid").Value;
+
+            var moto = await _service.CreateMotorcycleAsync(motoDto, uid);
 
             return CreatedAtRoute("MotorcycleById", new { id = moto.Id }, moto);
             
@@ -43,7 +57,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> DeleteMotorcycleAsync(string id)
         {
-            await _service.DeleteMotorcycleAsync(id);
+            var uid = User.FindFirst("UserUid").Value;
+
+            await _service.DeleteMotorcycleAsync(id, uid);
 
             return NoContent();
         }
@@ -52,7 +68,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> UpdateMotorcycle([FromBody] MotorcycleDto motoDto, string id)
         {
-            await _service.UpdateMotorcycleAsync(id, motoDto);
+            var uid = User.FindFirst("UserUid").Value;
+
+            await _service.UpdateMotorcycleAsync(id, motoDto, uid);
 
             return NoContent();
         }

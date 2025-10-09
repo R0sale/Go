@@ -1,4 +1,5 @@
-﻿using Entities.Contracts;
+﻿using AutoMapper;
+using Entities.Contracts;
 using Entities.Contracts.Services;
 using Entities.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -8,9 +9,10 @@ namespace Presentation.Controllers
 {
     [ApiController]
     [Route("api/transport/scooters")]
-    public class ScootersController(IScooterService service) : ControllerBase
+    public class ScootersController(IScooterService service, IMapper mapper) : ControllerBase
     {
         private readonly IScooterService _service = service;
+        private readonly IMapper _mapper = mapper;
 
         [HttpGet]
         public async Task<IActionResult> GetAllScootersAsync()
@@ -28,11 +30,23 @@ namespace Presentation.Controllers
             return Ok(scooter);
         }
 
+        [HttpGet("selected/{id}")]
+        public async Task<IActionResult> GetSelectedScooterByIdAsync(string id)
+        {
+            var scooter = await _service.GetScooterByIdAsync(id);
+
+            var scooterKV = _mapper.Map<IEnumerable<KeyValueDtoObject>>(scooter);
+
+            return Ok(scooterKV);
+        }
+
         [HttpPost]
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> CreateScooterAsync([FromBody] CreateScooterDto scooterDto)
         {
-            var scooter = await _service.CreateScooterAsync(scooterDto);
+            var uid = User.FindFirst("UserUid").Value;
+
+            var scooter = await _service.CreateScooterAsync(scooterDto, uid);
 
             return CreatedAtRoute("ScooterById", new { id = scooter.Id }, scooter);
         }
@@ -41,7 +55,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> DeleteScooterAsync(string id)
         {
-            await _service.DeleteScooterAsync(id);
+            var uid = User.FindFirst("UserUid").Value;
+
+            await _service.DeleteScooterAsync(id, uid);
 
             return NoContent();
         }
@@ -50,7 +66,9 @@ namespace Presentation.Controllers
         [Authorize(Roles = "TransportManager,Admin")]
         public async Task<IActionResult> UpdateScooter([FromBody] ScooterDto scooterDto, string id)
         {
-            await _service.UpdateScooterAsync(id, scooterDto);
+            var uid = User.FindFirst("UserUid").Value;
+
+            await _service.UpdateScooterAsync(id, scooterDto, uid);
 
             return NoContent();
         }

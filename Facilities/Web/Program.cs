@@ -13,6 +13,8 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.IdGenerators;
 using Serilog;
 using Web.Extensions;
+using Web.HostedServices;
+using Infrastructure.RabbitMq;
 
 using var logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -21,6 +23,9 @@ using var logger = new LoggerConfiguration()
 Log.Logger = logger;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<IRpcServer, RpcServer>();
+builder.Services.AddHostedService<RabbitMqInitializer>();
 
 BsonSerializer.RegisterSerializer(new DictionarySerializer());
 

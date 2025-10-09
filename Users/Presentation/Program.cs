@@ -8,12 +8,26 @@ using ExceptionHandler.ExceptionMiddleware;
 using Presentation.Extensions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Infrastructure.Rabbit;
+using RabbitMQ.Client;
+using Presentation.HostedService;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<IRpcClient, RpcClient>();
+builder.Services.AddHostedService<RabbitMqInitializer>();
+
+var ironPdfLicenseKey = builder.Configuration["IronPdf:LicenseKey"];
+if (!string.IsNullOrEmpty(ironPdfLicenseKey))
+{
+    IronPdf.Installation.LicenseKey = ironPdfLicenseKey;
+}
 
 builder.Services.AddFirebaseAuth(builder.Configuration);
 builder.Services.ConfigureDb(builder.Configuration);
 builder.Services.AddAppAuthentication(builder.Configuration);
+builder.Services.AddScoped<RazorRender>();
+builder.Services.AddScoped<PdfService>();
 builder.Services.AddAuthorization();
 
 builder.Services.AddFluentValidationAutoValidation();

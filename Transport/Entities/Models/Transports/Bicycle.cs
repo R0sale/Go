@@ -8,7 +8,7 @@ namespace Entities.Models.Transports
 {
     public class Bicycle : Transport
     {
-        public override TransportType Type { get; init; } = TransportType.Bicycle;
+        public override TransportType TransportType { get; init; } = TransportType.Bicycle;
         public bool IsElectric { get; set; }
     }
 }

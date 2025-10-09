@@ -12,8 +12,8 @@ namespace Entities.Contracts.Services
     {
         Task<IEnumerable<MotorcycleDto>> GetAllMotorcyclesAsync();
         Task<MotorcycleDto> GetMotorcycleByIdAsync(string id);
-        Task<Motorcycle> CreateMotorcycleAsync(CreateMotorcycleDto moto);
-        Task DeleteMotorcycleAsync(string id);
-        Task UpdateMotorcycleAsync(string id, MotorcycleDto moto);
+        Task<Motorcycle> CreateMotorcycleAsync(CreateMotorcycleDto moto, string uid);
+        Task DeleteMotorcycleAsync(string id, string uid);
+        Task UpdateMotorcycleAsync(string id, MotorcycleDto moto, string uid);
     }
 }

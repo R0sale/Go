@@ -45,12 +45,17 @@ services:
     - ASPNETCORE_URLS=http://+:8080
     - ConnectionStrings__sqlConnection=Server=usersdb;Database=UsersDb;User Id=sa;Password=UserPassword123!;Encrypt=False;TrustServerCertificate=True;
     - ConnectionStrings__AzuriteConnection=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;
+    - ASPNETCORE_ENVIRONMENT=Development
+    - IronPdf__LicenseKey=IRONSUITE.KVUSOV.BK.RU.23297-AFD696C37C-AXZOHOC-6E2COCTYTNID-Q4DY3ZMQCZLF-3OSLB2Q4JTBV-UJ4JCWTYYWLY-NMKA4EIVDRPQ-U2SYAJMZTQSZ-3E4CBZ-TK5HDJ424RWQEA-DEPLOYMENT.TRIAL-GJKMV4.TRIAL.EXPIRES.19.OCT.2025
     depends_on:
-      - usersdb
+        - usersdb
+        - rabbitmq
+        - azurite
     networks:
       - sharednetwork
     volumes:
       - ./Users/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:/app/src/authproj-b6bdf-firebase-adminsdk-fbsvc-9157cbb090.json:ro
+      - ./Users/Application/ViewsModels:/app/ViewsModels
     restart: on-failure
 
   transportservice:
@@ -65,6 +70,7 @@ services:
     - Mongo__Database=TransportDB
     depends_on:
       - transportdb
+      - rabbitmq
     networks:
       - sharednetwork
     volumes:
@@ -148,7 +154,28 @@ services:
     volumes:
       - mongodb_routes_data:/data/db
 
-  
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: kalo
+      RABBITMQ_DEFAULT_PASS: kalo
+    configs:
+      - source: rabbitmq-plugins
+        target: /etc/rabbitmq/enabled_plugins
+    volumes:
+      - rabbitmq-lib:/var/lib/rabbitmq/
+      - rabbitmq-log:/var/log/rabbitmq
+    networks:
+      - sharednetwork
+
+configs:
+  rabbitmq-plugins:
+    content: "[rabbitmq_management]." 
 
 networks:
   sharednetwork:
@@ -159,4 +186,6 @@ volumes:
   uservolume:
   mongodb_transport_data:
   azurite_data:
+  rabbitmq-lib:
+  rabbitmq-log:
     

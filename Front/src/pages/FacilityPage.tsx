@@ -193,7 +193,6 @@ const FacilityPage: React.FC = () => {
                 <FacilityMap coords={[facility.coordinates.latitude, facility.coordinates.longitude]}/>
                 <button className="w-48 h-15 text-center absolete items-center text-xl  flex border-2 mt-77 ml-99 border-gray-300" onClick={() => {navigate('/')}}>To Main Page</button>
             </div>
-            
         </div>
     </div>);
 }

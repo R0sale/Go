@@ -25,6 +25,18 @@
       "UpstreamHttpMethod": [ "Get", "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/api/users/pdf",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usersservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/users/pdf",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/users/uid/{uid}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -139,7 +151,7 @@
         }
       ],
       "UpstreamPathTemplate": "/transport",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": [ "Get", "Post" ]
     },
     {
       "DownstreamPathTemplate": "/api/transport/bicycles",
@@ -238,6 +250,54 @@
       "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
     },
     {
+      "DownstreamPathTemplate": "/api/transport/cars/selected/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "transportservice",
+          "Port": 8082
+        }
+      ],
+      "UpstreamPathTemplate": "/transport/cars/selected/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/transport/bicycles/selected/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "transportservice",
+          "Port": 8082
+        }
+      ],
+      "UpstreamPathTemplate": "/transport/bicycles/selected/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/transport/motorcycles/selected/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "transportservice",
+          "Port": 8082
+        }
+      ],
+      "UpstreamPathTemplate": "/transport/motorcycles/selected/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/transport/scooters/selected/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "transportservice",
+          "Port": 8082
+        }
+      ],
+      "UpstreamPathTemplate": "/transport/scooters/selected/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/routes",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -260,6 +320,18 @@
       ],
       "UpstreamPathTemplate": "/routes/{id}",
       "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/routes/myroutes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "routeservice",
+          "Port": 8083
+        }
+      ],
+      "UpstreamPathTemplate": "/routes/myroutes",
+      "UpstreamHttpMethod": [ "Get" ]
     }
   ]
 }

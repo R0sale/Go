@@ -1,4 +1,9 @@
 ﻿using Entities.Contracts;
+using Entities.Dto;
+using Entities.Exceptions;
+using Entities.Models;
+using Entities.Models.Transports;
+using Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -8,8 +13,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Infrastructure.Configuration;
-using Entities.Models;
 
 namespace Infrastructure
 {
@@ -27,20 +30,9 @@ namespace Infrastructure
             _transport = mongoDatabase.GetCollection<T>(transportDatabaseSettings.Value.TransportCollectionName);
         }
 
-        public async Task<IEnumerable<T>> FindAllAsync() => await _transport.Find(t => t.Type.ToString().Equals(typeOfRepository.Name)).ToListAsync();
+        public async Task<IEnumerable<T>> FindAllAsync() => await _transport.Find(t => t.TransportType.ToString().Equals(typeOfRepository.Name)).ToListAsync();
 
-        public async Task<IEnumerable<T>> FindByConditionAsync(Func<T, bool> expression)
-        {
-            Console.WriteLine((await FindAllAsync()).Where(expression).Count());
-
-            foreach (var i in (await FindAllAsync()).Where(expression))
-            {
-                Console.WriteLine(i.Id);
-            }
-
-            return (await FindAllAsync()).Where(expression);
-        }
-
+        public async Task<IEnumerable<T>> FindByConditionAsync(Func<T, bool> expression) => (await FindAllAsync()).Where(expression);
         public async Task CreateAsync(T entity) => await _transport.InsertOneAsync(entity);
         public async Task DeleteAsync(T entity) => await _transport.DeleteOneAsync(transport => transport.Id.Equals(entity.Id));
         public async Task UpdateAsync(T entity) => await _transport.ReplaceOneAsync(transport => transport.Id.Equals(entity.Id), entity);
