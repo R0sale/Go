@@ -21,6 +21,27 @@ namespace Infrastructure
             CreateMap<CreateMotorcycleDto, Motorcycle>();
             CreateMap<CreateScooterDto, Scooter>();
             CreateMap<CreateBicycleDto, Bicycle>();
+            CreateMap<object, IEnumerable<KeyValueDtoObject>>()
+                .ConvertUsing((src, dest, ctx) =>
+                {
+                    var list = new List<KeyValueDtoObject>();
+
+                    if (src is not null)
+                    {
+                        var props =src.GetType().GetProperties();
+                        foreach (var prop in props)
+                        {
+                            list.Add(new KeyValueDtoObject
+                            {
+                                Label = prop.Name,
+                                Value = prop.GetValue(src)?.ToString() ?? "null"
+                            });
+                        }
+                    }
+
+                    return list;
+                });
+
         }
     }
 }

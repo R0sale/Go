@@ -53,6 +53,7 @@ namespace Infrastructure
             return list;
         }
 
+        public async Task<IEnumerable<T>> FindByConditionAsync(Func<T, bool> expression) => (await FindAllAsync()).Where(expression);
         public async Task CreateAsync(T entity) => await _transport.InsertOneAsync(entity);
         public async Task DeleteAsync(T entity) => await _transport.DeleteOneAsync(transport => transport.Id.Equals(entity.Id));
         public async Task UpdateAsync(T entity) => await _transport.ReplaceOneAsync(transport => transport.Id.Equals(entity.Id), entity);

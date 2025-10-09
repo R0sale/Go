@@ -98,9 +98,11 @@ namespace Presentation.Controllers
 
         [Authorize]
         [HttpPost("pdf")]
-        public async Task<IActionResult> GetPdfForUser([FromBody] UserDto user)
+        public async Task<IActionResult> GetPdfForUser()
         {
-            var pdf = await _pdfService.CreateUserPagePdfAsync(user);
+            var uid = User.FindFirst("UserUid").Value;
+
+            var pdf = await _pdfService.CreateFullPdfPageAsync(uid);
 
             return File(pdf.BinaryData, "application/pdf", "UserPage.pdf");
         }

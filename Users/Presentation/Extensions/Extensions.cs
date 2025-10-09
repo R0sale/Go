@@ -63,6 +63,9 @@ namespace Presentation.Extensions
                             if (user is null)
                             {
                                 await ModifyBodyAsync(context.HttpContext, uid);
+                                var iden = (ClaimsIdentity)context.Principal.Identity;
+                                iden.AddClaim(new Claim("UserUid", uid));
+                                iden.AddClaim(new Claim("Email", decoded.Claims["email"].ToString()));
                                 return;
                             }
 

@@ -8,8 +8,14 @@ using ExceptionHandler.ExceptionMiddleware;
 using Presentation.Extensions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Infrastructure.Rabbit;
+using RabbitMQ.Client;
+using Presentation.HostedService;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<IRpcClient, RpcClient>();
+builder.Services.AddHostedService<RabbitMqInitializer>();
 
 var ironPdfLicenseKey = builder.Configuration["IronPdf:LicenseKey"];
 if (!string.IsNullOrEmpty(ironPdfLicenseKey))

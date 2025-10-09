@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Entities.Dtos.TransportDto>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f9fc;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        p {
+            margin: 8px 0;
+            font-size: 16px;
+            color: #555;
+        }
+        .label {
+            font-weight: bold;
+            color: #333;
+        }
+        .roles {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f0f4f8;
+            border-radius: 8px;
+        }
+        .role {
+            display: inline-block;
+            margin: 4px;
+            padding: 6px 12px;
+            background: #3498db;
+            color: #fff;
+            font-size: 14px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    @foreach (var transport in Model)
+    {
+        <div class="container">
+            <h1>@transport.TransportType @transport.ModelName</h1>
+            <p><span class="label">Cost:</span> @transport.Cost</p>
+        </div>
+    }
+</body>
+</html>

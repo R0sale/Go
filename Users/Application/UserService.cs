@@ -212,7 +212,7 @@ namespace Application
                 var result = await _userManager.CreateAsync(user);
 
                 if (result.Succeeded)
-                    await _userManager.AddToRoleAsync(user, "user");
+                    await _userManager.AddToRoleAsync(user, "User");
             }
 
             await AddCustomClaims(user);
