@@ -12,7 +12,6 @@ namespace Entities.Contracts.Services
     {
         Task<IEnumerable<CarDto>> GetAllCarsAsync();
         Task<CarDto> GetCarByIdAsync(string id);
-        Task<IEnumerable<KeyValueDtoObject>> GetSelectedCarById(string id);
         Task<Car> CreateCarAsync(CreateCarDto createCarDto, string uid);
         Task DeleteCarAsync(string id, string uid);
         Task UpdateCarAsync(string id, CarDto updateCarDto, string uid);

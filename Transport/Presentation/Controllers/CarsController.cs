@@ -1,4 +1,5 @@
-﻿using Entities.Contracts;
+﻿using AutoMapper;
+using Entities.Contracts;
 using Entities.Contracts.Services;
 using Entities.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -8,9 +9,10 @@ namespace Presentation.Controllers
 {
     [ApiController]
     [Route("api/transport/cars")]
-    public class CarsController(ICarService service) : ControllerBase
+    public class CarsController(ICarService service, IMapper mapper) : ControllerBase
     {
         private readonly ICarService _service = service;
+        private readonly IMapper _mapper = mapper;
 
         [HttpGet]
         public async Task<IActionResult> GetAllCarsAsync()
@@ -31,9 +33,11 @@ namespace Presentation.Controllers
         [HttpGet("selected/{id}")]
         public async Task<IActionResult> GetSelectedCarById(string id)
         {
-            var car = await _service.GetSelectedCarById(id);
+            var car = await _service.GetCarByIdAsync(id);
 
-            return Ok(car);
+            var carKV = _mapper.Map<IEnumerable<KeyValueDtoObject>>(car);
+
+            return Ok(carKV);
         }
 
         [HttpPost]

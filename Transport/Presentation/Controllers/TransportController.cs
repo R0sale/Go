@@ -44,5 +44,16 @@ namespace Presentation.Controllers
 
             return Ok(transport);
         }
+
+        [HttpGet]
+        [Authorize(Roles = "TransportManager,Admin")]
+        public async Task<IActionResult> GetUsersTransport()
+        {
+            var uid = User.FindFirst("UserUid").Value;
+
+            var transport = await _manager.GetUsersTransport(uid);
+
+            return Ok(transport);
+        }
     }
 }

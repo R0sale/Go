@@ -12,7 +12,6 @@ namespace Entities.Contracts.Services
     {
         Task<IEnumerable<ScooterDto>> GetAllScootersAsync();
         Task<ScooterDto> GetScooterByIdAsync(string id);
-        Task<IEnumerable<KeyValueDtoObject>> GetSelectedScooterById(string id);
         Task<Scooter> CreateScooterAsync(CreateScooterDto createScooterDto, string uid);
         Task DeleteScooterAsync(string id, string uid);
         Task UpdateScooterAsync(string id, ScooterDto updateScooterDto, string uid);
