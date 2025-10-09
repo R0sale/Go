@@ -56,6 +56,11 @@ namespace Application.Services
             await _repository.DeleteMotorcycleAsync(moto);
         }
 
+        public async Task<IEnumerable<KeyValueDtoObject>> GetSelectedMotorcycleById(string id)
+        {
+            return await _repository.FindSelectedTransportByIdAsync(id);
+        }
+
         public async Task UpdateMotorcycleAsync(string id, MotorcycleDto updateMotoDto, string uid)
         {
             var currentMoto = await _repository.GetMotorcycleByIdAsync(id);

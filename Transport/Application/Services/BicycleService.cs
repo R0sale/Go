@@ -33,6 +33,11 @@ namespace Application.Services
             return bikeDto;
         }
 
+        public async Task<IEnumerable<KeyValueDtoObject>> GetSelectedBicycleById(string id)
+        {
+            return await _repository.FindSelectedTransportByIdAsync(id);
+        }
+
         public async Task<Bicycle> CreateBicycleAsync(CreateBicycleDto createBikeDto, string uid)
         {
             var bike = _mapper.Map<Bicycle>(createBikeDto);

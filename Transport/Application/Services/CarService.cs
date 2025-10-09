@@ -35,6 +35,11 @@ namespace Application.Services
             return carDto;
         }
 
+        public async Task<IEnumerable<KeyValueDtoObject>> GetSelectedCarById(string id)
+        {
+            return await _repository.FindSelectedTransportByIdAsync(id);
+        }
+
         public async Task<Car> CreateCarAsync(CreateCarDto createCarDto, string uid)
         {
             var car = _mapper.Map<Car>(createCarDto);

@@ -34,6 +34,7 @@ namespace Presentation.Controllers
         [HttpGet("selected/{id}")]
         public async Task<IActionResult> GetSelectedMotorcycleByIdAsync(string id)
         {
+
             var moto = await _service.GetMotorcycleByIdAsync(id);
 
             var motoKV = _mapper.Map<IEnumerable<KeyValueDtoObject>>(moto);

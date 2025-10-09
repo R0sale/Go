@@ -12,6 +12,7 @@ namespace Entities.Contracts.Services
     {
         Task<IEnumerable<BicycleDto>> GetAllBicyclesAsync();
         Task<BicycleDto> GetBicycleByIdAsync(string id);
+        Task<IEnumerable<KeyValueDtoObject>> GetSelectedBicycleById(string id);
         Task<Bicycle> CreateBicycleAsync(CreateBicycleDto createBicycleDto, string uid);
         Task DeleteBicycleAsync(string id, string uid);
         Task UpdateBicycleAsync(string id, BicycleDto updateBicycleDto, string uid);
