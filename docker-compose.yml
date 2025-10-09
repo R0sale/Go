@@ -71,6 +71,7 @@ services:
     depends_on:
       - transportdb
       - rabbitmq
+      - redis-service
     networks:
       - sharednetwork
     volumes:
@@ -111,6 +112,14 @@ services:
     networks:
       - sharednetwork
     restart: always
+
+  redis-service:
+    image: "redis:alpine"
+    container_name: "redis-service"
+    ports:
+      - "6379:6379"
+    networks:
+      - sharednetwork
 
   usersdb:
     image: mcr.microsoft.com/mssql/server:2022-latest

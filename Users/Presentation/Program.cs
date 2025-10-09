@@ -11,6 +11,7 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Rabbit;
 using RabbitMQ.Client;
 using Presentation.HostedService;
+using Microsoft.Extensions.Caching.Distributed;
 
 var builder = WebApplication.CreateBuilder(args);
 
