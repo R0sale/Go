@@ -71,6 +71,15 @@ BsonClassMap.RegisterClassMap<Scooter>(cm =>
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IRpcServer, RpcServer>();
 builder.Services.AddHostedService<RabbitMqInitializer>();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration["Redis:Host"];
+    options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions()
+    {
+        AbortOnConnectFail = true,
+        EndPoints = { options.Configuration }
+    };
+});
 
 builder.Services.ConfigureDB(builder.Configuration);
 

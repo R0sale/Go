@@ -56,6 +56,7 @@ namespace Application.Services
             await _repository.DeleteMotorcycleAsync(moto);
         }
 
+
         public async Task UpdateMotorcycleAsync(string id, MotorcycleDto updateMotoDto, string uid)
         {
             var currentMoto = await _repository.GetMotorcycleByIdAsync(id);

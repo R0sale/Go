@@ -12,6 +12,7 @@ namespace Entities.Contracts.Repositories
     {
         Task<IEnumerable<Bicycle>> GetAllBicyclesAsync();
         Task<Bicycle> GetBicycleByIdAsync(string id);
+        Task<IEnumerable<KeyValueDtoObject>> FindSelectedTransportByIdAsync(string id);
         Task CreateBicycleAsync(Bicycle bicycle);
         Task DeleteBicycleAsync(Bicycle bicycle);
         Task UpdateBicycleAsync(Bicycle bicycle);

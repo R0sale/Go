@@ -3,6 +3,8 @@ using Entities.Contracts;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Presentation.Extensions;
 
 namespace Presentation.Controllers
 {
@@ -23,9 +25,9 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            var usersDto = await _userService.GetAllUsersAsync();
+            var users = await _userService.GetAllUsersAsync();
 
-            return Ok(usersDto);
+            return Ok(users);
         }
 
         [HttpGet("uid/{uid}")]

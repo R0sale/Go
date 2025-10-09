@@ -32,7 +32,7 @@ namespace Application.Services
             var bikeDto = _mapper.Map<Entities.Dto.BicycleDto>(bike);
             return bikeDto;
         }
-
+        
         public async Task<Bicycle> CreateBicycleAsync(CreateBicycleDto createBikeDto, string uid)
         {
             var bike = _mapper.Map<Bicycle>(createBikeDto);

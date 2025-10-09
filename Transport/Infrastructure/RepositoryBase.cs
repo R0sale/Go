@@ -31,7 +31,6 @@ namespace Infrastructure
         }
 
         public async Task<IEnumerable<T>> FindAllAsync() => await _transport.Find(t => t.TransportType.ToString().Equals(typeOfRepository.Name)).ToListAsync();
-
         public async Task<IEnumerable<T>> FindByConditionAsync(Func<T, bool> expression) => (await FindAllAsync()).Where(expression);
         public async Task CreateAsync(T entity) => await _transport.InsertOneAsync(entity);
         public async Task DeleteAsync(T entity) => await _transport.DeleteOneAsync(transport => transport.Id.Equals(entity.Id));

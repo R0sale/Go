@@ -12,6 +12,7 @@ namespace Entities.Contracts.Repositories
     {
         Task<IEnumerable<Motorcycle>> GetAllMotorcyclesAsync();
         Task<Motorcycle> GetMotorcycleByIdAsync(string id);
+        Task<IEnumerable<KeyValueDtoObject>> FindSelectedTransportByIdAsync(string id);
         Task CreateMotorcycleAsync(Motorcycle moto);
         Task DeleteMotorcycleAsync(Motorcycle moto);
         Task UpdateMotorcycleAsync(Motorcycle moto);
